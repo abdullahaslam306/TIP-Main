@@ -54,19 +54,20 @@ router.get('/', (req, res) => {
       email:req.session.user,
       phone: req.session.phone
     });})
-    router.get('/user/profile',redirectAdminLogin,(req, res)=>{
+    // router.get('/user/profile',redirectAdminLogin,(req, res)=>{
       
-      res.render('user-profile',{
-        fname:req.session.fname,
-        lname:req.session.lname,
-        email:req.session.user,
-        phone: req.session.phone
-      });})
+    //   res.render('user-profile-admin',{
+    //     fname:req.session.fname,
+    //     lname:req.session.lname,
+    //     email:req.session.user,
+    //     phone: req.session.phone
+    //   });})
       
   router.post('/user/update',redirectLogin, loginController.update)
   router.get('/verify/:id',loginController.verify)
   router.get('/admin/user/edit/:id',redirectAdminLogin,adminController.getUser)
   router.post('/admin/user/update',redirectAdminLogin,adminController.updateUser)
+  router.get('/admin/user/delete/:id',redirectAdminLogin,adminController.removeUser)
   router.get('/admin/logout',redirectAdminLogin,adminController.logout)
   router.get('/admin/update/pass',redirectAdminLogin,(req, res) => {res.render('admin-chngePass',{success:"",failure:""})});
   router.post('/admin/update/pass',redirectAdminLogin,adminController.updatePassword);

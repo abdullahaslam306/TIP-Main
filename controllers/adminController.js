@@ -68,11 +68,12 @@ const update =  (req, res) => {
 const getUser = async (req, res) => {
     Login.findById(req.params.id)
     .then((user) => {
-        res.render('admin-edituser',user)
+        res.render('admin-editUser',user)
     }
     )
     .catch((err)=>{console.log(err);})
 }
+
 
 
 const register = async (req, res) => {
@@ -149,6 +150,13 @@ const updateUser = async (req, res) => {
     }
 }
 
+const removeUser= async (req, res) => {
+    console.log('Delete Req')
+    console.log(req)
+    Login.findByIdAndRemove(req.params.id)
+    .then((result) => {console.log(result); viewUsers()})
+    .catch((err) => {console.log(err);viewUsers()})
+}
 module.exports = {
  login,
  logout,
@@ -157,5 +165,6 @@ module.exports = {
  viewUsers,
  getUser,
  updateUser,
- updatePassword
+ updatePassword,
+ removeUser
 }
