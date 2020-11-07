@@ -1,0 +1,35 @@
+{
+  "name": "crash-course",
+  "version": "1.0.0",
+  "description": "a node crash course",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iamshaunjp/node-crash-course.git"
+  },
+  "author": "net ninja",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iamshaunjp/node-crash-course/issues"
+  },
+  "homepage": "https://github.com/iamshaunjp/node-crash-course#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "connect-flash": "^0.1.1",
+    "ejs": "^3.1.2",
+    "express": "^4.17.1",
+    "express-ejs-layouts": "^2.5.0",
+    "express-session": "^1.17.1",
+    "lodash": "^4.17.20",
+    "mongoose": "^5.10.11",
+    "morgan": "^1.10.0",
+    "nodemailer": "^6.4.15",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0"
+  }
+}

@@ -1,0 +1,106 @@
+<%- include("./headerAdmin.ejs") %>
+<div class="main">
+			<!-- MAIN CONTENT -->
+			<div class="main-content ">
+				<div class="container-fluid">
+					<div class="panel panel-profile">
+						<div class="clearfix">
+							<!-- LEFT COLUMN -->
+							
+								<div  style="width:70%;height:70%; margin:40px auto; box-shadow: 2px 8px 8px 8px #888888;" id='profile-form'>
+							
+								<div class="panel-heading">
+									<h3 class="panel-title">Change Password</h3>
+								</div>
+								<div class="panel-body">
+									<div class="alert alert-warning" role="alert" id='passlen'>
+									Password Must be longer than 8 characters.
+									  </div>
+									<form action="/admin/update/pass" method="post" onsubmit="return verify()">
+									  <div class="form-group">
+									    <label for="mobileInput">Old Password</label>
+									    <input type="password" class="form-control" id="passwordold" name = "oldpassword"  required>
+									   
+									  </div>
+									  <div class="form-group">
+									    <label for="mobileInput">New Password</label>
+									    <input type="password" class="form-control" id="newpassword" onkeypress="myFunction()" name = "newpassword" required>  
+										<div class="invalid-feedback" id="notif">
+											Password Doesn't Match.
+										  </div> 
+									</div>
+									  <div class="form-group">
+									    <label for="mobileInput">Confirm Password</label>
+									    <input type="password" class="form-control" id="confirmpassword" onkeypress="myFunction()" name = "confirmpassword" required>
+									    <div class="invalid-feedback" id="notif2">
+											Password Doesn't Match.
+										  </div>
+									  </div>
+									    
+                                      <!-- <div class="profile-info">
+										<h4 class="heading">Note</h4>
+										<p>Your Password Must be 8 characters long.</p>
+									</div> -->
+
+									<div class="text-center"><button type="submit"   class="btn btn-primary  btn-lg"><i class="fa fa-pencil"></i> Change Password</button></div>
+								</form>
+								<br>
+								<% if (success) { %>
+								 
+								
+								<div class="alert alert-success" role="alert" id='success-msg'>
+									<script>setTimeout(function(){
+										document.getElementById('success-msg').style.display = 'none';
+									 }, 2000);</script>
+									<%= success %> 
+								  </div>
+								</div>
+								<% } %>
+		
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		function myfun() {
+			alert('hello');
+		}
+		document.getElementById('notif').style.display = 'none';document.getElementById('notif2').style.display = 'none';
+		document.getElementById('passlen').style.display = 'none';
+		function myFunction()
+		{ 
+			document.getElementById('notif').style.display = 'none';document.getElementById('notif2').style.display = 'none';
+		document.getElementById('passlen').style.display = 'none';
+		}
+		function verify()
+		{ 
+	var newpass=document.getElementById('newpassword').value;
+	var oldpass=document.getElementById('confirmpassword').value;
+	
+	if(newpass.length>=8 && oldpass.length>=8)
+	{ 
+		if(newpass!=oldpass)
+		{
+			document.getElementById('notif').style.display = 'block';
+			document.getElementById('notif2').style.display = 'block';
+			return false;
+		}
+		else{
+			document.getElementById('notif').style.display = 'none';
+			return true;
+		}
+	}
+	else{
+	 element=document.getElementById('passlen');
+	 element.style.display='block';
+
+		return false;
+	}
+	return false;
+}
+
+	</script>
+			<!-- END MAIN CONTENT -->
+			<%- include("./footerAdmin.ejs"); %>
