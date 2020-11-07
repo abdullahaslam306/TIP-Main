@@ -7,11 +7,16 @@ const { findByIdAndUpdate } = require('../models/logins');
 
 
 const login = async (req, res) => {
+    console.log('loginController');
     console.log(req.body);
     Login.findOne({email : req.body.email})
     .then(result => {
         console.log(result);
+        if(result==null){
+            res.json({msg:'Incorrect Email/Password'})
+        }else{
         try{
+           
             const flag =  bcrypt.compareSync(req.body.password,result.password) 
             
 
@@ -27,10 +32,12 @@ const login = async (req, res) => {
             }
             else if(result.isverified)
             {
-                res.render("index",{error:"Incorrect Email or Password"});
+                res.json({msg:'Incorrect Email/Password'})
+                // res.render("index",{error:"Incorrect Email or Password"});
             }
             else{
-                res.render("index",{error:"User Email is not verified"});
+                res.json({msg:'User Email is not Verified. KIndly verify your email first.'})
+                // res.render("index",{error:"User Email is not verified"});
             }
             
         }
@@ -38,7 +45,7 @@ const login = async (req, res) => {
         {
             console.log(err);
             res.status(500).send(err.message);
-        }
+        }}
         
     })
    
