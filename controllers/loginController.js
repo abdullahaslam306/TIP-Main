@@ -13,7 +13,7 @@ const login = async (req, res) => {
     .then(result => {
         console.log(result);
         if(result==null){
-            res.json({msg:'Incorrect Email/Password'})
+            res.json({msg:'Incorrect Email/Password',status:'failure'})
         }else{
         try{
            
@@ -27,16 +27,16 @@ const login = async (req, res) => {
                 req.session.lname = result.lname;
                 req.session.phone = result.phone;
                 req.session.id=result.id;
-            
-                res.render('user-dash',{fname:result.fname, lname:result.lname});
+                res.json({msg:'',status:'success'})
+                // res.render('user-dash',{fname:result.fname, lname:result.lname});
             }
             else if(result.isverified)
             {
-                res.json({msg:'Incorrect Email/Password'})
+                res.json({msg:'Incorrect Email/Password',status:'failure'})
                 // res.render("index",{error:"Incorrect Email or Password"});
             }
             else{
-                res.json({msg:'User Email is not Verified. KIndly verify your email first.'})
+                res.json({msg:'User Email is not Verified. KIndly verify your email first.',status:'failure'})
                 // res.render("index",{error:"User Email is not verified"});
             }
             

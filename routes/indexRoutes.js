@@ -44,7 +44,7 @@ router.get('/', (req, res) => {
   router.get('/register', async (req, res) => {res.render('regform')})
   router.post('/register',loginController.register)
 
-  router.get('/user/dash',redirectLogin,(req, res)=>{res.render('user-dash')})
+  router.get('/user/dash',redirectLogin,(req, res)=>{res.render('user-dash',{fname:req.session.fname})})
   router.get('/user/profile',redirectLogin,(req, res)=>{
     console.log(res.locals)
     console.log(req.session)
@@ -55,8 +55,7 @@ router.get('/', (req, res) => {
       phone: req.session.phone
     });})
     router.get('/user/profile',redirectAdminLogin,(req, res)=>{
-      console.log(res.locals)
-      console.log(req.session)
+      
       res.render('user-profile',{
         fname:req.session.fname,
         lname:req.session.lname,
