@@ -70,7 +70,7 @@ router.get('/', (req, res) => {
   router.get('/admin/logout',redirectAdminLogin,adminController.logout)
   router.get('/admin/update/pass',redirectAdminLogin,(req, res) => {res.render('admin-chngePass',{success:"",failure:""})});
   router.post('/admin/update/pass',redirectAdminLogin,adminController.updatePassword);
-  router.get('/user/update/pass',redirectAdminLogin,(req, res) => {res.render('user-changePass',{success:"",failure:""})});
-  router.post('/user/update/pass',redirectAdminLogin,loginController.updatePassword);
+  router.get('/user/update/pass',redirectLogin,(req, res) => {res.render('user-changePass',{success:"",failure:""})});
+  router.post('/user/update/pass',redirectLogin,loginController.updatePassword);
 
 module.exports = router;
