@@ -56,6 +56,17 @@
 								  </div>
 								</div>
 								<% } %>
+								<% if (failure) { %>
+								 
+								
+									<div class="alert alert-danger" role="alert" id='danger-msg'>
+										<script>setTimeout(function(){
+											document.getElementById('danger-msg').style.display = 'none';
+										 }, 5000);</script>
+										<%= failure %> 
+									  </div>
+									</div>
+									<% } %>
 		
 						</div>
 					</div>
