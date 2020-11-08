@@ -284,6 +284,9 @@ margin:30px;
 <div class="alert alert-danger" id="message2" role="alert">
     The password and confirmation password do not match.
   </div>
+  <div class="alert alert-danger" id="message3" role="alert">
+    Password must be 8 characters long.
+  </div>
                 <form id="msform" action="/register" method="post">
                     <!-- progressbar -->
                    
@@ -458,6 +461,7 @@ margin:30px;
   $(document).ready(function(){
 document.getElementById('message').style.display='none';
 document.getElementById('message2').style.display='none';
+document.getElementById('message3').style.display='none';
 var current_fs, next_fs, previous_fs; //fieldsets
 var opacity;
 var current = 1;
@@ -468,6 +472,7 @@ setProgressBar(current);
 $(".next").click(function(){
     document.getElementById('message').style.display='none';
     document.getElementById('message2').style.display='none';
+    document.getElementById('message3').style.display='none';
 formid=$(this).attr("id");
 current_fs = $(this).parent();
 
@@ -574,7 +579,12 @@ return true;}
 document.getElementById('message2').style.display='block';
         return false;
       }
-      return true;
+     else if(pass1.length<8 || pass2.length<8)
+     {
+        document.getElementById('message3').style.display='block';
+        return false;
+     }
+
     }
     if(formid=="button3")
     {
