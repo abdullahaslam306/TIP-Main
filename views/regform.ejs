@@ -37,7 +37,7 @@ color:purple;
 
 
 #msform {
-    text-align: center;
+    
     position: relative;
     margin-top: 20px
 }
@@ -184,7 +184,7 @@ background-color:white;
     margin-top: 2px;
     width: 5%;
    
-    padding-top:5
+    padding-top:5;
     color: #2C3E50;
     background-color: #ECEFF1;
     
@@ -257,7 +257,9 @@ background-color:white;
 .mt-30{
 margin:30px;
 }
-
+.specific{
+    border:1px solid black;
+}
   </style>
 
 <body>
@@ -272,7 +274,7 @@ margin:30px;
         
            
          
-        <div class=" col-md-12 col-sm-12 text-center p-0 mt-3 mb-2 " >
+        <div class=" col-md-12 col-sm-12  p-0 mt-3 mb-2 " >
             <div class="card px-0 pt-4 pb-0 mt-3 mb-3 ">
                 <h2 id="heading">Sign Up Your User Account</h2>
                
@@ -284,10 +286,11 @@ margin:30px;
   </div>
                 <form id="msform" action="/register" method="post">
                     <!-- progressbar -->
-                    <% if (msg=="No") { %>
+                   
                     <div class="progress">
                         <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
                     </div> <br> <!-- fieldsets -->
+                    <% if (msg=="No") { %>
                     <fieldset>
                         <div class="form-card">
                             <div class="row">
@@ -365,14 +368,14 @@ margin:30px;
                                     <h2 class="steps">Step 2 - 4</h2>
                                 </div>
                             </div> 
-                           <label >First Name: *</label> <input type="text" id="fname" name="fname" required placeholder="First Name"/> 
+                           <label >First Name: *</label> <input style="border: 1px solid #ccc" type="text" id="fname" name="fname" class="specific" required placeholder="First Name"/> 
 
                           <label 
-                            >Last Name *</label> <input type="text" name="lname" id="lname" required placeholder="Last Name"/>
-                            <label class="">Email: *</label> <input type="emial" required name="email" id="email" placeholder="Enter Email"/> 
-                             <label class="">Password: *</label> <input type="password" required name="password" id="pass1" placeholder="Enter password"/> 
+                            >Last Name *</label> <input type="text" style="border: 1px solid #ccc"  name="lname" id="lname" required placeholder="Last Name"/>
+                            <label class="">Email: *</label> <input type="email" style="border: 1px solid #ccc"  required name="email" id="email" placeholder="Enter Email"/> 
+                             <label class="">Password: *</label> <input type="password" style="border: 1px solid #ccc"  required name="password" id="pass1" placeholder="Enter password"/> 
 
-                             <label >Confirm Password: *</label> <input type="password" required name="pass2" id="pass2" placeholder="Confirm password" />
+                             <label >Confirm Password: *</label> <input type="password" style="border: 1px solid #ccc"  required name="pass2" id="pass2" placeholder="Confirm password" />
 
                         </div> <input type="button" name="next" id="button2" class="next action-button" value="Next" /> <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
                     </fieldset>
@@ -386,12 +389,12 @@ margin:30px;
                                     <h2 class="steps">Step 3 - 4</h2>
                                 </div>
                             </div> 
-                           <label >Address 1*</label> <input required type="text" required id="add1"  name="address1" placeholder="Enter Address ..."/> 
+                           <label >Address 1*</label> <input required type="text" style="border: 1px solid #ccc"  required id="add1"  name="address1" placeholder="Enter Address ..."/> 
 
                           <label 
-                            >Address 2 <small>(optional)</small>*</label> <input type="text" id="add2"  name="address2" placeholder="Alternate  Address"/>
+                            >Address 2 <small>(optional)</small>*</label> <input type="text" style="border: 1px solid #ccc"  id="add2"  name="address2" placeholder="Alternate  Address"/>
                              
-                              <label >Contact No *</label> <input required type="text" id="phone" required name="phone" placeholder="Enter phone" />
+                              <label >Contact No *</label> <input required type="text" style="border: 1px solid #ccc"  id="phone" required name="phone" placeholder="Enter phone" />
 
                         </div><input type="Submit" name="submit" id="button3" class="next action-button" value="Submit" /> <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
                     </fieldset>
@@ -464,6 +467,7 @@ setProgressBar(current);
 
 $(".next").click(function(){
     document.getElementById('message').style.display='none';
+    document.getElementById('message2').style.display='none';
 formid=$(this).attr("id");
 current_fs = $(this).parent();
 
