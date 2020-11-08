@@ -1,32 +1,290 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Bootstrap Example</title>
+  <title>Register Here!</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.css" />
- <!--  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script> -->
-</head>
-<link rel="stylesheet" href="/regstyle.css">
  
+</head>
+<style>
+  
+p {
+    color: grey
+}
+
+#heading {
+    text-transform: uppercase;
+    color: #673AB7;
+    font-weight: normal
+}
+.valid-feedback.feedback-icon,
+.invalid-feedback.feedback-icon {
+    position: absolute;
+    width: auto;
+    bottom: 10px;
+    right: 10px;
+    margin-top: 0;
+}
+.fa-stack{
+
+color:purple;
+}
+
+
+#msform {
+    text-align: center;
+    position: relative;
+    margin-top: 20px
+}
+
+#msform fieldset {
+    background: white;
+    border: 0 none;
+    border-radius: 0.5rem;
+   
+   
+    margin: 0;
+    padding-bottom: 20px;
+    position: relative
+}
+
+
+#msform fieldset:not(:first-of-type) {
+    display: none
+}
+
+
+#msform input,
+#msform textarea,#msform select {
+    padding: 8px 15px 8px 15px;
+    border: 1px solid #ccc;
+   border-right:  0px hidden ;
+    border-radius: 0px;
+    margin-bottom: 20px;
+    margin-top: 2px;
+    width: 95%;
+     
+    color: #2C3E50;
+    background-color: #ECEFF1;
+    font-size: 16px;
+    letter-spacing: 1px
+}
+.bdr{
+  border: 1px solid #ccc;
+}
+#msform .action-button {
+    width: 100px;
+    background: #673AB7;
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 0px;
+    cursor: pointer;
+    padding: 10px 5px;
+    margin: 10px 0px 10px 5px;
+    float: right
+}
+
+#msform .action-button:hover,
+#msform .action-button:focus {
+    background-color: #311B92
+}
+
+#msform .action-button-previous {
+    width: 100px;
+    background: #616161;
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 0px;
+    cursor: pointer;
+    padding: 10px 5px;
+    margin: 10px 5px 10px 0px;
+    float: right
+}
+
+#msform .action-button-previous:hover,
+#msform .action-button-previous:focus {
+    background-color: #000000
+}
+
+.card {
+    z-index: 0;
+    border: none;
+    position: relative
+}
+
+.fs-title {
+    font-size: 25px;
+    color: #673AB7;
+    margin-bottom: 15px;
+    font-weight: normal;
+    text-align: left
+}
+
+.purple-text {
+    color: #673AB7;
+    font-weight: normal
+}
+
+.steps {
+    font-size: 25px;
+    color: gray;
+    margin-bottom: 10px;
+    font-weight: normal;
+    text-align: right
+}
+
+
+#progressbar {
+    margin-bottom: 30px;
+    overflow: hidden;
+    color: lightgrey
+}
+
+#progressbar .active {
+    color: #673AB7
+}
+
+#progressbar li {
+    list-style-type: none;
+    font-size: 15px;
+    width: 25%;
+    float: left;
+    /*position: relative;*/
+    text-align: center;
+    font-weight: 400
+}
+.form-control {
+-webkit-border-radius: 50px;
+-moz-border-radius: 50px;
+border-right: 0px transparent hidden;
+border-radius: 8px;
+background-color:white;
+
+}
+
+  form .form-control:focus{
+  border-color: #ced4da;
+  box-shadow: none;
+}
+
+.input-group-addon{
+ 
+ border: 1px solid #ccc;
+ 
+ border-left: 0px hidden ;
+    border-radius: 0px;
+    margin-bottom: 20px;
+    margin-top: 2px;
+    width: 5%;
+   
+    padding-top:5
+    color: #2C3E50;
+    background-color: #ECEFF1;
+    
+    
+    
+}
+
+#progressbar #account:before {
+    font-family: FontAwesome;
+    content: "\f13e"
+}
+.calendar-text { margin-top: .3em; }
+#progressbar #personal:before {
+    font-family: FontAwesome;
+    content: "\f007"
+}
+
+#progressbar #payment:before {
+    font-family: FontAwesome;
+    content: "\f030"
+}
+
+#progressbar #confirm:before {
+    font-family: FontAwesome;
+    content: "\f00c"
+}
+
+#progressbar li:before {
+    width: 50px;
+    height: 50px;
+    line-height: 45px;
+    display: block;
+    font-size: 20px;
+    color: #ffffff;
+    background: lightgray;
+    border-radius: 50%;
+    margin: 0 auto 10px auto;
+    padding: 2px
+}
+
+#progressbar li:after {
+    content: '';
+    width: 100%;
+    height: 2px;
+    background: lightgray;
+    position: absolute;
+    left: 0;
+    top: 25px;
+    z-index: -1
+}
+
+
+#progressbar li.active:before,
+#progressbar li.active:after {
+    background: #673AB7
+}
+
+.progress {
+    height: 20px
+}
+
+.progress-bar {
+    background-color: #673AB7
+}
+
+.fit-image {
+    width: 100%;
+    object-fit: cover
+}
+.mt-30{
+margin:30px;
+}
+
+  </style>
 
 <body>
+  <nav class="navbar navbar-expand-lg " style="height:100px; background-color: #0b071d; ">
+  <a class="navbar-brand" href="#" style="color:white">The Isaiah Project</a>
   
-<div class="container">        
-<div class="container">
-    <div class="row justify-content-center">
-        <div class=" col-md-12 col-sm-12 text-center p-0 mt-3 mb-2 ">
+  
+</nav>
+<div class="container" style="border:1px solid #0b071d">        
+   
+    <div class="row justify-content-center" style="width:60%;height: 60%;margin: auto; ">
+        
+           
+         
+        <div class=" col-md-12 col-sm-12 text-center p-0 mt-3 mb-2 " >
             <div class="card px-0 pt-4 pb-0 mt-3 mb-3 ">
                 <h2 id="heading">Sign Up Your User Account</h2>
-                <p>Fill all form field to go to next step</p>
-                <form id="msform" action = "/register" method="post">
+               
+                <div class="alert alert-danger" id="message" role="alert">
+  Enter/Select all the information.
+</div>
+<div class="alert alert-danger" id="message2" role="alert">
+    The password and confirmation password do not match.
+  </div>
+                <form id="msform" action="/register" method="post">
                     <!-- progressbar -->
-                    
+                    <% if (msg=="No") { %>
                     <div class="progress">
                         <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
                     </div> <br> <!-- fieldsets -->
@@ -34,10 +292,10 @@
                         <div class="form-card">
                             <div class="row">
                                 <div class="col-7">
-                                    <h2 class="fs-title">Account Information:</h2>
+                                    <h2 class="fs-title">Select Your Priorities</h2>
                                 </div>
                                 <div class="col-5">
-                                    <h2 class="steps">Step 1 - 3</h2>
+                                    <h2 class="steps">Step 1 - 4</h2>
                                 </div>
                             </div>
                           <!--   <div class="row"> -->
@@ -95,7 +353,7 @@
 </span>
   </div>
                           
-                        </div> <input type="button" name="next" class="next action-button" value="Next" />
+                        </div> <input type="button"  id="button1" name="next" class="next action-button" value="Next" />
                     </fieldset>
                     <fieldset>
                         <div class="form-card">
@@ -107,14 +365,16 @@
                                     <h2 class="steps">Step 2 - 4</h2>
                                 </div>
                             </div> 
-                           <label >Full Name: *</label> <input type="text" name="fname" placeholder="First Name"/> 
+                           <label >First Name: *</label> <input type="text" id="fname" name="fname" required placeholder="First Name"/> 
 
                           <label 
-                            >Last Name:*</label> <input type="text" name="lname" placeholder="Last Name"/>
-                             <label class="">Email: *</label> <input type="email" name="email" placeholder="Enter Email"/> 
-                             <label > Password: *</label> <input type="password" name="password" placeholder="Enter password" />
+                            >Last Name *</label> <input type="text" name="lname" id="lname" required placeholder="Last Name"/>
+                            <label class="">Email: *</label> <input type="emial" required name="email" id="email" placeholder="Enter Email"/> 
+                             <label class="">Password: *</label> <input type="password" required name="password" id="pass1" placeholder="Enter password"/> 
 
-                        </div> <input type="button" name="next" class="next action-button" value="Next" /> <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                             <label >Confirm Password: *</label> <input type="password" required name="pass2" id="pass2" placeholder="Confirm password" />
+
+                        </div> <input type="button" name="next" id="button2" class="next action-button" value="Next" /> <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
                     </fieldset>
                     <fieldset>
                         <div class="form-card">
@@ -126,11 +386,37 @@
                                     <h2 class="steps">Step 3 - 4</h2>
                                 </div>
                             </div> 
-                     
-                              <label >Contact: *</label> <input type="text" name="phone" placeholder="Enter Contact" />
+                           <label >Address 1*</label> <input required type="text" required id="add1"  name="address1" placeholder="Enter Address ..."/> 
 
-                        </div><input type="submit" name="next" class="next action-button" value="Submit" /> <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                          <label 
+                            >Address 2 <small>(optional)</small>*</label> <input type="text" id="add2"  name="address2" placeholder="Alternate  Address"/>
+                             
+                              <label >Contact No *</label> <input required type="text" id="phone" required name="phone" placeholder="Enter phone" />
+
+                        </div><input type="Submit" name="submit" id="button3" class="next action-button" value="Submit" /> <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
                     </fieldset>
+                    <!-- <fieldset>
+                        <div class="form-card">
+                            <div class="row">
+                                <div class="col-7">
+                                    <h2 class="fs-title">Verification:</h2>
+                                </div>
+                                <div class="col-5">
+                                    <h2 class="steps">Step 4 - 5</h2>
+                                </div>
+                            </div> <br><br>
+                            <h2 class="purple-text text-center"><strong>Verify Your Email</strong></h2> <br>
+                            <div class="row justify-content-center">
+                                <div class="col-3"> <img src="https://i.imgur.com/GwStPmg.png" class="fit-image"> </div>
+                            </div> <br><br>
+                            <div class="row justify-content-center">
+                                <div class="col-7 text-center">
+                                    <h5 class="purple-text text-center">An Verification Email Has been sent to you</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset> -->
+                    <% } else{ %>
                     <fieldset>
                         <div class="form-card">
                             <div class="row">
@@ -138,7 +424,7 @@
                                     <h2 class="fs-title">Finish:</h2>
                                 </div>
                                 <div class="col-5">
-                                    <h2 class="steps">Step 3 - 3</h2>
+                                    <h2 class="steps">Step 4 - 4</h2>
                                 </div>
                             </div> <br><br>
                             <h2 class="purple-text text-center"><strong>SUCCESS !</strong></h2> <br>
@@ -147,24 +433,28 @@
                             </div> <br><br>
                             <div class="row justify-content-center">
                                 <div class="col-7 text-center">
-                                    <h5 class="purple-text text-center">You Have Successfully Signed Up</h5>
+                                    <h5 class="purple-text text-center">Verify your Account! An Email has been sent.</h5>
                                 </div>
                             </div>
                         </div>
                     </fieldset>
+                    <%  }  %>
                 </form>
             </div>
         </div>
     </div>
+
   </div>
 </div>
+
 
 </body>
 </html>
 
 <script>
   $(document).ready(function(){
-
+document.getElementById('message').style.display='none';
+document.getElementById('message2').style.display='none';
 var current_fs, next_fs, previous_fs; //fieldsets
 var opacity;
 var current = 1;
@@ -173,14 +463,18 @@ var steps = $("fieldset").length;
 setProgressBar(current);
 
 $(".next").click(function(){
-
+    document.getElementById('message').style.display='none';
+formid=$(this).attr("id");
 current_fs = $(this).parent();
-next_fs = $(this).parent().next();
 
+next_fs = $(this).parent().next();
+result=verify(formid);
+if(result==true){
 //Add Class Active
 $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
 
 //show the next fieldset
+
 next_fs.show();
 //hide the current fieldset with style
 current_fs.animate({opacity: 0}, {
@@ -197,6 +491,7 @@ next_fs.css({'opacity': opacity});
 duration: 500
 });
 setProgressBar(++current);
+}
 });
 
 $(".previous").click(function(){
@@ -234,13 +529,69 @@ $(".progress-bar")
 .css("width",percent+"%")
 }
 
-
+$(".submit").click(function(){
+return false;
+})
 
 });
 
 var i=0;
 var alreadyOpted = [false, false,  false, false];
 var value=[1,0,0,0]
+function verify(formid)
+{
+  if(formid=="button1")
+  {
+  for(i=0;i<4;i++)  
+  {
+    if(alreadyOpted[i]==false)
+    { document.getElementById('message').style.display='block';
+      return false;
+    }
+//button1
+  }
+return true;}
+    
+    if(formid=="button2")
+    {
+      userName=document.getElementById("fname");
+
+      email=document.getElementById("email").value;
+      pass1=document.getElementById("pass1").value;
+      pass2=document.getElementById("pass2").value;
+      if(userName==""||email==""||pass1==""||pass2=="")
+      {
+        document.getElementById('message').style.display='block';
+        return false;
+      }
+      else if(pass1!=pass2)
+      {
+        
+document.getElementById('message2').style.display='block';
+        return false;
+      }
+      return true;
+    }
+    if(formid=="button3")
+    {
+      add1=document.getElementById("add1");
+
+      add2=document.getElementById("add2").value;
+      state=document.getElementById("state").value;
+      city=document.getElementById("city").value;
+      if(add1==""||state==""||city=="")
+      {
+        document.getElementById('message').style.display='block';
+        return false;
+      }
+      
+      return true;
+    }
+  return true;
+  // alert("Kindly fill all the options");
+  
+}
+
 function fun(sentId,optNo)
 { 
   if(alreadyOpted[optNo]==false)

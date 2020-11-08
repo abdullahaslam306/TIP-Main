@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const indexRoutes = require('./routes/indexRoutes');
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3900;
 const env = require('./config/env');
 // express app
 const app = express();

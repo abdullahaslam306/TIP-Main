@@ -30,8 +30,8 @@ router.get('/', (req, res) => {
   router.get('/admin/user/view',redirectAdminLogin,adminController.viewUsers);
   router.get('/admin/login', (req, res) => {res.render('logins');});
   router.post('/admin/login',adminController.login);
-  router.get('/admin/register',(req, res) => {res.render('register');});
-  router.post('/admin/register',adminController.register);
+  // router.get('/admin/register',(req, res) => {res.render('register');});
+  // router.post('/admin/register',adminController.register);
 
   router.post('/login',loginController.login);
   router.get('/login/add', async (req, res) => {res.render('register');})
@@ -41,7 +41,7 @@ router.get('/', (req, res) => {
 
   router.get('/logout',redirectLogin,loginController.logout)
 
-  router.get('/register', async (req, res) => {res.render('regform')})
+  router.get('/register', async (req, res) => {res.render('regform',{msg:"No"})})
   router.post('/register',loginController.register)
 
   router.get('/user/dash',redirectLogin,(req, res)=>{res.render('user-dash',{fname:req.session.fname})})

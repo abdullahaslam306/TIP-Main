@@ -92,7 +92,7 @@ const register = async (req, res) => {
         .then((result) =>{
             const output=`<p>YOU HAVE SUCESSFULLY REGISTERED
             Now verify your registeration by clicking the button below.</p>
-            <br><a href='http://localhost:3000/verify/${result._id}'>Verify Me</a>
+            <br><a href='http://localhost:3900/verify/${result._id}'>Verify Me</a>
             `
             ;
             let transporter = nodemailer.createTransport({
@@ -123,15 +123,15 @@ const register = async (req, res) => {
                    console.log("Email Sent Successfully!")
                   }
               });    
-        res.render('logins');
+        res.render('regform',{msg:"Sucessfully Registered. Now verify your Account "});
         }   )
-        .catch(err =>{console.log(err);res.redirect('/')});
+        .catch(err =>{console.log(err); res.render('regform',{msg:"Something went wrong! Try Again Later. "});});
         }
         catch(err) {
         console.log(err);
         res.status(500).send();
     }
-    
+
 }
 
 const logout = (req, res) => {
