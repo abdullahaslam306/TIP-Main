@@ -28,7 +28,7 @@ router.get('/', (req, res) => {
     res.render('admin-dash');
   });
   router.get('/admin/user/view',redirectAdminLogin,adminController.viewUsers);
-  router.get('/admin/login', (req, res) => {res.render('logins');});
+  router.get('/admin/login', (req, res) => {res.render('logins',{msg:"No"});});
   router.post('/admin/login',adminController.login);
   // router.get('/admin/register',(req, res) => {res.render('register');});
   // router.post('/admin/register',adminController.register);

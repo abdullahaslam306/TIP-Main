@@ -22,14 +22,14 @@ const login = async (req, res) => {
             }
             else
             {
-                res.render("index",{error:"Incorrect Email or Password"});
+                res.render("logins",{msg:"Yes"});
             }
             
         }
         catch(err)
         {
             console.log(err);
-            res.status(500).send(err.message);
+            res.render("logins",{msg:"Yes"});
         }
         
     })
