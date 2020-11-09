@@ -44,6 +44,16 @@ const viewUsers=(req,res)=>{
       console.log(err);
     });
 }
+const viewAdmin=(req,res)=>{
+    Admin.find().sort({ createdAt: -1 })
+    .then(result => {
+      res.render('viewAdmin', { admins: result });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+}
+
 const logout = (req, res) => {
         req.session.destroy(err => {
             res.clearCookie(env.SESSION_NAME);
@@ -73,6 +83,14 @@ const getUser = async (req, res) => {
     )
     .catch((err)=>{console.log(err);})
 }
+const getAdmin = async (req, res) => {
+    Admin.findById(req.params.id)
+    .then((admin) => {
+        res.render('editAdmin',admin)
+    }
+    )
+    .catch((err)=>{console.log(err);})
+}
 
 
 
@@ -89,13 +107,14 @@ const register = async (req, res) => {
         });
         admin.save()
         .then((result) =>{
-        res.redirect('/admin/login');
+        res.redirect('/admin/view');
         }   )
-        .catch(err =>{console.log(err);});
+        .catch(err =>{console.log(err);
+            res.render('/admin/register',{msg:"Error! Something went wrong..."});});
         }
         catch(err) {
         console.log(err);
-        res.status(500).send();
+        res.render('/admin/register',{msg:"Error! Something went wrong..."});
     }
     
 }
@@ -150,12 +169,40 @@ const updateUser = async (req, res) => {
     }
 }
 
+const updateAdmin = async (req, res) => {
+
+    if(req.body.password === ""){
+    
+    res.redirect('/admin/user/edit');
+    }
+    else{
+        const salt = await bcrypt.genSalt(10);
+        const hasedpassword = await bcrypt.hash(req.body.password, salt);
+        Admin.findOneAndUpdate({email: req.body.email},{
+           
+            password:hasedpassword
+          },{new:true})
+          .then((result) => {console.log(result);
+          res.redirect('/admin/view')})
+          .catch((err) => {console.log(err);
+          res.redirect('/admin/edit');});
+    }
+}
+
+
 const removeUser= async (req, res) => {
     console.log('Delete Req')
     console.log(req)
     Login.findByIdAndRemove(req.params.id)
-    .then((result) => {console.log(result); viewUsers()})
-    .catch((err) => {console.log(err);viewUsers()})
+    .then((result) => {console.log(result);  res.redirect('/admin/user/view')})
+    .catch((err) => {console.log(err); res.redirect('/admin/user/view')})
+}
+const removeAdmin= async (req, res) => {
+    console.log('Delete Req')
+    console.log(req)
+    Admin.findByIdAndRemove(req.params.id)
+    .then((result) => {res.redirect('/admin/view')})
+    .catch((err) => {res.redirect('/admin/view')})
 }
 module.exports = {
  login,
@@ -166,5 +213,9 @@ module.exports = {
  getUser,
  updateUser,
  updatePassword,
- removeUser
+ removeUser,
+ viewAdmin,
+ getAdmin,
+ removeAdmin,
+ updateAdmin
 }

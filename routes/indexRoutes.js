@@ -30,8 +30,12 @@ router.get('/', (req, res) => {
   router.get('/admin/user/view',redirectAdminLogin,adminController.viewUsers);
   router.get('/admin/login', (req, res) => {res.render('logins',{msg:"No"});});
   router.post('/admin/login',adminController.login);
-  // router.get('/admin/register',(req, res) => {res.render('register');});
-  // router.post('/admin/register',adminController.register);
+  router.get('/admin/view',redirectAdminLogin,adminController.viewAdmin);
+  router.get('/admin/edit/:id',redirectAdminLogin,adminController.getAdmin)
+  router.post('/admin/update',redirectAdminLogin,adminController.updateAdmin);
+  router.get('/admin/delete/:id',redirectAdminLogin,adminController.removeAdmin);
+  router.get('/admin/register',(req, res) => {res.render('register',{msg:""});});
+  router.post('/admin/newAdmin',adminController.register);
 
   router.post('/login',loginController.login);
   router.get('/login/add', async (req, res) => {res.render('register');})
