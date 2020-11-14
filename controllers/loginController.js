@@ -100,8 +100,8 @@ const register = async (req, res) => {
                 port: 587,
                 secure: false, // true for 465, false for other ports
                 auth: {
-                  user: 'abdullahaslammatrix@gmail.com',
-                  pass: '4321Abdullah', // generated ethereal password
+                  user: '', // email address
+                  pass: '', // generated ethereal password
                 },
               });
             

@@ -18,7 +18,7 @@ const login = async (req, res) => {
                 req.session.lname = result.lname;
                 req.session.phone = result.phone;
             
-                res.render('admin-dash');
+                res.redirect('/admin/dash');
             }
             else
             {
