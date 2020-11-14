@@ -3,5 +3,7 @@ module.exports = {
      SESSION_OUT : 1000 * 60 * 60 * 5,
      SESSION_NAME: 'sid',
      SESSION_SECRET: 'secret',  
-     environment : 'DEV'
+     environment : 'DEV',
+     EMAIL_USER:'',
+     EMAIL_PASS:''
 }
