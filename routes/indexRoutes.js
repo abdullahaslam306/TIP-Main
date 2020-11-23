@@ -27,9 +27,17 @@ router.get('/', (req, res) => {
   router.get('/admin/dash',redirectAdminLogin, (req, res) => {
     res.render('admin-dash');
   });
+<<<<<<< HEAD
   router.get('/admin/lock',redirectAdminLogin,adminController.lock)
   router.post('/admin/login/lock',adminController.locklogin);
   // router.get('/admin/logout',redirectAdminLogin,adminController.logout)
+=======
+  router.get('/admin/dash',redirectAdminLogin,(req, res) => {
+    res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+    res.header('Expires', '-1');
+    res.header('Pragma', 'no-cache');
+    res.render('admin-dash');});
+>>>>>>> 231b52b5d7700931c5c88ca944233ebcf14c0205
   router.get('/admin/user/view',redirectAdminLogin,adminController.viewUsers);
   router.get('/admin/login', (req, res) => {res.render('logins',{msg:"No"});});
   router.post('/admin/login',adminController.login);
