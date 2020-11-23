@@ -35,6 +35,34 @@ const login = async (req, res) => {
     })
    
 }
+const locklogin= async (req, res) => {
+    Admin.findOne({email : req.body.email})
+    .then(result => {
+        console.log(result);
+        try{
+            const flag =  bcrypt.compareSync(req.body.password,result.password) 
+            if(flag){
+                req.session.user = req.body.email;
+                req.session.fname = result.fname;
+                req.session.lname = result.lname;
+                req.session.phone = result.phone;
+            
+                res.render('admin-dash');
+            }
+            else
+            {
+                res.render("lockscreen",{email:req.body.email,msg:"Yes"});
+            }
+            
+        }
+        catch(err)
+        {
+            console.log(err);
+            res.render("lockscreen",{email:req.body.email,msg:"Yes"});
+        }
+        
+    })
+}
 const viewUsers=(req,res)=>{
     Login.find().sort({ createdAt: -1 })
     .then(result => {
@@ -55,11 +83,20 @@ const viewAdmin=(req,res)=>{
 }
 
 const logout = (req, res) => {
+    
         req.session.destroy(err => {
             res.clearCookie(env.SESSION_NAME);
             res.redirect('/admin/login');
         });
 }
+const lock = (req, res) => {
+        const mail=req.session.user;
+        req.session.destroy(err => {
+        res.clearCookie(env.SESSION_NAME);
+        res.render('lockscreen',{email:mail,msg:"no"});
+    });
+}
+
 
 const update =  (req, res) => {
     Admin.findOneAndUpdate(
@@ -129,16 +166,16 @@ const updatePassword = async (req, res) => {
         if(flag){
             Admin.findOneAndUpdate({email:req.session.user},{password:hasedpassword},{new:true})
             .then((result) => {
-                res.render('admin-chngePass',{success:"Password has been changed successfully"});
+                res.render('admin-chngePass',{success:"Password has been changed successfully",failure:""});
             })
             .catch((err) => {console.log(err);
                 res.render('admin-chngePass',{success:"",failure:"Something went wrong."});})
         }  else{
-            res.render('admin-chngePass',{success:"",failure:"You Entered Wrong Password."});
+            res.render('admin-chngePass',{success:"",failure:"Your Current Password is not Correct."});
         }
     })
     .catch((err) => {console.log(err);
-        res.render('admin-chngePass',{success:"",failure:"You Entered Wrong Password."})})
+        res.render('admin-chngePass',{success:"",failure:"Your Current Password is not Correct."})})
 }
 const updateUser = async (req, res) => {
 
@@ -217,5 +254,7 @@ module.exports = {
  viewAdmin,
  getAdmin,
  removeAdmin,
- updateAdmin
+ updateAdmin,
+ lock,
+ locklogin
 }

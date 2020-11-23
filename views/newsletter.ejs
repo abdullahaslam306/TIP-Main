@@ -1,0 +1,112 @@
+<%- include("./headerAdmin.ejs") %>
+
+<div class="main">
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <!-- OVERVIEW -->
+            <div class="panel panel-headline">
+                
+                
+            <!-- END OVERVIEW -->
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- RECENT PURCHASES -->
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">News-Letters</h3>
+                            <div class="row">
+                                <div class="col-md-8"></div>
+                                <div class="col-md-4">
+                                    <input type="text" id="myInput" class="form-control" placeholder="Search ...">
+                                </div>
+                            </div>
+                        </div>
+                        <script>
+                            
+                            window.onload = function(){
+                                
+                              $("#myInput").on("keyup", function() {
+                                var value = $(this).val().toLowerCase();
+                                $("#myTable tr").filter(function() {
+                                  $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                                });
+                              });
+                            };
+                            </script>
+                        <div class="panel-body no-padding">
+                            <div class="row ">
+										
+                                <div class="col-md-4" style="margin-left:10px;"> <button onclick='window.location.href="/admin/newsletter/new"' class="btn btn-primary "><i class="fa fa-plus"></i> Add New</button></div>
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4"></div>
+
+                            </div>
+
+                            <table class="table table-striped" id="myTable">
+                                <thead>
+                                    <tr>
+                                        <th>Sr. No.</th>
+                                        <th>Title</th>
+                                        <th>Description</th>
+                                        <th>Creation Date-Time</th>
+                                       
+                                        <th colspan="2">Actions</th>
+                                       
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                    <% items.forEach(function(image) { %> 
+                                    
+                                    <tr>
+                                        <td><a href="#">1</a></td>
+                                        <td><%= image.title %> </td>
+                                        <td><%= image.description %> </td>
+                                        <td><%= image.createdAt %></td>
+                                        
+                                        <td>
+           <a href="/admin/newsletter/edit/<%= image._id %>" data-toggle="tooltip" title="edit"><i class="fa fa-pencil" aria-hidden="true"></i></a> &nbsp;&nbsp;
+            <a href="/admin/newsletter/delete/<%= image._id %>"data-toggle="tooltip" title="delete"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
+       
+                                    </tr>
+                                    <% }) %> 
+                                    
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="panel-footer">
+                          
+                        </div>
+                    </div>
+                    <!-- END RECENT PURCHASES -->
+                </div>
+                
+                </div> 
+            </div>
+            
+        
+        </div>
+    </div>
+     <!-- END MAIN CONTENT -->
+    
+</div>
+<!-- <h1>Uplaoded Images</h1> 
+    <div> 
+        <% items.forEach(function(image) { %> 
+        <div> 
+            <div> 
+                <img src="data:image/<%=image.img.contentType%>;base64, 
+                     <%=image.img.data.toString('base64')%>"> 
+                <div> 
+                    <h5><%= image.title %></h5> 
+                    <p><%= image.description %></p> 
+                </div> 
+            </div> 
+        </div> 
+        <% }) %> 
+    </div>  -->
+
+<%- include("./footerAdmin.ejs") %>

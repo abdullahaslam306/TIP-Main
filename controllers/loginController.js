@@ -27,6 +27,9 @@ const login = async (req, res) => {
                 req.session.lname = result.lname;
                 req.session.phone = result.phone;
                 req.session.id=result.id;
+                console.log("Session Info")
+                console.log(req.session.id)
+                console.log(req.body.email)
                 res.json({msg:'',status:'success'})
                
             }
@@ -123,13 +126,13 @@ const register = async (req, res) => {
                    console.log("Email Sent Successfully!")
                   }
               });    
-        res.render('regform',{msg:"Sucessfully Registered. Now verify your Account "});
+        res.render('regform',{msg:"Sucessfully Registered. Now verify your Account ",failure:"NO"});
         }   )
-        .catch(err =>{console.log(err); res.render('regform',{msg:"Something went wrong! Try Again Later. "});});
+        .catch(err =>{console.log(err); res.render('regform',{msg:"NO",failure:"Something went wrong! Try Again Later. "});});
         }
         catch(err) {
-        console.log(err);
-        res.status(500).send();
+            res.render('regform',{msg:"NO",failure:"This Email Already Exist."});
+        // res.status(500).send();
     }
 
 }

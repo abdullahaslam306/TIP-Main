@@ -293,7 +293,7 @@ margin:30px;
                     <div class="progress">
                         <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
                     </div> <br> <!-- fieldsets -->
-                    <% if (msg=="No") { %>
+                    <% if (msg=="NO" && failure=="NO") { %>
                     <fieldset>
                         <div class="form-card">
                             <div class="row">
@@ -422,7 +422,30 @@ margin:30px;
                             </div>
                         </div>
                     </fieldset> -->
-                    <% } else{ %>
+                    <% } else if(failure!="NO"){ %>
+                        <fieldset>
+                            <div class="form-card">
+                                <div class="row">
+                                    <div class="col-7">
+                                        <h2 class="fs-title">Finish:</h2>
+                                    </div>
+                                    <div class="col-5">
+                                        <h2 class="steps">Step 4 - 4</h2>
+                                    </div>
+                                </div> <br><br>
+                                <h2 class="purple-text text-center"><strong>Failed !</strong></h2> <br>
+                                <div class="row justify-content-center">
+                                    <div class="col-3"> <img src="/wrong.png" class="fit-image"> </div>
+                                </div> <br><br>
+                                <div class="row justify-content-center">
+                                    <div class="col-7 text-center">
+                                        <h5 class="purple-text text-center">This email is already register.</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <% } else{ %>
+
                     <fieldset>
                         <div class="form-card">
                             <div class="row">

@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const indexRoutes = require('./routes/indexRoutes');
+const methodOverride = require('method-override');
 const PORT = process.env.PORT || 3900;
 const env = require('./config/env');
 // express app
@@ -22,6 +23,7 @@ app.set('view engine', 'ejs');
 
 // middleware & static files
 app.use(express.static('public'));
+app.use(methodOverride('_method'));
 
 app.use(express.urlencoded({extended: true}));
 
@@ -40,7 +42,7 @@ app.use((req, res, next) => {
 
 app.use(session({
   cookie:{
-  maxAge: 3600 * 15,
+  maxAge: 30 * 86400 * 1000,
   sameSite: true,
   secure: env.environment === 'production',
   },
