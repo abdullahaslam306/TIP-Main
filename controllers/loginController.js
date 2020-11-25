@@ -1,5 +1,6 @@
 
 const Login = require('../models/logins');
+const Surveys = require('../models/surveys');
 const bcrypt = require('bcrypt');
 const env = require('../config/env');
 const nodemailer = require('nodemailer');
@@ -107,8 +108,17 @@ const register = async (req, res) => {
             fname: req.body.fname,
             lname: req.body.lname,
             phone: req.body.phone,
-            refercode: refer,
+            refercode: refer
+            
+
         });
+        const obj=new Surveys({option1:req.body.option1,
+            option2:req.body.option2,
+            option3:req.body.option3,
+            option4:req.body.option4
+            ,option5:req.body.option5
+})
+obj.save()
         login.save()
         .then((result) =>{
         //     const output=`<p>YOU HAVE SUCESSFULLY REGISTERED

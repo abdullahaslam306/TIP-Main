@@ -294,73 +294,87 @@ margin:30px;
                         <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
                     </div> <br> <!-- fieldsets -->
                     <% if (msg=="NO" && failure=="NO") { %>
-                    <fieldset>
-                        <div class="form-card">
-                            <div class="row">
-                                <div class="col-7">
-                                    <h2 class="fs-title">Select Your Priorities</h2>
+                        <fieldset>
+                            <div class="form-card">
+                                <div class="row">
+                                    <div class="col-7">
+                                        <h2 class="fs-title">Select Your Priorities</h2>
+                                    </div>
+                                    <div class="col-5">
+                                        <h2 class="steps">Step 1 - 4</h2>
+                                    </div>
                                 </div>
-                                <div class="col-5">
-                                    <h2 class="steps">Step 1 - 4</h2>
-                                </div>
-                            </div>
-                          <!--   <div class="row"> -->
-
+                              <!--   <div class="row"> -->
+    
+                              <div class="input-group mt-3">
+       <input type="hidden" id="inputopt1" name="option1">
+                   <input type="hidden" id="inputopt2" name="option2">
+                   <input type="hidden" id="inputopt3" name="option3">
+                   <input type="hidden" id="inputopt4" name="option4">
+                   <input type="hidden" id="inputopt5" name="option5">
+                    <input type="text" class="form-control" id="opt1" onclick="fun('opt1',0)" value="Stopping bad spending habits." readonly >
+                    <span class="input-group-addon "><!-- Create an icon wrapped by the fa-stack class -->
+                      <span class="fa-stack invisible">
+                    <!-- The icon that will wrap the number -->
+                    <span class="fa fa-circle-o fa-stack-2x"></span>
+                    <!-- a strong element with the custom content, in this case a number -->
+                    <strong class="fa-stack-1x">
+                            2
+                    </strong>
+                </span>
+                </span>
+                  </div>
+                   <div class="input-group mt-3">
+                   
+                    <input type="text" class="form-control" id="opt2" onclick="fun('opt2',1)" value="Investing." readonly >
+                    <span class="input-group-addon "><!-- Create an icon wrapped by the fa-stack class -->
+                      <span class="fa-stack invisible">
+                    <!-- The icon that will wrap the number -->
+                    <span class="fa fa-circle-o fa-stack-2x"></span>
+                    <!-- a strong element with the custom content, in this case a number -->
+                    <strong class="fa-stack-1x">
+                            2
+                    </strong>
+                </span>
+                </span>
+                                      </div>
                           <div class="input-group mt-3">
-   
-    <input type="text" class="form-control" id="opt1" onclick="fun('opt1',0)" value="option 1" readonly >
-    <span class="input-group-addon "><!-- Create an icon wrapped by the fa-stack class -->
-      <span class="fa-stack invisible">
-    <!-- The icon that will wrap the number -->
-    <span class="fa fa-circle-o fa-stack-2x"></span>
-    <!-- a strong element with the custom content, in this case a number -->
-    <strong class="fa-stack-1x">
-            2
-    </strong>
-</span>
-</span>
-  </div>
-   <div class="input-group mt-3">
-   
-    <input type="text" class="form-control" id="opt2" onclick="fun('opt2',1)" value="option 2" readonly >
-    <span class="input-group-addon "><!-- Create an icon wrapped by the fa-stack class -->
-      <span class="fa-stack invisible">
-    <!-- The icon that will wrap the number -->
-    <span class="fa fa-circle-o fa-stack-2x"></span>
-    <!-- a strong element with the custom content, in this case a number -->
-    <strong class="fa-stack-1x">
-            2
-    </strong>
-</span>
-</span>
-  </div>
-  <div class="input-group mt-3">
-   
-    <input type="text" class="form-control" id="opt3" onclick="fun('opt3',2)" value="option 3" readonly >
-    <span class="input-group-addon "><!-- Create an icon wrapped by the fa-stack class -->
-      <span class="fa-stack invisible">
-    <!-- The icon that will wrap the number -->
-    <span class="fa fa-circle-o fa-stack-2x"></span>
-    <!-- a strong element with the custom content, in this case a number -->
-    <strong class="fa-stack-1x">
-            3
-    </strong>
-</span>
-</span>
-  </div>
-  <div class="input-group mt-3">
-   
-    <input type="text" class="form-control" id="opt4" onclick="fun('opt4',3)" value="option 4" readonly >
-    <span class="input-group-addon "><!-- Create an icon wrapped by the fa-stack class -->
-      <span class="fa-stack  invisible">
-  <i class="fa fa-circle-o fa-stack-2x"></i>
-  <strong class="fa-stack-1x ">27</strong>
-</span>
-</span>
-  </div>
-                          
-                        </div> <input type="button"  id="button1" name="next" class="next action-button" value="Next" />
-                    </fieldset>
+                           
+                            <input type="text" class="form-control" id="opt3" onclick="fun('opt3',2)" value="Retiring." readonly >
+                            <span class="input-group-addon "><!-- Create an icon wrapped by the fa-stack class -->
+                              <span class="fa-stack invisible">
+                            <!-- The icon that will wrap the number -->
+                            <span class="fa fa-circle-o fa-stack-2x"></span>
+                            <!-- a strong element with the custom content, in this case a number -->
+                            <strong class="fa-stack-1x">
+                                    3
+                            </strong>
+                        </span>
+                        </span>
+                          </div>
+                          <div class="input-group mt-3">
+                           
+                            <input type="text" class="form-control" id="opt4" onclick="fun('opt4',3)" value="Financial Genrosity." readonly >
+                            <span class="input-group-addon "><!-- Create an icon wrapped by the fa-stack class -->
+                              <span class="fa-stack  invisible">
+                          <i class="fa fa-circle-o fa-stack-2x"></i>
+                          <strong class="fa-stack-1x ">27</strong>
+                        </span>
+                        </span>
+                          </div>
+                           <div class="input-group mt-3">
+                           
+                            <input type="text" class="form-control" id="opt5" onclick="fun('opt5',4)" value="Buying the things you really want in life." readonly >
+                            <span class="input-group-addon "><!-- Create an icon wrapped by the fa-stack class -->
+                              <span class="fa-stack  invisible">
+                          <i class="fa fa-circle-o fa-stack-2x"></i>
+                          <strong class="fa-stack-1x ">27</strong>
+                        </span>
+                        </span>
+                          </div>
+                              
+                            </div> <input type="button"  id="button1" name="next" class="next action-button" value="Next" />
+                        </fieldset>
                     <fieldset>
                         <div class="form-card">
                             <div class="row">
@@ -568,13 +582,13 @@ return false;
 });
 
 var i=0;
-var alreadyOpted = [false, false,  false, false];
-var value=[1,0,0,0]
+var alreadyOpted = [false, false,  false, false,false];
+var value=[1,0,0,0,0]
 function verify(formid)
 {
   if(formid=="button1")
   {
-  for(i=0;i<4;i++)  
+  for(i=0;i<5;i++)  
   {
     if(alreadyOpted[i]==false)
     { document.getElementById('message').style.display='block';
@@ -582,7 +596,14 @@ function verify(formid)
     }
 //button1
   }
-return true;}
+document.getElementById('inputopt1').value=value[0];
+document.getElementById('inputopt2').value=value[1];
+document.getElementById('inputopt3').value=value[2];
+document.getElementById('inputopt4').value=value[3];
+document.getElementById('inputopt5').value=value[4];
+
+ return true;
+}
     
     if(formid=="button2")
     {
@@ -654,7 +675,7 @@ else{
    
   temp=value[optNo];value[optNo]=0;
 
-  for(var k=0;k<=3;k++)
+  for(var k=0;k<=4;k++)
   {    temp2=value[k];
       if(temp<temp2){
         
@@ -674,5 +695,6 @@ else{
 i--;
 }
 }
+
 
   </script>

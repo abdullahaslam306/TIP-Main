@@ -3,6 +3,7 @@ const loginController = require('../controllers/loginController');
 const router = express.Router();
 const adminController = require('../controllers/adminController');
 const newsletterController = require('../controllers/newsletterController');
+const ContactController = require('../controllers/contactUsController');
 const redirectLogin = (req, res, next) => {
     if(!req.session.user)
     {
@@ -91,7 +92,13 @@ router.get('/user/pay',redirectLogin,(req, res)=>{res.render('user-pay',{fname:r
   router.get('/user/update/pass',redirectLogin,(req, res) => {res.render('user-changePass',{success:"",failure:""})});
   router.post('/user/update/pass',redirectLogin,loginController.updatePassword);
 
-
+  //@ contact-Support Routes
+  router.get('/user/contact',redirectLogin,(req, res)=>{res.render('user-contact-support',{email:req.session.user,success:""})})
+router.post('/user/contact/send',redirectLogin,ContactController.sendMessage)
+router.get('/admin/contacts',redirectAdminLogin,ContactController.showMessages)
+router.get('/admin/contact/reply/:id',redirectAdminLogin,ContactController.getMessage)
+router.get('/admin/contact/delete/:id',redirectAdminLogin,ContactController.deleteMessage)
+router.post('/admin/contact/reply',redirectAdminLogin,ContactController.sendReply)
   //@ user newsletter 
    router.get('/user/news',redirectLogin,newsletterController.showNews)
 module.exports = router;
