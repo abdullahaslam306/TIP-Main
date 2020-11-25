@@ -4,6 +4,6 @@ module.exports = {
      SESSION_NAME: 'sid',
      SESSION_SECRET: 'secret',  
      environment : 'DEV',
-     EMAIL_USER:'',
-     EMAIL_PASS:''
+     EMAIL_USER:'abc',
+     EMAIL_PASS:'123'
 }

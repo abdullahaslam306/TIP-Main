@@ -6,6 +6,17 @@ const nodemailer = require('nodemailer');
 const { findByIdAndUpdate } = require('../models/logins');
 
 
+function makeid(length) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+       result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+ }
+
+
 const login = async (req, res) => {
     console.log('loginController');
     console.log(req.body);
@@ -77,60 +88,68 @@ const updatePassword = async (req, res) => {
     .catch((err) => {console.log(err);
         res.render('user-changePass',{success:"",failure:"Something went wrong."});})
 }
+
+
+
 const register = async (req, res) => {
 
     try{
+        
         const salt = await bcrypt.genSalt(10);
         const hasedpassword = await bcrypt.hash(req.body.password, salt);
         console.log(hasedpassword,salt);
         console.log(req.body);
+        var refer  = makeid(5);
+        console.log("The REFER CODE is " + refer);
         const login = new Login({
             email : req.body.email,
             password:hasedpassword,
             fname: req.body.fname,
             lname: req.body.lname,
-            phone: req.body.phone
+            phone: req.body.phone,
+            refercode: refer,
         });
         login.save()
         .then((result) =>{
-            const output=`<p>YOU HAVE SUCESSFULLY REGISTERED
-            Now verify your registeration by clicking the button below.</p>
-            <br><a href='http://localhost:3900/verify/${result._id}'>Verify Me</a>
-            `
-            ;
-            let transporter = nodemailer.createTransport({
-                host: "smtp.gmail.com",
-                port: 587,
-                secure: false, // true for 465, false for other ports
-                auth: {
-                  user: EMAIL_USER, // email address
-                  pass: EMAIL_PASS, // generated ethereal password
-                },
-              });
+        //     const output=`<p>YOU HAVE SUCESSFULLY REGISTERED
+        //     Now verify your registeration by clicking the button below.</p>
+        //     <br><a href='http://localhost:3900/verify/${result._id}'>Verify Me</a>
+        //     `
+        //     ;
+        //     let transporter = nodemailer.createTransport({
+        //         host: "smtp.gmail.com",
+        //         port: 587,
+        //         secure: false, // true for 465, false for other ports
+        //         auth: {
+        //           user: EMAIL_USER, // email address
+        //           pass: EMAIL_PASS, // generated ethereal password
+        //         },
+        //       });
             
-              // send mail with defined transport object
-                transporter.sendMail({
-                from: '"Abdullah Aslam 👻" <abdullahaslammatrix@gmail.com>', // sender address
-                to: "abdullahaslammatrix@gmail.com", // list of receivers
-                subject: "Node Email Verificaltion ✔", // Subject line
-                text: "Hello world?", // plain text body
-                html: output, // html body
-              },(err,info)=>{
-                  if(err)
-                  {
-                      console.log(err)
-                  }
-                  else{
-                    console.log("Message sent: %s", info.messageId);
-                    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-                   console.log("Email Sent Successfully!")
-                  }
-              });    
-        res.render('regform',{msg:"Sucessfully Registered. Now verify your Account ",failure:"NO"});
-        }   )
+        //       // send mail with defined transport object
+        //         transporter.sendMail({
+        //         from: '"Abdullah Aslam 👻" <abdullahaslammatrix@gmail.com>', // sender address
+        //         to: "abdullahaslammatrix@gmail.com", // list of receivers
+        //         subject: "Node Email Verificaltion ✔", // Subject line
+        //         text: "Hello world?", // plain text body
+        //         html: output, // html body
+        //       },(err,info)=>{
+        //           if(err)
+        //           {
+        //               console.log(err)
+        //           }
+        //           else{
+        //             console.log("Message sent: %s", info.messageId);
+        //             console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+        //            console.log("Email Sent Successfully!")
+        //           }
+        //       });    
+         res.render('regform',{msg:"Sucessfully Registered. Now verify your Account ",failure:"NO"});
+         }   )
         .catch(err =>{console.log(err); res.render('regform',{msg:"NO",failure:"Something went wrong! Try Again Later. "});});
         }
         catch(err) {
+            console.log(err);
             res.render('regform',{msg:"NO",failure:"This Email Already Exist."});
         // res.status(500).send();
     }

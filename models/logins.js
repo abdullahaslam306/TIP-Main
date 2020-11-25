@@ -8,7 +8,8 @@ const LoginSchema = new Schema({
     fname :{ type: String, required:true},
     lname :{ type: String, required:true },
     phone :{ type: String, required:true },
-    isverified: { type: Boolean, required:true,default:false },
+    isverified: { type: Boolean, required:true,default:true },
+    refercode : { type:String, required:true,unique:true},
 },{timestamps : true  });
 
 const Login = mongoose.model('login', LoginSchema);
