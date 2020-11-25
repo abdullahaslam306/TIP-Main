@@ -24,6 +24,17 @@ const viewNews= async (req,res)=>{
             res.render('newsletter', { items: items }); 
         } 
     }); 
+}
+const showNews= async (req,res)=>{
+    newsletter.find({}, (err, items) => { 
+        if (err) { 
+            console.log(err); 
+        } 
+        else { 
+            // console.log(items);
+            res.render('user-news', { items: items }); 
+        } 
+    }); 
 } 
 const addnews= async (req, res) => {
    
@@ -98,4 +109,4 @@ const deleteNews= async (req, res) => {
     .then((result) => {console.log(result);  res.redirect('/admin/newsletter')})
     .catch((err) => {console.log(err); res.redirect('/admin/newsletter')})
 }
-module.exports = {viewNews,upload,addnews,getNews,updateNews,deleteNews}
+module.exports = {viewNews,upload,addnews,getNews,updateNews,deleteNews,showNews}

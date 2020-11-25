@@ -53,7 +53,6 @@ router.get('/', (req, res) => {
 
 // @newsletter routes
 router.get('/admin/newsletter',redirectAdminLogin,newsletterController.viewNews);
-
 router.post('/upload/newsletter',redirectAdminLogin,
     newsletterController.upload.single('image'),
     newsletterController.addnews)
@@ -92,4 +91,7 @@ router.get('/user/pay',redirectLogin,(req, res)=>{res.render('user-pay',{fname:r
   router.get('/user/update/pass',redirectLogin,(req, res) => {res.render('user-changePass',{success:"",failure:""})});
   router.post('/user/update/pass',redirectLogin,loginController.updatePassword);
 
+
+  //@ user newsletter 
+   router.get('/user/news',redirectLogin,newsletterController.showNews)
 module.exports = router;

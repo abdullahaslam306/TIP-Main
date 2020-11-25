@@ -1,0 +1,49 @@
+<%- include("./header.ejs") %>
+
+<div class="main">
+    <!-- MAIN CONTENT -->
+    <div class="main-content ">
+        <div class="container-fluid">
+            <div class="panel panel-profile">
+                <div class="clearfix">
+                   
+                        <div  style="width:90%;height:70%; margin:40px auto; box-shadow: 2px 8px 8px 8px #888888;" id='profile-form'>
+                    
+                        <div class="panel-heading">
+                            <h1 style="text-align:center;">Recent News</h1>
+                        </div>
+                        
+                        <div class="panel-body">
+                          <% items.forEach(function(image) { %> 
+                            <div class="card mb-3" >
+                                <div class="row ">
+                                  <div class="col-md-3">
+                                    <img src="data:image/<%=image.img.contentType%>;base64,<%=image.img.data.toString('base64')%>" class="card-img" alt="..." width="250px" height="200px">
+                                  </div>
+                                  <div class="col-md-9">
+                                    <div class="card-body">
+                                      <h3 class="card-title"><%= image.title %></h3>
+                                      <p class="card-text"><%= image.description %></p>
+                                      <p class="card-text"><small class="text-muted">Last updated <%= image.createdAt %></small></p>
+                                      <button class="btn btn-primary" >Read More</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <% }) %> 
+                        </div>
+                    
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+   
+    <!-- END MAIN CONTENT -->
+</div>
+    <!-- END MAIN CONTENT -->
+
+
+<%- include("./footer.ejs") %>
