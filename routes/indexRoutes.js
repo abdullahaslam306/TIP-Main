@@ -27,17 +27,13 @@ router.get('/', (req, res) => {
   router.get('/admin/dash',redirectAdminLogin, (req, res) => {
     res.render('admin-dash');
   });
-<<<<<<< HEAD
+// <<<<<<< HEAD
   router.get('/admin/lock',redirectAdminLogin,adminController.lock)
   router.post('/admin/login/lock',adminController.locklogin);
   // router.get('/admin/logout',redirectAdminLogin,adminController.logout)
-=======
-  router.get('/admin/dash',redirectAdminLogin,(req, res) => {
-    res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-    res.header('Expires', '-1');
-    res.header('Pragma', 'no-cache');
-    res.render('admin-dash');});
->>>>>>> 231b52b5d7700931c5c88ca944233ebcf14c0205
+// =======
+ 
+// >>>>>>> 231b52b5d7700931c5c88ca944233ebcf14c0205
   router.get('/admin/user/view',redirectAdminLogin,adminController.viewUsers);
   router.get('/admin/login', (req, res) => {res.render('logins',{msg:"No"});});
   router.post('/admin/login',adminController.login);
@@ -61,7 +57,6 @@ router.get('/', (req, res) => {
 
 // @newsletter routes
 router.get('/admin/newsletter',redirectAdminLogin,newsletterController.viewNews);
-
 router.post('/upload/newsletter',redirectAdminLogin,
     newsletterController.upload.single('image'),
     newsletterController.addnews)
@@ -102,4 +97,7 @@ router.get('/admin/newsletter/new',redirectAdminLogin,(req,res)=>{res.render('ad
   router.get('/user/update/pass',redirectLogin,(req, res) => {res.render('user-changePass',{success:"",failure:""})});
   router.post('/user/update/pass',redirectLogin,loginController.updatePassword);
 
+
+  //@ user newsletter 
+   router.get('/user/news',redirectLogin,newsletterController.showNews)
 module.exports = router;

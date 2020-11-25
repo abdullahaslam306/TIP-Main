@@ -9,7 +9,10 @@
 	<!-- VENDOR CSS -->
 	<link rel="stylesheet" href="/userasset/vendor/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="/userasset/vendor/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+
 	<link rel="stylesheet" href="/userasset/vendor/linearicons/style.css">
+	
 	<link rel="stylesheet" href="/userasset/vendor/chartist/css/chartist-custom.css">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<!-- MAIN CSS -->
@@ -24,8 +27,78 @@
 	
 	<link rel="icon" type="image/png" sizes="96x96" href="/userasset/img/favicon.png">
 </head>
+<style>
+	/* .modal {
+    background-image: linear-gradient(rgb(35, 79, 71) 0%, rgb(36, 121, 106) 100.2%)
+} */
 
+.modal-title {
+    font-weight: 900
+}
+
+.modal-content {
+    border-radius: 13px
+}
+
+.modal-body {
+    color: #3b3b3b
+}
+
+.img-thumbnail {
+    border-radius: 33px;
+    width: 61px;
+    height: 61px
+}
+
+.fab:before {
+    position: relative;
+    top: 13px
+}
+
+.smd {
+    width: 200px;
+    font-size: small;
+    text-align: center
+}
+
+.modal-footer {
+    display: block
+}
+
+.ur {
+    border: none;
+    background-color: #e6e2e2;
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px
+}
+
+.cpy {
+    border: none;
+    background-color: #e6e2e2;
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+    cursor: pointer
+}
+
+button.focus,
+button:focus {
+    outline: 0;
+    box-shadow: none !important
+}
+
+.ur.focus,
+.ur:focus {
+    outline: 0;
+    box-shadow: none !important
+}
+
+.message {
+    font-size: 11px;
+    color: #ee5535
+}
+	</style>
 <body>
+	
 	<div id="wrapper">
 		<!-- NAVBAR -->
 		<nav class="navbar navbar-default navbar-fixed-top">
@@ -69,7 +142,7 @@
 							</ul>
 						</li>
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="/userasset/img/user.png" class="img-circle" alt="Avatar"> <span><%= fname %></span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="/userasset/img/user.png" class="img-circle" alt="Avatar"> <span>Pro</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
 							<ul class="dropdown-menu">
 								<li><a href="/user/profile"><i class="fa fa-user"></i> <span>My Profile</span></a></li>
 								<!-- <li><a href="#"><i class="lnr lnr-envelope"></i> <span>Message</span></a></li> -->
@@ -90,8 +163,8 @@
 					<ul class="nav">
 						<li><a href="/user/dash" class="active"><i class="lnr lnr-home"></i> <span>Dashboard</span></a></li>
 						<li><a href="elements.html" class=""><i class="fa fa-users"></i> <span>Your Group </span></a></li>
-						<li><a href="elements.html" class=""><i class="fa fa-share"></i> <span>Invite Friends </span></a></li>
-						<li><a href="charts.html" class=""><i class="fa fa-newspaper-o"></i> <span>News Feed</span></a></li>
+						<li><a type="button" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-share"></i> <span>Invite Friends </span></a></li>
+						<li><a href="/user/news" class=""><i class="fa fa-newspaper-o"></i> <span>News Feed</span></a></li>
 						<!-- <li><a href="notifications.html" class=""><i class="lnr lnr-alarm"></i> <span>Notifications</span></a></li> -->
 						<li>
 							<a href="#subPages" data-toggle="collapse" class="collapsed"><i class="lnr lnr-file-empty"></i> <span>Transactions</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
@@ -110,3 +183,6 @@
 				</nav>
 			</div>
 		</div>
+
+
+		
