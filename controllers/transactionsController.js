@@ -1,13 +1,10 @@
+const Group = require("../models/groups");
 
 USER  = require("../models/logins")
 GROUP = require("../models/groups")
 
 
-//Starting Variables
-currentLevel4 = 1;
-currentLevel3 = 1;
-currentLevel2 = 1;
-currentLevel1 = 1;
+
 
 
 
@@ -58,24 +55,112 @@ function confirmPayment(transactionid, userkey){
     print('Transaction ID is confirmed');
 }
 
-function addNewUser(transactionid, userid,refercode = '')
-{
-    //confirmPayment(transactionid, userid);
-    var currentGroup = currentLevel1;
-    if(refercode != ''){
-           //Check if refercode is valid
-           groupnumber = checkrefercode(refercode);
-           if( groupnumber > 0)
-           {
-                //getusergroup by refercode
-                   
-            }   
-    }   
-    else 
-    {
-            currentGroup.append(userid);
-    } 
-    
+function addUser(email,level){
+    Group.find({level:level,iscompleted: false}).sort({createdAt:1}).limit(1)
+    .then(records => {
+       
+        if(records.length===0) //check if there is no group.
+            {
+                console.log("Insert");
+                const g = new Group({
+                    owneremail: email,
+                    level:level,
+                    members: [],
+                    iscompleted: false
+                });
+
+                g.save()
+                .then(result => {
+                    return;
+                })
+                .catch(err => {console.log(err)})
+            }
+        else
+        {
+            const g = new Group({
+                owneremail: email,
+                level:level,
+                members: [],
+                iscompleted: false
+            });
+            g.save().then(() => {console.log("User group has been created");})
+            .catch(err => {console.log(err)})
+
+            members = records[0].members;
+            members.push({email:email});
+            if(members.length === 7)
+            {
+                if(level < 4)
+               {
+                addUser(records[0].owneremail,level+1); //upgrade to next Level
+               }
+                Group.findOneAndUpdate({email:records[0].email},{members:members,iscompleted:true})
+            
+            }
+            Group.findOneAndUpdate({email:records[0].email},{members:members})
+            .then(result => {
+              return;
+            })
+         
+        }
+    })
+    .catch(err => {console.log(err);})
+}
+
+const addNewUser = async (req, res) =>
+{  
+    //confirmPayment(transactionid, userid);  
+    //Select Group from database.
+    Group.find({level:1,iscompleted:false}).sort({createdAt:1}).limit(1)
+    .then(records =>  {
+       console.log(records);
+        if(records.length===0) //check if there is no group.
+            {
+                const g = new Group({
+                    owneremail: req.session.user,
+                    level:1,
+                    members: [],
+                    iscompleted: false
+                });
+
+                g.save()
+                .then(result => {
+                    res.redirect("/user/dash")
+                })
+                .catch(err => {console.log(err)})
+            }
+        else
+        {
+            const g = new Group({
+                owneremail: req.session.user,
+                level:1,
+                members: [],
+                iscompleted: false
+            });
+            g.save().then(() => {console.log("User group has been created");})
+            .catch(err => {console.log(err)})
+
+            members = records[0].members;
+            members.push({email:req.session.user});
+            if(members.length === 7)
+            {
+                //upgrade to Level 2
+                Group.findByIdAndUpdate(records[0]._id,{members:members,iscompleted:true})
+                .then(() =>{console.log("Group Completed")})
+                .catch(() =>{console.log("Group Failed")})
+                addUser(records[0].owneremail,2) 
+                
+            }
+            else
+            Group.findByIdAndUpdate(records[0]._id,{members:members})
+            .then(result => {
+               console.log("Member Added");
+            })
+            .catch(err => {console.log(err);});
+            res.redirect("/user/dash")
+        }
+    })
+    .catch(err => {console.log(err);})
 }
 
 module.exports = {
