@@ -109,4 +109,5 @@ const deleteNews= async (req, res) => {
     .then((result) => {console.log(result);  res.redirect('/admin/newsletter')})
     .catch((err) => {console.log(err); res.redirect('/admin/newsletter')})
 }
+
 module.exports = {viewNews,upload,addnews,getNews,updateNews,deleteNews,showNews}

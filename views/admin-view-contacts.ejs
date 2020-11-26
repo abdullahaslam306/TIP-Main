@@ -1,0 +1,101 @@
+<%- include("./headerAdmin.ejs") %>
+<div class="main">
+			<!-- MAIN CONTENT -->
+			<div class="main-content">
+				<div class="container-fluid">
+					<!-- OVERVIEW -->
+					<div class="panel panel-headline">
+						
+						
+					<!-- END OVERVIEW -->
+					<div class="row">
+						<div class="col-md-12">
+							<!-- RECENT PURCHASES -->
+							<div class="panel">
+								<div class="panel-heading">
+									<h3 class="panel-title">Contact Messages</h3>
+									
+									<div class="row">
+										<div class="col-md-4">
+										
+										  </div>
+										<div class="col-md-4"></div>
+										<div class="col-md-4">
+											<input type="text" id="myInput" class="form-control" placeholder="Search ...">
+										</div>
+									</div>
+								</div>
+								<script>
+									
+									window.onload = function(){
+										
+									  $("#myInput").on("keyup", function() {
+										var value = $(this).val().toLowerCase();
+										$("#myTable tr").filter(function() {
+										  $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+										});
+									  });
+									};
+									</script>
+								<div class="panel-body no-padding">
+									<!-- <div class="row ">
+										
+										<div class="col-md-4" style="margin-left:10px;"> <button onclick='window.location.href="/admin/register"' class="btn btn-primary "><i class="fa fa-plus"></i> Add New</button></div>
+										<div class="col-md-4"></div>
+										<div class="col-md-4"></div>
+
+									</div> -->
+
+									
+									<table class="table table-striped " style="margin-top:2%" id="myTable">
+										<thead>
+											<tr>
+												<th>Sr. No.</th>
+												<th>From</th>
+												<th>Subject</th>
+												<th>Message</th>
+												<th></th>
+												<th></th>
+
+											</tr>
+										</thead>
+										<tbody>
+											<% count = 0; %> 
+											<% messages.forEach(message => {
+											count += 1;	 %>
+											 
+											
+											<tr>
+												<td><a href="#"><%=count %></a></td>
+												<td><%= message.from %> </td>
+                                                <td><%= message.subject %> </td>
+                                                <td><%= message.message %> </td>
+												
+												
+												<td>
+                   <a href="/admin/contact/reply/<%=message._id %>"><i class="fa fa-reply" aria-hidden="true"></i></a></td>
+                   <td> <a href="/admin/contact/delete/<%=message._id%> "><i class="fa fa-trash" aria-hidden="true"></i></a></td>
+               
+											</tr>
+											<% }) %>
+											
+										</tbody>
+									</table>
+								</div>
+								<div class="panel-footer">
+									Total <%= count %> Messages..
+								</div>
+							</div>
+							<!-- END RECENT PURCHASES -->
+						</div>
+						
+						</div> 
+					</div>
+					
+				
+				</div>
+			</div>
+			 <!-- END MAIN CONTENT -->
+			
+		</div>
+		<%- include("./footerAdmin.ejs") %>
