@@ -18,7 +18,7 @@
                         </div>
                       
                         <div class="panel-body ">
-                           <form method="post" action='/upload/newsletter' enctype="multipart/form-data">
+                           <form method="post" action='/upload/newsletter' enctype="multipart/form-data" onsubmit="return verify()">
                             <div class="row">
                             <div class="col-md-12">
                                 <img src="/unnamed.png" id="output"   class="responsive" width="100%" height="400px"> 
@@ -26,12 +26,14 @@
                             </div>
                             <div class="form-group">
                                 <label for="mobileInput">Heading</label>
-                                <input type="text" placeholder="Enter heading here..." class="form-control" id="heading"  name = "title" required>  
-                                
+                                <input type="text" onkeypress="myFunction()" placeholder="Enter heading here..." class="form-control" id="heading"  name = "title" required>  
+                                <div class="invalid-feedback text-danger">
+                                   Title is too short.
+                                  </div>
                             </div>
                             <div class="form-group">
                                 <label for="exampleFormControlFile1">Select Cover Photo</label>
-                                <input type="file" id="file" accept="image/*"  onchange="loadFile(event)" class="form-control-file" name='image'>
+                                <input type="file" id="file" accept="image/*"  onchange="loadFile(event)" class="form-control-file" required name='image'>
                               </div>
                             <div class="form-group">                          
                             <label for="mobileInput">Description</label>
@@ -40,10 +42,13 @@
                             <div id="editor"  style="height:150px;">
                                 <p>Description here....</p>
                             </div> -->
-                            <textarea name="description" >Enter Description Here...</textarea>
+                            <textarea name="description" onkeypress="myFunction()" id="description2" required  placeholder="Enter Description Here..."></textarea>
                             <script>
                                 CKEDITOR.replace( 'description' );
                         </script>
+                        <div class="invalid-feedback text-danger">
+                           Description should be longer than 20 characters.
+                          </div>
 
 </div>
 
@@ -79,4 +84,29 @@
       console.log(image)
       image.src = URL.createObjectURL(event.target.files[0]);
     };
+    document.getElementsByClassName('invalid-feedback')[0].style.display = 'none';
+ document.getElementsByClassName('invalid-feedback')[1].style.display = 'none'; 
+function myFunction()
+{
+ document.getElementsByClassName('invalid-feedback')[0].style.display = 'none';
+ document.getElementsByClassName('invalid-feedback')[1].style.display = 'none';
+}
+
+
+    function verify()
+    {
+       
+        heading=document.getElementById('heading').value;
+        description=document.getElementById('description2').value
+        if(heading.length<5)
+        {  document.getElementsByClassName('invalid-feedback')[0].style.display = 'block'
+            return false;
+        }
+        if(description.length<=20)
+        { 
+            document.getElementsByClassName('invalid-feedback')[1].style.display = 'block'
+            return false;
+        }
+        return true
+    }
     </script>

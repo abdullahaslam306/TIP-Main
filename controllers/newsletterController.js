@@ -68,8 +68,6 @@ const getNews= async (req, res) => {
     .catch((err)=>{console.log(err);})
 }
 const updateNews= async (req, res) => {
-     console.log('--------------------------------------------------------------')
-     console.log('image ....')
     
     if(!req.file){
         console.log("Image not found!")

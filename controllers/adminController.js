@@ -97,7 +97,16 @@ const lock = (req, res) => {
     });
 }
 
+const loadSurvey= async (req, res) => {
+// Login.countDocuments({option1:1,option2:2},function(err,c){
+//     console.log(c);
 
+// })
+Login.aggregate(
+  )
+.then(result => {console.log(result)})
+
+}
 const update =  (req, res) => {
     Admin.findOneAndUpdate(
         {email: req.body.email},
@@ -187,8 +196,7 @@ const updateUser = async (req, res) => {
     },{new:true})
     .then((result) => {console.log(result);
     res.redirect('/admin/user/view')})
-    .catch((err) => {console.log(err);
-    res.redirect('/admin/user/edit');});
+    .catch((err) => {console.log(err); res.render('editAdmin',{email:req.body.email})});
     }
     else{
         const salt = await bcrypt.genSalt(10);
@@ -256,5 +264,6 @@ module.exports = {
  removeAdmin,
  updateAdmin,
  lock,
- locklogin
+ locklogin,
+ loadSurvey
 }

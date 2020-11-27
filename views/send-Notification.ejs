@@ -1,0 +1,154 @@
+<%- include("./headerAdmin.ejs") %>
+<div class="main">
+			<!-- MAIN CONTENT -->
+			<div class="main-content ">
+				<div class="container-fluid">
+					<div class="panel panel-profile">
+						<div class="clearfix">
+							<!-- LEFT COLUMN -->
+							
+								<div  style="width:70%;height:70%; margin:40px auto; box-shadow: 2px 8px 8px 8px #888888;" id='profile-form'>
+							
+								<div class="panel-heading">
+									<h3 class="panel-title">Notify Customers</h3>
+								</div>
+								<div class="panel-body">
+									<div class="alert alert-info alert-dismissible" role="alert">
+										<i class="fa fa-info-circle"></i> &nbsp; Enter <b>all</b> if you want to send notification to all registered users.
+									</div>
+                                    <form action="/admin/notification/send" method="post" onsubmit="return verify()" >
+                                        <div class="form-group">
+                                           
+                                          <label for="message">To:</label>
+                                          <input type="text" class="form-control" onkeypress="myFunction()" id="to" name = "to"  required>
+										  <div class="invalid-feedback text-danger">
+											Recipient is not a valid.
+										  </div>
+                                        </div>
+									  <div class="form-group">
+                                        
+									    <label for="message">Subject:</label>
+									    <input type="text" class="form-control" onkeypress="myFunction()" id="subject" name = "subject"  required>
+										<div class="invalid-feedback text-danger">
+											Subject entered is too short.
+										  </div>
+									  </div>
+                                      <div class="form-group">                          
+                                        <label for="mobileInput">Messsage</label>
+                                        <textarea name="message" id="message" onkeypress="myFunction()" required placeholder="Enter your message here..." ></textarea>
+                                        <script>
+                                            CKEDITOR.replace( 'message' );
+                                    </script>
+                                        </div>
+                                      <br>
+									  <script src="https://media.twiliocdn.com/sdk/js/chat/v4.0/twilio-chat.min.js"></script>
+                                     
+									<div class="invalid-feedback text-danger">
+										Message should be longer than 8 characters.
+									  </div>
+									<div class="text-center"><button type="submit"   class="btn btn-primary  btn-lg"><i class="fa fa-send"></i> Send Notificaion</button></div>
+									<% if (sucess) { %>
+                                       
+                                      
+										<div class="alert alert-success" role="alert" id='success-msg'>
+											<script>setTimeout(function(){
+												document.getElementById('success-msg').style.display = 'none';
+											 }, 3000);</script>
+											<%= sucess %> 
+										  </div>
+										</div>
+										<% } %>
+										<% if (failure) { %>
+                                       
+                                      
+											<div class="alert alert-danger" role="alert" id='error-msg'>
+												<script>setTimeout(function(){
+													document.getElementById('error-msg').style.display = 'none';
+												 }, 3000);</script>
+												<%= failure %> 
+											  </div>
+											</div>
+											<% } %>
+								</form>
+								<br>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+		
+	<script>
+		document.getElementsByClassName('invalid-feedback')[0].style.display = 'none';
+			document.getElementsByClassName('invalid-feedback')[1].style.display = 'none';
+			document.getElementsByClassName('invalid-feedback')[2].style.display = 'none';
+
+        DecoupledEditor
+            .create( document.querySelector( '#editor' ) )
+            .then( editor => {
+                const toolbarContainer = document.querySelector( '#toolbar-container' );
+    
+                toolbarContainer.appendChild( editor.ui.view.toolbar.element );
+            } )
+            .catch( error => {
+                console.error( error );
+			} );
+
+
+
+			
+			function myFunction()
+			{  
+				document.getElementsByClassName('invalid-feedback')[0].style.display = 'none';
+			document.getElementsByClassName('invalid-feedback')[1].style.display = 'none';
+			document.getElementsByClassName('invalid-feedback')[2].style.display = 'none';
+			}
+			function verify()
+			{  
+				isok=false;
+				var email=document.getElementById('to').value;
+				var subject=document.getElementById('subject').value;
+				var message=document.getElementById('message').value;
+				
+				if(email.toLowerCase()=='all')
+				{ 
+					isok=true;
+				}
+				else if(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email))
+				{ 
+					isok=true;
+				}
+				else{
+					document.getElementsByClassName('invalid-feedback')[0].style.display = 'block';
+					return false;
+				}
+				if(subject!="" && subject.length>5)
+				{ 
+					
+					isok=true;
+				}
+				else{  document.getElementsByClassName('invalid-feedback')[1].style.display = 'block';
+						isok=false;
+					return false;
+				
+				}
+				if(message!="" && message.length>20)
+				{ 
+					
+					isok=true;
+				}
+				else{
+					document.getElementsByClassName('invalid-feedback')[2].style.display = 'block';
+					isok=false;
+					return isok;
+				}
+				return isok;
+
+
+			}
+    </script>
+    
+		
+	<%- include("./footerAdmin.ejs"); %>
