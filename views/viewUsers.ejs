@@ -20,6 +20,19 @@
 											<input type="text" id="myInput" class="form-control" placeholder="Search ...">
 										</div>
 									</div>
+									<div class="container">
+										<% if (message) { %>
+                                       
+                                      
+											<div class="alert alert-success" role="alert" id='error-msg'>
+												<script>setTimeout(function(){
+													document.getElementById('error-msg').style.display = 'none';
+												 }, 3000);</script>
+												<%= message %> 
+											  </div>
+											
+											<% } %>
+									</div>
 								</div>
 								<script>
 									
