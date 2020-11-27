@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 const env = require('../config/env');
 const nodemailer = require('nodemailer');
 const { findByIdAndUpdate } = require('../models/logins');
-
+const Group = require('../models/groups')
 
 function makeid(length) {
     var result           = '';
@@ -65,6 +65,35 @@ const login = async (req, res) => {
     })
    
 }
+
+const dash  = async (req, res) => {
+    console.log("Email"+req.session.user)
+    Group.find({owneremail: req.session.user,iscompleted:false}).sort({createdAt:-1}).limit(1)
+    .then(result => {
+        console.log(result);
+        if(result.length!==0)
+        {
+        groupmembers = result[0].members.length;
+        level = result[0].level + 1;
+         
+        }
+        else
+        {
+            groupmembers = 0;
+            level = 0;
+        }
+        res.render('user-dash',{
+            fname:req.session.fname,
+            level,
+            groupmembers
+        })
+    })
+   // res.render('user-dash',{
+    //   fname:req.session.fname
+    //})
+
+}
+
 const updatePassword = async (req, res) => {
     
     const salt = await bcrypt.genSalt(10);
@@ -202,5 +231,6 @@ module.exports = {
  logout,
  update,
  updatePassword,
- verify
+ verify,
+ dash
 }

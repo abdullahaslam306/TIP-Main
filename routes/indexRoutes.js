@@ -4,6 +4,7 @@ const router = express.Router();
 const adminController = require('../controllers/adminController');
 const newsletterController = require('../controllers/newsletterController');
 const transactionController = require('../controllers/transactionsController');
+const ContactController = require('../controllers/contactUsController');
 const redirectLogin = (req, res, next) => {
     if(!req.session.user)
     {
@@ -66,7 +67,7 @@ router.get('/admin/newsletter/delete/:id',redirectAdminLogin,newsletterControlle
 router.get('/admin/newsletter/new',redirectAdminLogin,(req,res)=>{res.render('addNewsletter')})
 router.post('/user/pay',redirectLogin,transactionController.addNewUser)
 router.get('/user/pay',redirectLogin,(req, res)=>{res.render('user-pay',{fname:req.session.fname})})
-  router.get('/user/dash',redirectLogin,(req, res)=>{res.render('user-dash',{fname:req.session.fname})})
+  router.get('/user/dash',redirectLogin,loginController.dash)
   router.get('/user/profile',redirectLogin,(req, res)=>{
     console.log(res.locals)
     console.log(req.session)
