@@ -44,14 +44,14 @@
                             </div>
                             <br>
                             <div class="container">
-                                <% if (msg) { %>
+                                <% if (message) { %>
                                
                               
                                     <div class="alert alert-success" role="alert" id='error-msg'>
                                         <script>setTimeout(function(){
                                             document.getElementById('error-msg').style.display = 'none';
                                          }, 3000);</script>
-                                        <%= msg %> 
+                                        <%= message %> 
                                       </div>
                                     
                                     <% } %>
