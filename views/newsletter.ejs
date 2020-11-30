@@ -42,7 +42,20 @@
                                 <div class="col-md-4"></div>
 
                             </div>
-
+                            <br>
+                            <div class="container">
+                                <% if (msg) { %>
+                               
+                              
+                                    <div class="alert alert-success" role="alert" id='error-msg'>
+                                        <script>setTimeout(function(){
+                                            document.getElementById('error-msg').style.display = 'none';
+                                         }, 3000);</script>
+                                        <%= msg %> 
+                                      </div>
+                                    
+                                    <% } %>
+                            </div>
                             <table class="table table-striped" id="myTable">
                                 <thead>
                                     <tr>

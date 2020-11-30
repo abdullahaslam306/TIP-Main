@@ -18,7 +18,7 @@
                         </div>
                       
                         <div class="panel-body ">
-                           <form method="post" action='/update/newsletter' enctype="multipart/form-data">
+                           <form method="post" action='/update/newsletter' enctype="multipart/form-data" onsubmit="return verify()">
                             <div class="row"> 
                             <div class="col-md-12">
                                 <img src="data:image/<%=img.contentType%>;base64, 
@@ -28,8 +28,10 @@
                             <input type="hidden" value="<%=_id%>" name="id" >
                             <div class="form-group">
                                 <label for="mobileInput">Heading</label>
-                                <input type="text" placeholder="Enter heading here..." class="form-control" id="heading" value="<%= title %>" name = "title" required>  
-                                
+                                <input type="text" placeholder="Enter heading here..." onkeypress="myFunction()" class="form-control" id="heading" value="<%= title %>" name = "title" required>  
+                                <div class="invalid-feedback text-danger">
+                                    Title is too short.
+                                   </div>
                             </div>
                           
                             <br> 
@@ -39,13 +41,15 @@
                               </div>
                             <div class="form-group">                          
                             <label for="mobileInput">Description</label>
-                            <textarea name="description" ><%= description %></textarea>
+                            <textarea name="description" onkeypress="myFunction()" id="description2" required><%= description %></textarea>
                             <script>
                                 CKEDITOR.replace( 'description' );
                         </script>
                             </div>
                             <input type="submit" class="btn btn-primary" value="Submit" name="submit">
-
+                            <div class="invalid-feedback text-danger">
+                                Description should be longer than 20 characters.
+                               </div>
                                </form>
 
                         </div>
@@ -84,6 +88,31 @@
         .catch( error => {
             console.error( error );
         } );
+        document.getElementsByClassName('invalid-feedback')[0].style.display = 'none';
+ document.getElementsByClassName('invalid-feedback')[1].style.display = 'none'; 
+function myFunction()
+{
+ document.getElementsByClassName('invalid-feedback')[0].style.display = 'none';
+ document.getElementsByClassName('invalid-feedback')[1].style.display = 'none';
+}
+
+
+    function verify()
+    {
+       
+        heading=document.getElementById('heading').value;
+        description=document.getElementById('description2').value
+        if(heading.length<5)
+        {  document.getElementsByClassName('invalid-feedback')[0].style.display = 'block'
+            return false;
+        }
+        if(description.length<=20)
+        { 
+            document.getElementsByClassName('invalid-feedback')[1].style.display = 'block'
+            return false;
+        }
+        return true
+    }
 </script>
 
 <%- include("./footerAdmin.ejs") %>

@@ -5,6 +5,7 @@ const adminController = require('../controllers/adminController');
 const newsletterController = require('../controllers/newsletterController');
 const transactionController = require('../controllers/transactionsController');
 const ContactController = require('../controllers/contactUsController');
+const NotificationController = require('../controllers/notificationController');
 const redirectLogin = (req, res, next) => {
     if(!req.session.user)
     {
@@ -39,9 +40,9 @@ router.get('/', (req, res) => {
   router.get('/admin/edit/:id',redirectAdminLogin,adminController.getAdmin)
   router.post('/admin/update',redirectAdminLogin,adminController.updateAdmin);
   router.get('/admin/delete/:id',redirectAdminLogin,adminController.removeAdmin);
-  router.get('/admin/register',(req, res) => {res.render('register',{msg:""});});
+  router.get('/admin/register',redirectAdminLogin,(req, res) => {res.render('register',{msg:""});});
   
-  router.post('/admin/newAdmin',adminController.register);
+  router.post('/admin/newAdmin',redirectAdminLogin,adminController.register);
   router.post('/login',loginController.login);
   router.get('/login/add', async (req, res) => {res.render('register');})
   router.post('/login/add', loginController.register);
@@ -81,7 +82,7 @@ router.get('/user/pay',redirectLogin,(req, res)=>{res.render('user-pay',{fname:r
 
 router.get('/test',transactionController.grouptest)
  // @route of surveys 
- router.get('/admin/surveys/list',redirectAdminLogin,(req, res)=>{res.render('surveys')})
+ router.get('/admin/surveys/list',redirectAdminLogin,adminController.loadSurvey)
  
 
   router.post('/user/update',redirectLogin, loginController.update)
@@ -104,4 +105,7 @@ router.get('/admin/contact/delete/:id',redirectAdminLogin,ContactController.dele
 router.post('/admin/contact/reply',redirectAdminLogin,ContactController.sendReply)
   //@ user newsletter 
    router.get('/user/news',redirectLogin,newsletterController.showNews)
+   // @ admin notifications
+   router.get('/admin/notification',redirectAdminLogin,(req, res)=>{res.render('send-Notification',{ sucess:"",failure:""})})
+   router.post('/admin/notification/send',redirectAdminLogin,NotificationController.sendNotification) 
 module.exports = router;

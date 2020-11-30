@@ -3,8 +3,10 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const indexRoutes = require('./routes/indexRoutes');
 const methodOverride = require('method-override');
-const PORT = process.env.PORT || 3900;
+const flash = require('connect-flash');
+const PORT = process.env.PORT || 3355;
 const env = require('./config/env');
+
 // express app
 const app = express();
 
@@ -51,7 +53,7 @@ app.use(session({
   saveUninitialized : false,
   secret: env.SESSION_SECRET,
 }));
-
+app.use(flash());
 
 app.use('/',indexRoutes);
 

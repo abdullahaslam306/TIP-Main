@@ -14,14 +14,28 @@ const storage = multer.diskStorage({
 
 
 const upload = multer({ storage: storage }); 
+function isEmpty(obj) {
+    for(var key in obj) {
+        if(obj.hasOwnProperty(key))
+            return true;
+    }
+    return false;
+}
 const viewNews= async (req,res)=>{
     newsletter.find({}, (err, items) => { 
         if (err) { 
             console.log(err); 
         } 
         else { 
-            // console.log(items);
-            res.render('newsletter', { items: items }); 
+            if(isEmpty(req.query)){
+                console.log(req.query)
+                res.render('newsletter', { items: items ,message:req.query.abc });}
+            else{
+                console.log('Not found')
+                console.log(req.query)
+                res.render('newsletter', { items: items ,message:''});
+            }  
+             
         } 
     }); 
 }
@@ -54,7 +68,7 @@ const addnews= async (req, res) => {
         } 
         else { 
             // item.save(); 
-            res.redirect('/admin/newsletter'); 
+            res.redirect('/admin/newsletter?abc=Successfully Created'); 
         } 
     }); 
 }
@@ -68,8 +82,6 @@ const getNews= async (req, res) => {
     .catch((err)=>{console.log(err);})
 }
 const updateNews= async (req, res) => {
-     console.log('--------------------------------------------------------------')
-     console.log('image ....')
     
     if(!req.file){
         console.log("Image not found!")
@@ -80,7 +92,7 @@ const updateNews= async (req, res) => {
          
         },{new:true})
         .then((result) => {console.log(result);
-        res.redirect('/admin/newsletter')})
+        res.redirect('/admin/newsletter?abc=Successfully Edited')})
         .catch((err) => {console.log(err);
         res.redirect('/admin/newsletter');});
         }
@@ -97,7 +109,7 @@ const updateNews= async (req, res) => {
         } 
               },{new:true})
               .then((result) => {console.log(result);
-              res.redirect('/admin/newsletter')})
+              res.redirect('/admin/newsletter?abc=Successfully Edited')})
               .catch((err) => {console.log(err);
               res.redirect('/admin/newsletter');});
         }
@@ -106,7 +118,7 @@ const deleteNews= async (req, res) => {
     console.log('Delete Req')
     console.log(req)
     newsletter.findByIdAndRemove(req.params.id)
-    .then((result) => {console.log(result);  res.redirect('/admin/newsletter')})
+    .then((result) => {console.log(result);  res.redirect('/admin/newsletter?abc=Successfully Deleted')})
     .catch((err) => {console.log(err); res.redirect('/admin/newsletter')})
 }
 

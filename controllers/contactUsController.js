@@ -1,14 +1,27 @@
 const nodemailer = require('nodemailer');
 const ContactUs  = require("../models/contactUs")
-
+function isEmpty(obj) {
+    for(var key in obj) {
+        if(obj.hasOwnProperty(key))
+            return true;
+    }
+    return false;
+}
 const viewNews= async (req,res)=>{
     newsletter.find({}, (err, items) => { 
         if (err) { 
             console.log(err); 
         } 
         else { 
-            // console.log(items);
-            res.render('newsletter', { items: items }); 
+            if(isEmpty(req.query)){
+                console.log(req.query)
+                res.render('newsletter', { items: items ,message:req.query.abc });}
+            else{
+                console.log('Not found')
+                console.log(req.query)
+                res.render('newsletter', { items: items ,message:''});
+            }  
+           
         } 
     }); 
 }
@@ -146,11 +159,19 @@ const sendMessage=async (req, res) => {
 const showMessages= async(req, res)=>{
     ContactUs.find().sort({ createdAt: -1 })
     .then(result => {
-      res.render('admin-view-contacts', { messages: result });
-    })
-    .catch(err => {
-      console.log(err);
-    });
+        if(isEmpty(req.query)){
+            console.log(req.query)
+          res.render('admin-view-contacts', { messages: result,msg:req.query.abc });}
+        else{
+            console.log('Not found')
+            console.log(req.query)
+            res.render('admin-view-contacts', { messages: result,msg:''});
+        }  
+        })
+        .catch(err => {
+          console.log(err);
+        });
+   
 }
 const getMessage = async (req, res) => {
     ContactUs.findById(req.params.id)
@@ -188,13 +209,13 @@ const sendReply=async (req, res) => {
             console.log("Message sent: %s", info.messageId);
             console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
            console.log("Email Sent Successfully!")
-           res.redirect('/admin/contacts');
+           res.redirect('/admin/contacts?Reply Sent');
           }
       });   } 
 // item.save(); 
 const deleteMessage= async (req, res) => {
     ContactUs.findByIdAndRemove(req.params.id)
-    .then((result) => {console.log(result);  res.redirect('/admin/contacts')})
+    .then((result) => {console.log(result);  res.redirect('/admin/contacts?abc=Deleted Successfully')})
     .catch((err) => {console.log(err); res.redirect('/admin/contacts')})
 
 }

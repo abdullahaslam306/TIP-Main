@@ -63,10 +63,26 @@ const locklogin= async (req, res) => {
         
     })
 }
+function isEmpty(obj) {
+    for(var key in obj) {
+        if(obj.hasOwnProperty(key))
+            return true;
+    }
+    return false;
+}
 const viewUsers=(req,res)=>{
+   
     Login.find().sort({ createdAt: -1 })
+    
     .then(result => {
-      res.render('viewUsers', { users: result });
+    if(isEmpty(req.query)){
+        console.log(req.query)
+      res.render('viewUsers', { users: result,message:req.query.abc });}
+    else{
+        console.log('Not found')
+        console.log(req.query)
+        res.render('viewUsers', { users: result,message:''});
+    }  
     })
     .catch(err => {
       console.log(err);
@@ -75,11 +91,19 @@ const viewUsers=(req,res)=>{
 const viewAdmin=(req,res)=>{
     Admin.find().sort({ createdAt: -1 })
     .then(result => {
-      res.render('viewAdmin', { admins: result });
-    })
-    .catch(err => {
-      console.log(err);
-    });
+        if(isEmpty(req.query)){
+            console.log(req.query)
+            res.render('viewAdmin', { admins: result,message:req.query.abc });}
+        else{
+            console.log('Not found')
+            console.log(req.query)
+            res.render('viewAdmin', { admins: result,message:''});
+        }  })
+        .catch(err => {
+          console.log(err);
+        });
+
+    
 }
 
 const logout = (req, res) => {
@@ -97,7 +121,16 @@ const lock = (req, res) => {
     });
 }
 
+const loadSurvey= async (req, res) => {
+// Login.countDocuments({option1:1,option2:2},function(err,c){
+//     console.log(c);
 
+// })
+Login.aggregate(
+  )
+.then(result => {console.log(result)})
+
+}
 const update =  (req, res) => {
     Admin.findOneAndUpdate(
         {email: req.body.email},
@@ -185,10 +218,9 @@ const updateUser = async (req, res) => {
       fname:req.body.fname,
       lname:req.body.lname  
     },{new:true})
-    .then((result) => {console.log(result);
-    res.redirect('/admin/user/view')})
-    .catch((err) => {console.log(err);
-    res.redirect('/admin/user/edit');});
+    .then((result) => {
+    res.redirect('/admin/user/view?abc=Successfully Edited.')})
+    .catch((err) => {console.log(err); res.render('editAdmin',{email:req.body.email})});
     }
     else{
         const salt = await bcrypt.genSalt(10);
@@ -200,7 +232,7 @@ const updateUser = async (req, res) => {
             password:hasedpassword
           },{new:true})
           .then((result) => {console.log(result);
-          res.redirect('/admin/user/view')})
+          res.redirect('/admin/user/view?abc=Successfully Edited')})
           .catch((err) => {console.log(err);
           res.redirect('/admin/user/edit');});
     }
@@ -220,7 +252,7 @@ const updateAdmin = async (req, res) => {
             password:hasedpassword
           },{new:true})
           .then((result) => {console.log(result);
-          res.redirect('/admin/view')})
+          res.redirect('/admin/view?abc=Sucessfully Edited ')})
           .catch((err) => {console.log(err);
           res.redirect('/admin/edit');});
     }
@@ -228,17 +260,18 @@ const updateAdmin = async (req, res) => {
 
 
 const removeUser= async (req, res) => {
-    console.log('Delete Req')
-    console.log(req)
+   
     Login.findByIdAndRemove(req.params.id)
-    .then((result) => {console.log(result);  res.redirect('/admin/user/view')})
+    .then((result) => {
+        // console.log(result);          
+        res.redirect('/admin/user/view?abc=Sucessfully Deleted');})
     .catch((err) => {console.log(err); res.redirect('/admin/user/view')})
 }
 const removeAdmin= async (req, res) => {
     console.log('Delete Req')
     console.log(req)
     Admin.findByIdAndRemove(req.params.id)
-    .then((result) => {res.redirect('/admin/view')})
+    .then((result) => {res.redirect('/admin/view?abc=Sucessfully Deleted')})
     .catch((err) => {res.redirect('/admin/view')})
 }
 module.exports = {
@@ -256,5 +289,6 @@ module.exports = {
  removeAdmin,
  updateAdmin,
  lock,
- locklogin
+ locklogin,
+ loadSurvey
 }
