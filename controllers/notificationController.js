@@ -1,13 +1,13 @@
 const nodemailer = require('nodemailer');
 const Notification  = require("../models/notification")
 const user=require('../models/logins');
-const sendNotification=async (req, res) => {
+const sendNotification = async (req, res) => {
     var obj = { 
         to: req.body.to, 
         subject: req.body.subject, 
         message:req.body.message
     } 
-    Notification.create(obj, (err, item) => { 
+    Notification.create(obj, async (err, item) =>   { 
         if (err) { 
             console.log('Cannot Send Message');
             console.log(err); 
@@ -15,7 +15,7 @@ const sendNotification=async (req, res) => {
         
         else { 
             const output=req.body.message.toString();
-          
+
             const to= req.body.to.toString();
             const subject=req.body.subject.toString();
             if(req.body.to.toString().toLowerCase()=='all')
@@ -34,15 +34,18 @@ const sendNotification=async (req, res) => {
                 });
             }else{
             
-           const result= sendMail(to,subject,output);
-           console.log(result)
-           if(result==true){
+           let result =  await sendMail(to,subject,output)
+            
+            console.log(result);
+         
+           if(result===true){
            res.render('send-Notification',{ sucess:`Notification sent to: ${to}`,failure:""}); 
            }
            else{
                 console.log('Error in Sending E mail to ',to);
             res.render('send-Notification',{ sucess:"",failure:"Failed to send notification."}); 
            }
+          
             
         }
     } 
@@ -59,27 +62,21 @@ const sendNotification=async (req, res) => {
           pass: '4321Abdullah', // generated ethereal password
         },
       });
-    
-      // send mail with defined transport object
-        transporter.sendMail({
-        from: '"Abdullah Aslam 👻" <abdullahaslammatrix@gmail.com>', // sender address
-        to: to, // list of receivers
-        subject: subject, //✔", // Subject line
-        text: "Hello world?", // plain text body
-        html: message, // html body
-      },(err,info)=>{
-          if(err)
-          {
-              console.log(err)
-              return false;
-          }
-          else{
-            console.log("Message sent: %s", info.messageId);
-            console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-           console.log("Email Sent Successfully!")
-           return true;
-          }
-      });   
 
+             // send mail with defined transport object
+             let result = await transporter.sendMail({
+              from: '"Abdullah Aslam 👻" <abdullahaslammatrix@gmail.com>', // sender address
+              to: to, // list of receivers
+              subject: subject, //✔", // Subject line
+              text: "Hello world?", // plain text body
+              html: message, // html body
+            }).then( (resutlt) => {
+              console.log(resutlt);
+              return true;
+            })
+            return result;
+  
+    
+ 
 }
 module.exports ={sendNotification}
