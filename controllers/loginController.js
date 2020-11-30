@@ -73,8 +73,8 @@ const dash  = async (req, res) => {
         console.log(result);
         if(result.length!==0)
         {
-        groupmembers = result[0].members.length;
-        level = result[0].level + 1;
+        groupmembers = result[0].members.length+1;
+        level = result[0].level;
          
         }
         else

@@ -78,6 +78,8 @@ router.get('/user/pay',redirectLogin,(req, res)=>{res.render('user-pay',{fname:r
       phone: req.session.phone
     });})
  
+
+router.get('/test',transactionController.grouptest)
  // @route of surveys 
  router.get('/admin/surveys/list',redirectAdminLogin,(req, res)=>{res.render('surveys')})
  

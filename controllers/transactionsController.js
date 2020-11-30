@@ -55,13 +55,13 @@ function confirmPayment(transactionid, userkey){
     print('Transaction ID is confirmed');
 }
 
-function addUser(email,level){
+const addUser =  async (email,level) => {
     Group.find({level:level,iscompleted: false}).sort({createdAt:1}).limit(1)
     .then(records => {
        
         if(records.length===0) //check if there is no group.
             {
-                console.log("Insert");
+               
                 const g = new Group({
                     owneremail: email,
                     level:level,
@@ -71,6 +71,7 @@ function addUser(email,level){
 
                 g.save()
                 .then(result => {
+                    console.log("First Group");
                     return;
                 })
                 .catch(err => {console.log(err)})
@@ -83,24 +84,40 @@ function addUser(email,level){
                 members: [],
                 iscompleted: false
             });
-            g.save().then(() => {console.log("User group has been created");})
-            .catch(err => {console.log(err)})
-
+            g.save().then(() => {console.log("User group has been created");
             members = records[0].members;
             members.push({email:email});
             if(members.length === 7)
             {
-                if(level < 4)
-               {
-                addUser(records[0].owneremail,level+1); //upgrade to next Level
-               }
                 Group.findByIdAndUpdate(records[0]._id,{members:members,iscompleted:true})
+               .then(() =>{console.log(`${level} Group completed`);
+               if(level < 4)
+               {
+                addUser(records[0].owneremail,level+1)
+                .then(() =>{return;})
+                //upgrade to next Level
+               }
+            
+            })
+               .catch(err => console.log(err))
+                console.log('\n\nLevel 2 Limit\n\n')
+              
+               
             
             }
             Group.findByIdAndUpdate(records[0]._id,{members:members})
             .then(result => {
               return;
             })
+            .catch(err => {console.log(err);
+            return;
+            })
+        
+        
+        })
+            .catch(err => {console.log(err)})
+
+            
          
         }
     })
@@ -129,7 +146,9 @@ const addNewUser = async (req, res) =>
 
                         g.save()
                         .then(result => {
-                            res.redirect("/user/dash")
+                        console.log("First Group Created");
+                        //    res.redirect("/user/dash")
+                        return
                         })
                         .catch(err => {console.log(err)})
                     }
@@ -150,18 +169,25 @@ const addNewUser = async (req, res) =>
                     {
                         //upgrade to Level 2
                         Group.findByIdAndUpdate(records[0]._id,{members:members,iscompleted:true})
-                        .then(() =>{console.log("Group Completed")})
-                        .catch(() =>{console.log("Group Failed")})
-                        addUser(records[0].owneremail,2) 
-                        
+                        .then(() =>{console.log("Group Completed")
+                        //  res.redirect("/user/dash")
+                        addUser(records[0].owneremail,2).then(() =>{
+                            return
+                        })
+                        return
+                    })
+                        .catch(() =>{console.log("Group Failed")})        
                     }
                     else
                     Group.findByIdAndUpdate(records[0]._id,{members:members})
                     .then(result => {
                     console.log("Member Added");
+                    //  res.redirect("/user/dash")
+                    return
                     })
                     .catch(err => {console.log(err);});
-                    res.redirect("/user/dash")
+                  
+                  
                 }
             })
             .catch(err => {console.log(err);})
@@ -183,33 +209,66 @@ const addNewUser = async (req, res) =>
                     members: [],
                     iscompleted: false
                 });
-                g.save().then(() => {console.log("User group has been created");})
-                .catch(err => {console.log(err)})
-
+                g.save().then(() =>  {
+                
+                console.log("User group has been created");
                 members = records[0].members;
                 members.push({email:req.session.user});
                 if(members.length === 7)
                 {
                     //upgrade to Level 2
                     Group.findByIdAndUpdate(records[0]._id,{members:members,iscompleted:true})
-                    .then(() =>{console.log("Group Completed")})
+                    .then(() =>{console.log("Group Completed");
+                     addUser(records[0].owneremail,2).then(() =>{
+                         return
+                     })
+                }
+                    
+                    )
                     .catch(() =>{console.log("Group Failed")})
-                    addUser(records[0].owneremail,2) 
+                    
                     
                 }
                 else
                 Group.findByIdAndUpdate(records[0]._id,{members:members})
                 .then(result => {
                 console.log("Member Added");
+                return;
                 })
-                .catch(err => {console.log(err);});
-                res.redirect("/user/dash")
+                .catch(err => {console.log(err);
+                    return;});
+              
+                // res.redirect("/user/dash")
+            
+            
+            })
+                .catch(err => {console.log(err)})
+
             }
         })
         .catch(err => {console.log(err);})
     }
 }
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+const grouptest = async (req, res) => {
+    res.send("Testing Done");
+    domain = '@gmail.com'
+    req.body.refercode = '';
+    for( i = 2500; i <2750 ; i++) {
+        email = i.toString() + '@gmail.com'
+        console.log(email)
+        req.session.user = email;
+        await addNewUser(req,res);
+        await sleep(5000);
+    }
+
+    
+}
 
 module.exports = {
-    addNewUser
+    addNewUser,
+    grouptest
 }
