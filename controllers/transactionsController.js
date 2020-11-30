@@ -147,8 +147,8 @@ const addNewUser = async (req, res) =>
                         g.save()
                         .then(result => {
                         console.log("First Group Created");
-                        //    res.redirect("/user/dash")
-                        return
+                        res.redirect("/user/dash");
+                        
                         })
                         .catch(err => {console.log(err)})
                     }
@@ -169,12 +169,11 @@ const addNewUser = async (req, res) =>
                     {
                         //upgrade to Level 2
                         Group.findByIdAndUpdate(records[0]._id,{members:members,iscompleted:true})
-                        .then(() =>{console.log("Group Completed")
-                        //  res.redirect("/user/dash")
+                        .then(() =>{console.log("Group Completed");
                         addUser(records[0].owneremail,2).then(() =>{
-                            return
+                            res.redirect("/user/dash");    
                         })
-                        return
+                    
                     })
                         .catch(() =>{console.log("Group Failed")})        
                     }
@@ -182,8 +181,8 @@ const addNewUser = async (req, res) =>
                     Group.findByIdAndUpdate(records[0]._id,{members:members})
                     .then(result => {
                     console.log("Member Added");
-                    //  res.redirect("/user/dash")
-                    return
+                      res.redirect("/user/dash")
+                
                     })
                     .catch(err => {console.log(err);});
                   
@@ -236,9 +235,9 @@ const addNewUser = async (req, res) =>
                 return;
                 })
                 .catch(err => {console.log(err);
-                    return;});
+                      res.redirect("/user/dash");});
               
-                // res.redirect("/user/dash")
+               
             
             
             })
