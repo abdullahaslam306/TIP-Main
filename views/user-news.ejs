@@ -15,7 +15,7 @@
                         
                         <div class="panel-body">
                           <% items.forEach(function(image) { %> 
-                            <div class="card mb-3" >
+                            <div class="card mb-3" style="margin-bottom:10px;">
                                 <div class="row ">
                                   <div class="col-md-3">
                                     <img src="data:image/<%=image.img.contentType%>;base64,<%=image.img.data.toString('base64')%>" class="card-img" alt="..." width="250px" height="200px">

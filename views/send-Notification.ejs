@@ -110,7 +110,7 @@
 				isok=false;
 				var email=document.getElementById('to').value;
 				var subject=document.getElementById('subject').value;
-				var message=document.getElementById('message').value;
+				// var message=document.getElementById('message').value;
 				
 				if(email.toLowerCase()=='all')
 				{ 
@@ -134,16 +134,16 @@
 					return false;
 				
 				}
-				if(message!="" && message.length>20)
-				{ 
+				// if(message!="" && message.length>20)
+				// { 
 					
-					isok=true;
-				}
-				else{
-					document.getElementsByClassName('invalid-feedback')[2].style.display = 'block';
-					isok=false;
-					return isok;
-				}
+				// 	isok=true;
+				// }
+				// else{
+				// 	document.getElementsByClassName('invalid-feedback')[2].style.display = 'block';
+				// 	isok=false;
+				// 	return isok;
+				// }
 				return isok;
 
 

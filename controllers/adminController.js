@@ -122,13 +122,7 @@ const lock = (req, res) => {
 }
 
 const loadSurvey= async (req, res) => {
-// Login.countDocuments({option1:1,option2:2},function(err,c){
-//     console.log(c);
-
-// })
-Login.aggregate(
-  )
-.then(result => {console.log(result)})
+res.render('surveys');
 
 }
 const update =  (req, res) => {

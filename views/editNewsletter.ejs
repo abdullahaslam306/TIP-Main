@@ -101,16 +101,16 @@ function myFunction()
     {
        
         heading=document.getElementById('heading').value;
-        description=document.getElementById('description2').value
+        // description=document.getElementById('description2').value
         if(heading.length<5)
         {  document.getElementsByClassName('invalid-feedback')[0].style.display = 'block'
             return false;
         }
-        if(description.length<=20)
-        { 
-            document.getElementsByClassName('invalid-feedback')[1].style.display = 'block'
-            return false;
-        }
+        // if(description.length<=20)
+        // { 
+        //     document.getElementsByClassName('invalid-feedback')[1].style.display = 'block'
+        //     return false;
+        // }
         return true
     }
 </script>
