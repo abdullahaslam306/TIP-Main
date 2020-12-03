@@ -68,20 +68,20 @@ router.get('/admin/newsletter/delete/:id',redirectAdminLogin,newsletterControlle
 router.get('/admin/newsletter/new',redirectAdminLogin,(req,res)=>{res.render('addNewsletter')})
 router.post('/user/pay',redirectLogin,transactionController.addNewUser)
 router.get('/user/pay',redirectLogin,(req, res)=>{res.render('user-pay',{fname:req.session.fname})})
-  router.get('/user/dash',redirectLogin,loginController.dash)
-  router.get('/user/profile',redirectLogin,(req, res)=>{
-    console.log(res.locals)
-    console.log(req.session)
-    res.render('user-profile',{
+router.get('/user/dash',redirectLogin,loginController.dash)
+router.get('/user/profile',redirectLogin,(req, res)=>{
+console.log(res.locals)
+console.log(req.session)
+res.render('user-profile',{
       fname:req.session.fname,
       lname:req.session.lname,
       email:req.session.user,
       phone: req.session.phone
     });})
  
-
-router.get('/test',transactionController.grouptest)
- // @route of surveys 
+//For testing purpose
+//router.get('/test',transactionController.grouptest)
+// @route of surveys 
  router.get('/admin/surveys/list',redirectAdminLogin,adminController.loadSurvey)
  
 

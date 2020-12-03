@@ -213,22 +213,17 @@ const addNewUser = async (req, res) =>
                 console.log("User group has been created");
                 members = records[0].members;
                 members.push({email:req.session.user});
-                if(members.length === 7)
+                if(members.length === 8)
                 {
-                    //upgrade to Level 2
+                  //Group Completed
                     Group.findByIdAndUpdate(records[0]._id,{members:members,iscompleted:true})
                     .then(() =>{console.log("Group Completed");
-                     addUser(records[0].owneremail,2).then(() =>{
-                         return
-                     })
-                }
-                    
-                    )
+                        })
                     .catch(() =>{console.log("Group Failed")})
                     
                     
                 }
-                else
+                else{
                 Group.findByIdAndUpdate(records[0]._id,{members:members})
                 .then(result => {
                 console.log("Member Added");
@@ -236,7 +231,7 @@ const addNewUser = async (req, res) =>
                 })
                 .catch(err => {console.log(err);
                       res.redirect("/user/dash");});
-              
+                }
                
             
             
@@ -252,22 +247,22 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-const grouptest = async (req, res) => {
-    res.send("Testing Done");
-    domain = '@gmail.com'
-    req.body.refercode = '';
-    for( i = 2500; i <2750 ; i++) {
-        email = i.toString() + '@gmail.com'
-        console.log(email)
-        req.session.user = email;
-        await addNewUser(req,res);
-        await sleep(5000);
-    }
+// const grouptest = async (req, res) => {
+//     res.send("Testing Done");
+//     domain = '@gmail.com'
+//     req.body.refercode = '';
+//     for( i = 2500; i <2750 ; i++) {
+//         email = i.toString() + '@gmail.com'
+//         console.log(email)
+//         req.session.user = email;
+//         await addNewUser(req,res);
+//         await sleep(5000);
+//     }
 
     
-}
+// }
 
 module.exports = {
     addNewUser,
-    grouptest
+   // grouptest
 }
