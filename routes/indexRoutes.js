@@ -6,6 +6,7 @@ const newsletterController = require('../controllers/newsletterController');
 const transactionController = require('../controllers/transactionsController');
 const ContactController = require('../controllers/contactUsController');
 const NotificationController = require('../controllers/notificationController');
+const testController = require('../controllers/testController');
 const redirectLogin = (req, res, next) => {
     if(!req.session.user)
     {
@@ -85,6 +86,8 @@ res.render('user-profile',{
  router.get('/admin/surveys/list',redirectAdminLogin,adminController.loadSurvey)
  
 
+ router.get('/test',testController.test)
+
   router.post('/user/update',redirectLogin, loginController.update)
   router.get('/verify/:id',loginController.verify)
   router.get('/admin/user/edit/:id',redirectAdminLogin,adminController.getUser)
@@ -109,3 +112,4 @@ router.post('/admin/contact/reply',redirectAdminLogin,ContactController.sendRepl
    router.get('/admin/notification',redirectAdminLogin,(req, res)=>{res.render('send-Notification',{ sucess:"",failure:""})})
    router.post('/admin/notification/send',redirectAdminLogin,NotificationController.sendNotification) 
 module.exports = router;
+
