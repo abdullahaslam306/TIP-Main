@@ -42,11 +42,11 @@
                             <div id="editor"  style="height:150px;">
                                 <p>Description here....</p>
                             </div> -->
-                            <textarea name="description" onkeypress="myFunction()" id="description2" required  placeholder="Enter Description Here..."></textarea>
+                            <textarea name="description" onkeypress="myFunction()" id="descriptionn" required  placeholder="Enter Description Here..."></textarea>
                             <script>
                                 CKEDITOR.replace( 'description' );
                         </script>
-                        <div class="invalid-feedback text-danger">
+                        <div class="invalid-feedback text-danger">200
                            Description should be longer than 20 characters.
                           </div>
 
@@ -98,11 +98,16 @@ function myFunction()
        
         heading=document.getElementById('heading').value;
         // description=document.getElementById('description2').value
+        // description=document.getElementById('descriptionn').value
+      
+        // alert(description)
         if(heading.length<5)
         {  document.getElementsByClassName('invalid-feedback')[0].style.display = 'block'
             return false;
         }
         // if(description.length<=20)
+        
+        // if(description.length<20)
         // { 
         //     document.getElementsByClassName('invalid-feedback')[1].style.display = 'block'
         //     return false;
