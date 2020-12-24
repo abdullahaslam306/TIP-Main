@@ -68,6 +68,10 @@ contract Exodus{
         users[useraddress].subscription = false;
         require(users[useraddress].subscription == false);
     }
+    function getSubscriptionsCount() public view returns(uint) {
+       
+        return users.length;
+    }
 
     function recievePayments(uint userid,bytes16 date,uint amount) public isSubscribed(userid)
     {
