@@ -73,70 +73,91 @@ const addNewUser = async (req, res) =>
         loopcount = amount/100;
         for(i=0; i<loopcount; i++)
         {
-            const result = await Group.find({status:"INCOMPLETE"}).sort({createdAt:1}).limit(1);
+            added = false;
+            const result = await Group.find({status:"INCOMPLETE"}).sort({createdAt:1}).limit(loopcount);
             if (result.length === 0)
             {   
                 const g = new Group({
                     status: "INCOMPLETE",
                     members: [{email:userid}]
                 });
-                await g.save();  
+                console.log(await g.save()); 
+                console.log(i+" "+"New Group Created for user" + userid);
             }
             else
             {  
-                userPresent = false;
-                members = result[0].members;
-                for(member in members){
-                    if(member.email === userid){
-                        userPresent = true;
-                    }
-                }
-
-                if(userPresent)
+                for(j = 0; j < result.length;j++)
                 {
+                    userPresent = false;
+                    members = result[j].members;
+                    for(k = 0; k < members.length;k++)
+                    {
+                        if(members[k].email === userid)
+                        {
+                            userPresent = true;
+                            break;
+                        }
+                    }
+
+                    console.log(
+                        i+" "+j+" "+userPresent
+                    );
+                    if(!userPresent)
+                    {   
+                        if(!added){
+                        members.push({email:userid});
+                        if(members.length === 8)
+                        {
+                            console.log(await Group.findByIdAndUpdate(result[j]._id,{members:members,status: "COMPLETE"}));
+                        }
+                        console.log(await Group.findByIdAndUpdate(result[j]._id,{members:members})); 
+                        console.log(i+" "+j+" "+"User added to group successfully");
+
+                        added = true;
+                        break;
+                        }
+                    }
+                    if(added){break;}
+                }
+                if(!added) {
                     const g = new Group({
                         status: "INCOMPLETE",
                         members: [{email:userid}]
                     });
-                    await g.save(); 
+                    console.log(await g.save());
+                    console.log(i+" "+j+" "+"New User Group created");
                 }
-                else
-                {   
-                    members.push({email:userid});
-                    if(members.length === 8)
-                    {
-                        await Group.findByIdandUpdate(result[0]._id,{members:members,status: "COMPLETE"});
-                    }
-                    await Group.findByIdandUpdate(result[0]._id,{members:members});
-                }
-            } 
+            }
         }
-
-        res.redirect('/user/dash');
-
     }
-
+    res.redirect('/user/dash');
 }
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-// const grouptest = async (req, res) => {
-//     res.send("Testing Done");
-//     domain = '@gmail.com'
-//     req.body.refercode = '';
-//     for( i = 2500; i <2750 ; i++) {
-//         email = i.toString() + '@gmail.com'
-//         console.log(email)
-//         req.session.user = email;
-//         await addNewUser(req,res);
-//         await sleep(5000);
-//     }
+const grouptest = async (req, res) => {
+    res.send("Testing Done");
+    domain = '@gmail.com'
+    req.body.refercode = '';
+    for( i = 1; i <30 ; i++) {
+        await sleep(5000);
+        email = i.toString() + '@gmail.com'
+        console.log(email)
+        req.body.user = email;
+        // num = Math.floor(Math.random() * 10);
+        // num += 1;
+        amount = 300;
+        console.log("Amount: " + amount)
+        req.body.amount = amount;
+        await addNewUser(req,res);
+        
+    }
 
     
-// }
+}
 
 module.exports = {
     addNewUser,
-   // grouptest
+    grouptest
 }
