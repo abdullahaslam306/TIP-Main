@@ -3,15 +3,13 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const GroupSchema = new Schema({
-    owneremail: { type: String, required:true },
     members: [
             {
             email:{ type: String},
             }
         ]
     ,
-    level: { type: Number, required:true},
-    iscompleted: { type: Boolean, required:true}
+    status: { type: String,enum :["INCOMPLETE","COMPLETE","PAID"], required:true}
 },{timestamps : true  });
 
 

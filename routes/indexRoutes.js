@@ -86,7 +86,7 @@ res.render('user-profile',{
  router.get('/admin/surveys/list',redirectAdminLogin,adminController.loadSurvey)
  
 
- router.get('/test',testController.test)
+ router.get('/test',transactionController.grouptest)
 
   router.post('/user/update',redirectLogin, loginController.update)
   router.get('/verify/:id',loginController.verify)
