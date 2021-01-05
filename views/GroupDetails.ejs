@@ -1,0 +1,107 @@
+<%- include("./headerAdmin.ejs") %>
+<div class="main">
+			<!-- MAIN CONTENT -->
+			<div class="main-content">
+				<div class="container-fluid">
+					<!-- OVERVIEW -->
+					<div class="panel panel-headline">
+						
+						
+					<!-- END OVERVIEW -->
+					<div class="row">
+						<div class="col-md-12">
+							<!-- RECENT PURCHASES -->
+							<div class="panel">
+								<div class="panel-heading">
+									<h3 class="panel-title">Group Details</h3>
+									
+									<div class="row">
+										<div class="col-md-4">
+										
+										  </div>
+										<div class="col-md-4"></div>
+										<div class="col-md-4">
+											<input type="text" id="myInput" class="form-control" placeholder="Search ...">
+										</div>
+									</div>
+								</div>
+								<script>
+									
+									window.onload = function(){
+										
+									  $("#myInput").on("keyup", function() {
+										var value = $(this).val().toLowerCase();
+										$("#myTable tr").filter(function() {
+										  $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+										});
+									  });
+									};
+									</script>
+								<div class="panel-body no-padding">
+									
+									<br>
+									<div class="container">
+										<div class="row">
+                                            <div class="col-md-12">
+                                            <label>Group ID: </label>5fc1136e1391b2e66c5b8c10
+                                            </div>
+                                        </div>
+                                            <div class="row">
+                                            <div class="col-md-12">
+                                                <label>No of Members: </label>1
+                                            </div>
+                                        </div>
+                                        <div class="row"> 
+                                            <div class="col-md-12">
+                                            <label>Creation Date: </label>Fri Nov 13 2020 16:00:22 GMT+0500 (Pakistan Standard Time)
+                                            </div>
+                                        </div>
+
+                                            
+                                       
+									</div>
+									
+									<table class="table table-striped " style="margin-top:2%" id="myTable">
+										<thead>
+											<tr>
+												<th>Member ID</th>
+												<th>Name</th>
+												<th>Amount</th>
+                                                <th>Action</th><!-- status can be  InComplete, Complete, Paid -->
+                                                
+											
+
+											</tr>
+										</thead>
+										<tbody>
+											
+                                            
+                                        <tr>
+                                            <td>5fc1136e1391b2e66c5b8c10</td>
+                                            <td>Abdullah Aslam</td>
+                                            <td><form><input type="number" name="mem1" required></td>
+                                            <td ><input type="submit" class="btn btn-success" value="Pay Now"></td>
+                                            <!-- Group ID to Be Added !-->
+                                         
+                                        </tr>
+                                        				
+										</tbody>
+									</table>
+								</div>
+								<div class="panel-footer">
+									Total 1 Members..
+								</div>
+							</div>
+							<!-- END RECENT PURCHASES -->
+						</div>
+						
+						</div> 
+					</div>
+					
+				
+				</div>
+			</div>
+			 <!-- END MAIN CONTENT -->
+			
+		</div>
+		<%- include("./footerAdmin.ejs") %>
