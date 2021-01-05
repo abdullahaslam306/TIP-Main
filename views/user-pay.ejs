@@ -16,23 +16,19 @@
                         <div class="alert alert-warning" role="alert" id='passlen'>
                             Proceed with initial payment to join the system.
                         </div>
-                        <form action="/user/pay" method="post" > 
+                        <form action="/user/pay" method="post"  onsubmit="return verifyAmountOnSubmit()"> 
                         <div class="form-group">
-                            <label for="mobileInput">Your Wallet Public Key:</label>
-                                <input type="password" class="form-control" id="walletkey" name = "walletkey"  required>
-                               
+                            <label for="mobileInput">Enter Amount:</label>
+                                <input type="number" min="100"class="form-control" onkeyup="verifyAmount()" name="paymentAmount" id="paymentAmount"  required>
+                               <small>Amount should be in multiples of 100</small>
                         </div>
                         <div class="form-group">
-                            <label for="mobileInput">Refer Code:</label>
-                                <input type="password" class="form-control" id="refercode" name = "refercode">
+                            <label for="mobileInput">Your Wallet Public Key:</label>
+                                <input type="password" class="form-control"  id="walletkey" name = "walletkey">
                                       
                         </div>
                              
-                                
-                              <!-- <div class="profile-info">
-                                <h4 class="heading">Note</h4>
-                                <p>Your Password Must be 8 characters long.</p>
-                            </div> -->
+                            
 
                             <div class="text-center"><button type="submit"   class="btn btn-primary  btn-lg"><i class="fa fa-pencil"></i> Pay</button></div>
                         </form>
@@ -46,7 +42,46 @@
 </div>
 </div>
 <script>
-
+function verifyAmount()
+{ 
+   abc= document.getElementById("paymentAmount").value ;
+   if(abc=="" || abc==0 || abc<0)
+   {
+    document.getElementById('paymentAmount').style.border = "thin solid red";
+    }
+   else if(abc%100==0)
+   { 
+    document.getElementById('paymentAmount').style.border = "thin solid green";
+   }
+   else{
+    document.getElementById('paymentAmount').style.border = "thin solid red";
+   }
+   
+}
+function verifyAmountOnSubmit()
+{ 
+    abc= document.getElementById("paymentAmount").value ;
+   if(abc=="" || abc==0 || abc<=0)
+   {
+    document.getElementById('paymentAmount').style.border = "thin solid red";
+    alert("Enter Amount In Multiple of 100")
+    return false;
+    }
+   else if(abc%100==0)
+   { 
+    document.getElementById('paymentAmount').style.border = "thin solid green";
+    return true;
+   }
+   else{
+   
+    document.getElementById('paymentAmount').style.border = "thin solid red";
+    alert("Enter Amount In Multiple of 100")
+    return false;
+   }
+   alert("Enter Amount In Multiple of 100")
+   return false;
+   
+}
 document.getElementById('notif').style.display = 'none';document.getElementById('notif2').style.display = 'none';
 document.getElementById('passlen').style.display = 'none';
 function myFunction()

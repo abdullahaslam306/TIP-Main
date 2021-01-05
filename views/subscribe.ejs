@@ -30,12 +30,12 @@
 	/* .modal {
     background-image: linear-gradient(rgb(35, 79, 71) 0%, rgb(36, 121, 106) 100.2%)
 } */
-.iq-font-yellow { color: #f9b707; }
+.iq-font-yellow { color: #00a0f0; }
 .grey-bg { background: #f7f7f7; }
 .pricing-small { text-align: center; padding: 30px 10px; }
 .pricing-small span { display: inline-block; width: 100%; }
 .pricing-small h3 { position: relative; margin-bottom: 10px; }
-.pricing-small h3:before { position: absolute; content: ""; bottom: -10px; left: 50%; width: 50px; margin-left: -25px; background: #f9b707; height: 2px; }
+.pricing-small h3:before { position: absolute; content: ""; bottom: -10px; left: 50%; width: 50px; margin-left: -25px; background: #00a0f0; height: 2px; }
 
 .modal-title {
     font-weight: 900
@@ -106,14 +106,21 @@ button:focus {
   top: 0;
   z-index: 99999;
 }
+.heading-title { margin-bottom: 80px; text-align: center; }
+.heading-title .title { position: relative; padding-bottom: 15px; }
+.heading-title .title:before { content: ""; position: absolute; bottom: 0; left: 50%; margin-left: -40px; width: 80px; height: 3px; background: #00a0f0; display: inline-block; }
+.heading-title p { padding: 0 100px; display: block; }
+.heading-title .title.white:before { background: #ffffff; }
+footer{
+    position: fixed;
+    text-align: center;
+}
+.heading-title p { padding: 0 100px; display: block; }
 	</style>
 <body>
 
-	<div id="wrapper" >
-		<!-- style="pointer-events:none;" -->
-		
-		<!-- NAVBAR -->
-		
+	<div id="wrapper"  >
+	
 
 		<nav class="navbar navbar-default navbar-fixed-top" >
 			
@@ -121,9 +128,9 @@ button:focus {
 				<a href="index.html"><img src="/userasset/img/logo.png" style="width: 100px; height: 21px;"="Klorofil Logo" class="img-responsive logo"></a>
 			</div>
 			<div class="container-fluid">
-				<div class="navbar-btn">
+				<!-- <div class="navbar-btn">
 					<button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
-				</div>
+				</div> -->
 				<form class="navbar-form navbar-left">
 					<div class="input-group">
 						<input type="text" value="" class="form-control" placeholder="Search dashboard...">
@@ -133,24 +140,11 @@ button:focus {
 			
 				<div id="navbar-menu">
 					<ul class="nav navbar-nav navbar-right">
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle icon-menu" data-toggle="dropdown">
-								<i class="lnr lnr-alarm"></i>
-								<span class="badge bg-danger">5</span>
-							</a>
-							<ul class="dropdown-menu notifications">
-								<li><a href="#" class="notification-item"><span class="dot bg-warning"></span>System space is almost full</a></li>
-								<li><a href="#" class="notification-item"><span class="dot bg-danger"></span>You have 9 unfinished tasks</a></li>
-								<li><a href="#" class="notification-item"><span class="dot bg-success"></span>Monthly report is available</a></li>
-								<li><a href="#" class="notification-item"><span class="dot bg-warning"></span>Weekly meeting in 1 hour</a></li>
-								<li><a href="#" class="notification-item"><span class="dot bg-success"></span>Your request has been approved</a></li>
-								<li><a href="#" class="more">See all notifications</a></li>
-							</ul>
-						</li>
+						
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="lnr lnr-question-circle"></i> <span>Help</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
 							<ul class="dropdown-menu">
-								<li><a href="#">Basic Use</a></li>
+								<li><a href="#"></a>Basic Use</a></li>
 								<li><a href="#">Working With Data</a></li>
 								<li><a href="#">Security</a></li>
 								<li><a href="#">Troubleshooting</a></li>
@@ -172,34 +166,63 @@ button:focus {
 		</nav>
 		<!-- END NAVBAR -->
 		<!-- LEFT SIDEBAR -->
-		<div id="sidebar-nav" class="sidebar">
-			<div class="sidebar-scroll">
-				<nav>
-					<ul class="nav">
-					
-						<li><a href="/user/dash" class="active"><i class="lnr lnr-home"></i> <span>Dashboard</span></a></li>
-						<li><a href="#" class=""><i class="fa fa-users"></i> <span>Your Group </span></a></li>
-						<li><a type="button" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-share"></i> <span>Invite Friends </span></a></li>
-						<li><a href="/user/news" class=""><i class="fa fa-newspaper-o"></i> <span>News Feed</span></a></li>
-						<li><a href="/user/pay" class=""><i class="fa fa-newspaper-o"></i> <span>Initial Payment</span></a></li>
-
-						<!-- <li><a href="notifications.html" class=""><i class="lnr lnr-alarm"></i> <span>Notifications</span></a></li> -->
-						<li>
-							<a href="#subPages" data-toggle="collapse" class="collapsed"><i class="lnr lnr-file-empty"></i> <span>Transactions</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
-							<div id="subPages" class="collapse ">
-								<ul class="nav">
-									<li><a href="#a" class="">Mother Account</a></li>
-									<li><a href="#a" class="">Pass-through Account</a></li>
-									<li><a href="#a" class="">Transaction By Users</a></li>
-								</ul>
-							</div>
-						</li>
-						<li><a href="/user/contact" class=""><i class="lnr lnr-phone-handset"></i> <span>Contact Support</span></a></li>
-						
-					</ul>
-				</nav>
-			</div>
-		</div>
-
-
 		
+		
+<div class="main">
+    <!-- MAIN CONTENT -->
+    <div class="main-content ">
+        <div class="container">
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                    <i class="fa fa-times-circle"></i> Get Subscribe to TIP and start investing.
+            </div>
+            <div class=row>
+              <div class="col-sm-12">
+                <div class="heading-title">
+                    <h3 class="title iq-tw-5 iq-mb-20">Buy & Sell</h3>
+                    <p>Here is 3 Easy Steps to Busy & Sell Bitcoin. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. </p>
+                </div>
+            </div>
+            </div>
+
+           
+              
+
+            <div class="row">
+           
+                <div class="col-sm-4 col-lg-4 iq-r-mt-40" style="border:1px solid #00a0f0;">
+                    <div class="pricing-small grey-bg">
+                        <h2 class="iq-font-yellow">1 Month</h2>
+                        <h3 class="iq-tw-6  iq-mtb-10"><i class="fa fa-dollar-sign"></i>25</h3>
+                        <span class="iq-mt-15 text-uppercase">*you get 1 Month Subscription*</span>
+                        <a class="button iq-mt-25" href="#">Buy Now</a>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-lg-4 iq-r-mt-40" style="border:1px solid #00a0f0;">
+                    <div class="pricing-small grey-bg">
+                        <h2 class="iq-font-yellow">3 Month</h2>
+                        <h3 class="iq-tw-6  iq-mtb-10"><i class="fa fa-dollar-sign"></i>75</h3>
+                        <span class="iq-mt-15 text-uppercase">*you get 3 Month Subscription*</span>
+                        <a class="button iq-mt-25" href="#">Buy Now</a>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-lg-4 iq-r-mt-40" style="border:1px solid #00a0f0">
+                    <div class="pricing-small active grey-bg">
+                        <h2 class="iq-font-yellow">6 Month</h2>
+                        <h3 class="iq-tw-6  iq-mtb-10"><i class="fa fa-dollar-sign"></i>150</h3>
+                        <span class="iq-mt-15 text-uppercase">*you get 6 Month Subscription*</span>
+                        <a class="button iq-mt-25" href="#">Buy Now</a>
+                    </div>
+                </div>
+                
+            </div>
+
+           
+            </div>
+            </div>
+   
+<%- include("./footer.ejs")  %> 
+<script>
+    $(window).on('load', function() {
+		$('body').addClass('layout-fullwidth');
+		})
+</script>

@@ -84,7 +84,8 @@ res.render('user-profile',{
 //router.get('/test',transactionController.grouptest)
 // @route of surveys 
  router.get('/admin/surveys/list',redirectAdminLogin,adminController.loadSurvey)
- 
+ router.get('/user/subscribe',redirectAdminLogin,(req, res) => {res.render('subscribe')});
+  
 
  router.get('/test',transactionController.grouptest)
 
@@ -113,3 +114,9 @@ router.post('/admin/contact/reply',redirectAdminLogin,ContactController.sendRepl
    router.post('/admin/notification/send',redirectAdminLogin,NotificationController.sendNotification) 
 module.exports = router;
 
+// @Groups Link 
+router.get('/admin/groups/list',redirectAdminLogin,(req, res) => {res.render('viewGroups')});
+ // To be Deleted
+ 
+router.get('/admin/groups/details',redirectAdminLogin,(req, res) => {res.render('GroupDetails')});
+ 

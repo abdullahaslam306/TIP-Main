@@ -3,7 +3,7 @@
 
 		<!-- END LEFT SIDEBAR -->
 		<!-- MAIN -->
-		<div class="main">
+		<div class="main" id="main-div" >
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
@@ -219,6 +219,7 @@
 							<!-- END TODO LIST -->
 						</div>
 						<div class="col-md-5">
+							<!-- Button trigger modal -->
 							<!-- TIMELINE -->
 							<div class="panel panel-scrolling">
 								<div class="panel-heading">
@@ -251,12 +252,15 @@
 											<p><a href="#">Jason</a> started a discussion about <a href="#">Weekly Meeting</a> <span class="timestamp">3 days ago</span></p>
 										</li>
 									</ul>
+									
 									<button type="button" class="btn btn-primary btn-bottom center-block">Load More</button>
+									
 								</div>
 							</div>
 							<!-- END TIMELINE -->
 						</div>
 					</div>
+					
 					<!--<div class="row">
 						<div class="col-md-4">
 							 TASKS
@@ -363,5 +367,5 @@
 			 <!-- END MAIN CONTENT -->
 		</div>
 
-
+		
 		<%- include("./footer.ejs"); %>
