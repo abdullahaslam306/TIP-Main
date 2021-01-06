@@ -1,12 +1,8 @@
 const Group = require("../models/groups");
 
-USER  = require("../models/logins")
-GROUP = require("../models/groups")
-
-
-
-
-
+const USER  = require("../models/logins")
+const GROUP = require("../models/groups")
+const Transaction = require("../models/transactions");
 
 class user{
     constructor(email,id) {
@@ -37,6 +33,17 @@ class group{
     constructor() {
         this.id = 1;
     }
+}
+
+const addTransaction = async (req, res) => {
+    const tx = Transaction(
+        {
+            txType: req.body.txType,
+            userid: req.session.user,
+            amount: req.body.amount,
+
+        }
+    );
 }
 
 function checkrefercode(refercode) {
@@ -136,26 +143,24 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-const grouptest = async (req, res) => {
-    res.send("Testing Done");
-    domain = '@gmail.com'
-    req.body.refercode = '';
-    for( i = 1; i <30 ; i++) {
-        await sleep(5000);
-        email = i.toString() + '@gmail.com'
-        console.log(email)
-        req.body.user = email;
-        // num = Math.floor(Math.random() * 10);
-        // num += 1;
-        amount = 300;
-        console.log("Amount: " + amount)
-        req.body.amount = amount;
-        await addNewUser(req,res);
+// const grouptest = async (req, res) => {
+//     res.send("Testing Done");
+//     domain = '@gmail.com'
+//     req.body.refercode = '';
+//     for( i = 1; i <30 ; i++) {
+//         await sleep(5000);
+//         email = i.toString() + '@gmail.com'
+//         console.log(email)
+//         req.body.user = email;
+//         // num = Math.floor(Math.random() * 10);
+//         // num += 1;
+//         amount = 300;
+//         console.log("Amount: " + amount)
+//         req.body.amount = amount;
+//         await addNewUser(req,res);
         
-    }
-
-    
-}
+//     }
+// }
 
 module.exports = {
     addNewUser,
