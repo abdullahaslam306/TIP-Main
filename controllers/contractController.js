@@ -47,7 +47,7 @@ App = {
   },
 
 
-  subscribe: async function(userid,date,amount)  {
+  saveSubscription: async function(txid,userid,date,amount)  {
 
     success = false;
 
@@ -61,7 +61,7 @@ App = {
     });
 
     await App.contracts.Exodus.deployed().then(function(instance){
-      instance.subscribe(web3.utils.toHex(userid),web3.utils.toHex(date),web3.utils.toHex("SUB"),amount,{from: App.account})
+      instance.subscribe(web3.utils.toHex(txid),web3.utils.toHex(userid),web3.utils.toHex(date),web3.utils.toHex("SUB"),amount,{from: App.account})
       .then(function(){success = true
       console.log("Successfully isSubscribed")
       })

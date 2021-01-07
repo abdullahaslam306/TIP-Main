@@ -6,7 +6,7 @@ contract Exodus{
     uint16 public transactionCounter = 0;
 
     struct Transaction{
-        uint id;
+        bytes32 id;
         bytes32 txtype;
         bytes32 date;
         bytes32 userid;
@@ -17,7 +17,6 @@ contract Exodus{
         bytes32 id;
         uint balance;
         bool subscription;
-        uint txCount;
     }
 
 
@@ -40,12 +39,12 @@ contract Exodus{
     mapping (uint => Transaction ) transactions;
 
     //Users subscription is proesssed by the owners only
-    function subscribe(bytes32 userid,bytes32 date,bytes32 txtype,uint amount) public
+    function subscribe(bytes32 id,bytes32 userid,bytes32 date,bytes32 txtype,uint amount) public
     {
         require(users[userid].subscription == false);
         users[userid].subscription = true;
         transactionCounter++;
-        transactions[transactionCounter] = Transaction( transactionCounter,txtype, date, userid, amount);
+        transactions[transactionCounter] = Transaction( id,txtype, date, userid, amount);
         require(users[userid].subscription);
     }
     
@@ -55,33 +54,33 @@ contract Exodus{
         require(users[useraddress].subscription == false);
     }
 
-    function savePayment(bytes32 userid,bytes32 date,bytes32 txtype,uint amount) public onlyOwner()
+    function savePayment(bytes32 id,bytes32 userid,bytes32 date,bytes32 txtype,uint amount) public onlyOwner()
     {
         require(users[userid].subscription == true);
         users[userid].subscription = true;
         transactionCounter++;
-        transactions[transactionCounter] = Transaction( transactionCounter,txtype, date, userid, amount);
+        transactions[transactionCounter] = Transaction( id,txtype, date, userid, amount);
     }
     
-    function saveWithdrawal(bytes32 userid,bytes32 date,bytes32 txtype,uint amount) public onlyOwner()
+    function saveWithdrawal(bytes32 id,bytes32 userid,bytes32 date,bytes32 txtype,uint amount) public onlyOwner()
     {
         require(users[userid].subscription == true);
         users[userid].subscription = true;
         transactionCounter++;
         uint temp = users[userid].balance;
         users[userid].balance -= amount;
-        transactions[transactionCounter] = Transaction( transactionCounter,txtype, date, userid, amount);
+        transactions[transactionCounter] = Transaction(id,txtype, date, userid, amount);
         require(users[userid].balance == (temp - amount));
     }
     
-    function saveDisbursements(bytes32 userid,bytes32 date,bytes32 txtype,uint amount) public onlyOwner()
+    function saveDisbursements(bytes32 id,bytes32 userid,bytes32 date,bytes32 txtype,uint amount) public onlyOwner()
     {
         require(users[userid].subscription == true);
         users[userid].subscription = true;
         transactionCounter++;
         uint temp = users[userid].balance;
         users[userid].balance += amount;
-        transactions[transactionCounter] = Transaction( transactionCounter,txtype, date, userid, amount);
+        transactions[transactionCounter] = Transaction(id,txtype, date, userid, amount);
         require(users[userid].balance == (temp + amount));
     }
    
