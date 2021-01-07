@@ -73,7 +73,7 @@ contract Exodus{
         require(users[userid].balance == (temp - amount));
     }
     
-    function saveDisbursements(bytes32 id,bytes32 userid,bytes32 date,bytes32 txtype,uint amount) public onlyOwner()
+    function saveDisbursement(bytes32 id,bytes32 userid,bytes32 date,bytes32 txtype,uint amount) public onlyOwner()
     {
         require(users[userid].subscription == true);
         users[userid].subscription = true;
