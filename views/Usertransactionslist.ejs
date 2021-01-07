@@ -1,0 +1,112 @@
+<%- include("./headerAdmin.ejs") %>
+<div class="main">
+			<!-- MAIN CONTENT -->
+			<div class="main-content">
+				<div class="container-fluid">
+					<!-- OVERVIEW -->
+					<div class="panel panel-headline">
+						
+						
+					<!-- END OVERVIEW -->
+					<div class="row">
+						<div class="col-md-12">
+							<!-- RECENT PURCHASES -->
+							<div class="panel">
+								<div class="panel-heading">
+									<h3 class="panel-title">All Transactions</h3>
+									
+									<div class="row">
+										<div class="col-md-4">
+										
+										  </div>
+										<div class="col-md-4"></div>
+										<div class="col-md-4">
+											<input type="text" id="myInput" class="form-control" placeholder="Search ...">
+										</div>
+									</div>
+								</div>
+								<script>
+									
+									window.onload = function(){
+										
+									  $("#myInput").on("keyup", function() {
+										var value = $(this).val().toLowerCase();
+										$("#myTable tr").filter(function() {
+										  $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+										});
+									  });
+									};
+									</script>
+								<div class="panel-body no-padding">
+									
+									<br>
+									<div class="container">
+										
+									</div>
+									
+									<table class="table table-striped" id="myTable">
+										<thead>
+											<tr>
+												<th>Tr No.</th>
+												<th>Type</th>
+												<th>Amount</th>
+												<th>Date &amp; Time</th>
+												<th>Status</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td><a href="#">763648</a></td>
+												<td>Steve</td>
+												<td>$122</td>
+												<td>Oct 21, 2020</td>
+												<td><span class="label label-success">COMPLETED</span></td>
+											</tr>
+											<tr>
+												<td><a href="#">763649</a></td>
+												<td>Amber</td>
+												<td>$62</td>
+												<td>Oct 21, 2020</td>
+												<td><span class="label label-warning">PENDING</span></td>
+											</tr>
+											<tr>
+												<td><a href="#">763650</a></td>
+												<td>Michael</td>
+												<td>$34</td>
+												<td>Oct 18, 2020</td>
+												<td><span class="label label-danger">FAILED</span></td>
+											</tr>
+											<tr>
+												<td><a href="#">763651</a></td>
+												<td>Roger</td>
+												<td>$186</td>
+												<td>Oct 17, 2020</td>
+												<td><span class="label label-success">SUCCESS</span></td>
+											</tr>
+											<tr>
+												<td><a href="#">763652</a></td>
+												<td>Smith</td>
+												<td>$362</td>
+												<td>Oct 16, 2020</td>
+												<td><span class="label label-success">SUCCESS</span></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class="panel-footer">
+									Total 5 Transaction(s)..
+								</div>
+							</div>
+							<!-- END RECENT PURCHASES -->
+						</div>
+						
+						</div> 
+					</div>
+					
+				
+				</div>
+			</div>
+			 <!-- END MAIN CONTENT -->
+			
+		</div>
+		<%- include("./footerAdmin.ejs") %>

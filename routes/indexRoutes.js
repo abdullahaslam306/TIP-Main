@@ -119,4 +119,5 @@ router.get('/admin/groups/list',redirectAdminLogin,(req, res) => {res.render('vi
  // To be Deleted
  
 router.get('/admin/groups/details',redirectAdminLogin,(req, res) => {res.render('GroupDetails')});
+router.get('/user/viewTransactions',redirectLogin,(req, res)=>{res.render('Usertransactionslist')});
  
