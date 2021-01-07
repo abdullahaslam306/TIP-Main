@@ -47,7 +47,7 @@ App = {
   },
 
 
-  subscribe: async function(userid,date)  {
+  subscribe: async function(userid,date,amount)  {
 
     success = false;
 
@@ -61,7 +61,7 @@ App = {
     });
 
     await App.contracts.Exodus.deployed().then(function(instance){
-      instance.subscribe(userid,web3.utils.toHex(date),{from: App.account})
+      instance.subscribe(web3.utils.toHex(userid),web3.utils.toHex(date),web3.utils.toHex("SUB"),amount,{from: App.account})
       .then(function(){success = true
       console.log("Successfully isSubscribed")
       })
@@ -72,21 +72,7 @@ App = {
     return success;
   },
 
-  getSubscriptionsCountt: async function()
-  {
-    success = false;
-
-    
-
-    await App.contracts.Exodus.deployed().then(function(instance){
-      instance.subscriptionCounter
-      console.log(instance.subscriptionCounter.request);
-    })
-    .catch(function(err) {console.log(err); success = false});
-
-    return success;
-      
-  },
+  
 
   unsubscribe: async function(userid){
     await web3.eth.getCoinbase(function(err, account) {
@@ -96,8 +82,8 @@ App = {
     });
 
     App.contracts.Exodus.deployed().then(function(instance){
-      instance.unsubscribe(userid,{from: App.account})
-      console.log("USER UNSUBSCRIBBED")
+      instance.unsubscribe(web3.utils.toHex(userid),{from: App.account})
+      console.log("Unsubscribed Successfully");
     })
     .catch(function(err) {console.log(err);});
 
@@ -116,67 +102,92 @@ getUserBalance : async function(userid){
       }
     });
 
-  ab=  await App.contracts.Exodus.deployed().then(function(instance){
-     r= instance.getBalance(userid,{from: App.account})
+      await App.contracts.Exodus.deployed().then(function(instance){
+      instance.getBalance(web3.utils.toHex(userid),{from: App.account})
       .then(function(result){success = true
-      console.log("Current Balanace ",r)
+      console.log("Current Balanace ",result)
       })
       .catch(function(err) {console.log(err); success = false}); 
     })
     .catch(function(err) {console.log(err); success = false});
-console.log(ab)
     return success;
     
 
 },
-makePayments:async function(userid,date,amount){
+makePayments:async function(userid,date,amount)  {
+
   success = false;
 
-    await web3.eth.getCoinbase(function(err, account) {
-      if (err === null) {
-        App.account = account;
-      }
-      else{
-        console.log(err);
-      }
-    });
+  await web3.eth.getCoinbase(function(err, account) {
+    if (err === null) {
+      App.account = account;
+    }
+    else{
+      console.log(err);
+    }
+  });
 
-    await App.contracts.Exodus.deployed().then(function(instance){
-      instance.recievePayments(userid,web3.utils.toHex(date),amount,{from: App.account})
-      .then(function(){success = true
-      console.log("Successfully Paid")
-      })
-      .catch(function(err) {console.log(err); success = false}); 
+  await App.contracts.Exodus.deployed().then(function(instance){
+    instance.subscribe(web3.utils.toHex(userid),web3.utils.toHex(date),web3.utils.toHex("PAY"),amount,{from: App.account})
+    .then(function(){success = true
+    console.log("Payment Successful")
     })
-    .catch(function(err) {console.log(err); success = false});
+    .catch(function(err) {console.log(err); success = false}); 
+  })
+  .catch(function(err) {console.log(err); success = false});
 
-    return success;
-  },
-  disbursements:async function(amount,userid,date){
-    success = false;
-  
-      await web3.eth.getCoinbase(function(err, account) {
-        if (err === null) {
-          App.account = account;
-        }
-        else{
-          console.log(err);
-        }
-      });
-  
-      await App.contracts.Exodus.deployed().then(function(instance){
-        instance.disbursePayments(amount,userid,web3.utils.toHex(date),{from: App.account})
-        .then(function(){success = true
-        console.log("Successfully Paid")
-        })
-        .catch(function(err) {console.log(err); success = false}); 
-      })
-      .catch(function(err) {console.log(err); success = false});
-  
-      return success;
-    },
-  
-  
+  return success;
+},
+makeDisbursements:async function(userid,date,amount)  {
+
+  success = false;
+
+  await web3.eth.getCoinbase(function(err, account) {
+    if (err === null) {
+      App.account = account;
+    }
+    else{
+      console.log(err);
+    }
+  });
+
+  await App.contracts.Exodus.deployed().then(function(instance){
+    instance.subscribe(web3.utils.toHex(userid),web3.utils.toHex(date),web3.utils.toHex("DIS"),amount,{from: App.account})
+    .then(function(){success = true
+    console.log("Disbursement Successful");
+    })
+    .catch(function(err) {console.log(err); success = false}); 
+  })
+  .catch(function(err) {console.log(err); success = false});
+
+  return success;
+},
+
+makeWithdrawals: async function(userid,date,amount)  {
+
+  success = false;
+
+  await web3.eth.getCoinbase(function(err, account) {
+    if (err === null) {
+      App.account = account;
+    }
+    else{
+      console.log(err);
+    }
+  });
+
+  await App.contracts.Exodus.deployed().then(function(instance){
+    instance.subscribe(web3.utils.toHex(userid),web3.utils.toHex(date),web3.utils.toHex("WIT"),amount,{from: App.account})
+    .then(function(){success = true
+    console.log("Withdraw Successful");
+    })
+    .catch(function(err) {console.log(err); success = false}); 
+  })
+  .catch(function(err) {console.log(err); success = false});
+
+  return success;
+}
+
 };
 
 

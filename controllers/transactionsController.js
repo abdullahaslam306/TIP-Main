@@ -1,12 +1,8 @@
 const Group = require("../models/groups");
 
-USER  = require("../models/logins")
-GROUP = require("../models/groups")
-
-
-
-
-
+const USER  = require("../models/logins")
+const GROUP = require("../models/groups")
+const Transaction = require("../models/transactions");
 
 class user{
     constructor(email,id) {
@@ -39,6 +35,17 @@ class group{
     }
 }
 
+const addTransaction = async (req, res) => {
+    const tx = Transaction(
+        {
+            txType: req.body.txType,
+            userid: req.session.user,
+            amount: req.body.amount,
+
+        }
+    );
+}
+
 function checkrefercode(refercode) {
     //search user by refercode
 
@@ -55,193 +62,82 @@ function confirmPayment(transactionid, userkey){
     print('Transaction ID is confirmed');
 }
 
-const addUser =  async (email,level) => {
-    Group.find({level:level,iscompleted: false}).sort({createdAt:1}).limit(1)
-    .then(records => {
-       
-        if(records.length===0) //check if there is no group.
-            {
-               
-                const g = new Group({
-                    owneremail: email,
-                    level:level,
-                    members: [],
-                    iscompleted: false
-                });
-
-                g.save()
-                .then(result => {
-                    console.log("First Group");
-                    return;
-                })
-                .catch(err => {console.log(err)})
-            }
-        else
-        {
-            const g = new Group({
-                owneremail: email,
-                level:level,
-                members: [],
-                iscompleted: false
-            });
-            g.save().then(() => {console.log("User group has been created");
-            members = records[0].members;
-            members.push({email:email});
-            if(members.length === 7)
-            {
-                Group.findByIdAndUpdate(records[0]._id,{members:members,iscompleted:true})
-               .then(() =>{console.log(`${level} Group completed`);
-               if(level < 4)
-               {
-                addUser(records[0].owneremail,level+1)
-                .then(() =>{return;})
-                //upgrade to next Level
-               }
-            
-            })
-               .catch(err => console.log(err))
-                console.log('\n\nLevel 2 Limit\n\n')
-              
-               
-            
-            }
-            Group.findByIdAndUpdate(records[0]._id,{members:members})
-            .then(result => {
-              return;
-            })
-            .catch(err => {console.log(err);
-            return;
-            })
-        
-        
-        })
-            .catch(err => {console.log(err)})
-
-            
-         
-        }
-    })
-    .catch(err => {console.log(err);})
-}
-
 const addNewUser = async (req, res) =>
 {  
-    //confirmPayment(transactionid, userid);  
+    //confirmPayment(transactionid, userid);
+
     //Select Group from database.
-
     refercode = req.body.refercode;
-    if (refercode === '')
-    {    
-            Group.find({level:1,iscompleted:false}).sort({createdAt:1}).limit(1)
-            .then(records =>  {
-            console.log(records);
-                if(records.length===0) //check if there is no group.
-                    {
-                        const g = new Group({
-                            owneremail: req.session.user,
-                            level:1,
-                            members: [],
-                            iscompleted: false
-                        });
-
-                        g.save()
-                        .then(result => {
-                        console.log("First Group Created");
-                        res.redirect("/user/dash");
-                        
-                        })
-                        .catch(err => {console.log(err)})
-                    }
-                else
-                {
-                    const g = new Group({
-                        owneremail: req.session.user,
-                        level:1,
-                        members: [],
-                        iscompleted: false
-                    });
-                    g.save().then(() => {console.log("User group has been created");})
-                    .catch(err => {console.log(err)})
-
-                    members = records[0].members;
-                    members.push({email:req.session.user});
-                    if(members.length === 7)
-                    {
-                        //upgrade to Level 2
-                        Group.findByIdAndUpdate(records[0]._id,{members:members,iscompleted:true})
-                        .then(() =>{console.log("Group Completed");
-                        addUser(records[0].owneremail,2).then(() =>{
-                            res.redirect("/user/dash");    
-                        })
-                    
-                    })
-                        .catch(() =>{console.log("Group Failed")})        
-                    }
-                    else
-                    Group.findByIdAndUpdate(records[0]._id,{members:members})
-                    .then(result => {
-                    console.log("Member Added");
-                      res.redirect("/user/dash")
-                
-                    })
-                    .catch(err => {console.log(err);});
-                  
-                  
-                }
-            })
-            .catch(err => {console.log(err);})
-    }
+    amount = req.body.amount;
+    userid = req.session.user;
+    //Connect Flash to be inserted
+    if(amount%100 != 0 )
+    {
+        console.log("Amount Error");
+    }   
     else
     {
-        Group.find({owneremail:refercode,level:1,iscompleted:false}).sort({createdAt:1}).limit(1)
-        .then(records =>  {
-            if(records.length === 0)
-            {
-                //Flash Error No records found 
-                console.log("No records found");
+        loopcount = amount/100;
+        for(i=0; i<loopcount; i++)
+        {
+            added = false;
+            const result = await Group.find({status:"INCOMPLETE"}).sort({createdAt:1}).limit(loopcount);
+            if (result.length === 0)
+            {   
+                const g = new Group({
+                    status: "INCOMPLETE",
+                    members: [{email:userid}]
+                });
+                console.log(await g.save()); 
+                console.log(i+" "+"New Group Created for user" + userid);
             }
             else
-            {
-                const g = new Group({
-                    owneremail: req.session.user,
-                    level:1,
-                    members: [],
-                    iscompleted: false
-                });
-                g.save().then(() =>  {
-                
-                console.log("User group has been created");
-                members = records[0].members;
-                members.push({email:req.session.user});
-                if(members.length === 8)
+            {  
+                for(j = 0; j < result.length;j++)
                 {
-                  //Group Completed
-                    Group.findByIdAndUpdate(records[0]._id,{members:members,iscompleted:true})
-                    .then(() =>{console.log("Group Completed");
-                        })
-                    .catch(() =>{console.log("Group Failed")})
-                    
-                    
-                }
-                else{
-                Group.findByIdAndUpdate(records[0]._id,{members:members})
-                .then(result => {
-                console.log("Member Added");
-                return;
-                })
-                .catch(err => {console.log(err);
-                      res.redirect("/user/dash");});
-                }
-               
-            
-            
-            })
-                .catch(err => {console.log(err)})
+                    userPresent = false;
+                    members = result[j].members;
+                    for(k = 0; k < members.length;k++)
+                    {
+                        if(members[k].email === userid)
+                        {
+                            userPresent = true;
+                            break;
+                        }
+                    }
 
+                    console.log(
+                        i+" "+j+" "+userPresent
+                    );
+                    if(!userPresent)
+                    {   
+                        if(!added){
+                        members.push({email:userid});
+                        if(members.length === 8)
+                        {
+                            console.log(await Group.findByIdAndUpdate(result[j]._id,{members:members,status: "COMPLETE"}));
+                        }
+                        console.log(await Group.findByIdAndUpdate(result[j]._id,{members:members})); 
+                        console.log(i+" "+j+" "+"User added to group successfully");
+
+                        added = true;
+                        break;
+                        }
+                    }
+                    if(added){break;}
+                }
+                if(!added) {
+                    const g = new Group({
+                        status: "INCOMPLETE",
+                        members: [{email:userid}]
+                    });
+                    console.log(await g.save());
+                    console.log(i+" "+j+" "+"New User Group created");
+                }
             }
-        })
-        .catch(err => {console.log(err);})
+        }
     }
+    res.redirect('/user/dash');
 }
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -251,18 +147,22 @@ function sleep(ms) {
 //     res.send("Testing Done");
 //     domain = '@gmail.com'
 //     req.body.refercode = '';
-//     for( i = 2500; i <2750 ; i++) {
+//     for( i = 1; i <30 ; i++) {
+//         await sleep(5000);
 //         email = i.toString() + '@gmail.com'
 //         console.log(email)
-//         req.session.user = email;
+//         req.body.user = email;
+//         // num = Math.floor(Math.random() * 10);
+//         // num += 1;
+//         amount = 300;
+//         console.log("Amount: " + amount)
+//         req.body.amount = amount;
 //         await addNewUser(req,res);
-//         await sleep(5000);
+        
 //     }
-
-    
 // }
 
 module.exports = {
     addNewUser,
-   // grouptest
+    grouptest
 }
