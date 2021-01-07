@@ -164,5 +164,5 @@ function sleep(ms) {
 
 module.exports = {
     addNewUser,
-    grouptest
+    
 }
