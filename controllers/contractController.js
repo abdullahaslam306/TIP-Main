@@ -114,7 +114,7 @@ getUserBalance : async function(userid){
     
 
 },
-makePayments:async function(userid,date,amount)  {
+savePayment:async function(txid,userid,date,amount)  {
 
   success = false;
 
@@ -128,7 +128,7 @@ makePayments:async function(userid,date,amount)  {
   });
 
   await App.contracts.Exodus.deployed().then(function(instance){
-    instance.subscribe(web3.utils.toHex(userid),web3.utils.toHex(date),web3.utils.toHex("PAY"),amount,{from: App.account})
+    instance.savePayment(web3.utils.toHex(txid),web3.utils.toHex(userid),web3.utils.toHex(date),web3.utils.toHex("PAY"),amount,{from: App.account})
     .then(function(){success = true
     console.log("Payment Successful")
     })
@@ -138,7 +138,7 @@ makePayments:async function(userid,date,amount)  {
 
   return success;
 },
-makeDisbursements:async function(userid,date,amount)  {
+saveDisbursement:async function(txid,userid,date,amount)  {
 
   success = false;
 
@@ -152,7 +152,7 @@ makeDisbursements:async function(userid,date,amount)  {
   });
 
   await App.contracts.Exodus.deployed().then(function(instance){
-    instance.subscribe(web3.utils.toHex(userid),web3.utils.toHex(date),web3.utils.toHex("DIS"),amount,{from: App.account})
+    instance.saveDisbursement(web3.utils.toHex(txid),web3.utils.toHex(userid),web3.utils.toHex(date),web3.utils.toHex("DIS"),amount,{from: App.account})
     .then(function(){success = true
     console.log("Disbursement Successful");
     })
@@ -163,7 +163,7 @@ makeDisbursements:async function(userid,date,amount)  {
   return success;
 },
 
-makeWithdrawals: async function(userid,date,amount)  {
+saveWithdrawal: async function(txid,userid,date,amount)  {
 
   success = false;
 
@@ -177,7 +177,7 @@ makeWithdrawals: async function(userid,date,amount)  {
   });
 
   await App.contracts.Exodus.deployed().then(function(instance){
-    instance.subscribe(web3.utils.toHex(userid),web3.utils.toHex(date),web3.utils.toHex("WIT"),amount,{from: App.account})
+    instance.saveWithdrawal(web3.utils.toHex(txid),web3.utils.toHex(userid),web3.utils.toHex(date),web3.utils.toHex("WIT"),amount,{from: App.account})
     .then(function(){success = true
     console.log("Withdraw Successful");
     })
