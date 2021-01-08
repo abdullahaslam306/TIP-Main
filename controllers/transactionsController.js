@@ -94,16 +94,11 @@ const viewTransactionsUser = async (req,res) => {
 }
 
 
-
-function confirmPayment(transactionid, userkey){
-    // This function will take 
-    print('Transaction ID is confirmed');
-}
-
 const addNewUser = async (req, res) =>
 {  
     //confirmPayment(transactionid, userid);
     amount = req.body.amount;
+
     userid = req.session.id;
     if(amount%100 != 0 )
     {
