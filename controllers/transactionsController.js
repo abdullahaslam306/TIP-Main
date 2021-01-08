@@ -64,7 +64,7 @@ const viewTransactionsAdmin = async (req,res) => {
 
     Transaction.find().sort({ createdAt: -1 })
     .then((transactions) => {
-        res.render('adminViewTransactions',{transactions});
+        res.render('adminViewTransactions',{results:transactions});
     })
     .catch((err) => {
         console.log(err);
@@ -76,13 +76,13 @@ const viewTransactionsAdmin = async (req,res) => {
 
 const viewTransactionsUser = async (req,res) => {
 
-    const userid = req.body.userid;
+    const userid = req.session.id;
     
     if(userid !== undefined) {
 
         Transaction.find().where({userid: userid}).sort({ createdAt: -1 })
         .then((transactions) => {
-            res.render('adminViewTransactions',{transactions});
+            res.render('Usertransactionslist',{results:transactions});
         })
         .catch((err) => {
             console.log(err);
@@ -199,9 +199,7 @@ function sleep(ms) {
 
 module.exports = {
     addNewUser,
-<<<<<<< HEAD
-   
-=======
+    viewTransactionsAdmin,
+    viewTransactionsUser
     
->>>>>>> bf28b07be63cc6cd057e7a409178e19f575c1f5e
 }

@@ -87,10 +87,7 @@ res.render('user-profile',{
  router.get('/user/subscribe',redirectAdminLogin,(req, res) => {res.render('subscribe')});
   
 
-<<<<<<< HEAD
-//  router.get('/test',transactionController.grouptest)
-=======
->>>>>>> bf28b07be63cc6cd057e7a409178e19f575c1f5e
+  
 
   router.post('/user/update',redirectLogin, loginController.update)
   router.get('/verify/:id',loginController.verify)
@@ -122,5 +119,7 @@ router.get('/admin/groups/list',redirectAdminLogin,(req, res) => {res.render('vi
  // To be Deleted
  
 router.get('/admin/groups/details',redirectAdminLogin,(req, res) => {res.render('GroupDetails')});
-router.get('/user/viewTransactions',redirectLogin,(req, res)=>{res.render('Usertransactionslist')});
+router.get('/user/viewTransactions/',redirectLogin,transactionController.viewTransactionsUser);
+router.get('/admin/viewTransactions',redirectAdminLogin,transactionController.viewTransactionsAdmin);
+router.get('/user/request/',redirectLogin,loginController.withdrawform);
  

@@ -119,7 +119,12 @@ const updatePassword = async (req, res) => {
         res.render('user-changePass',{success:"",failure:"Something went wrong."});})
 }
 
-
+const withdrawform= async (req, res) => {
+    //  get user amount from Database
+    
+    var totalamount=200
+    res.render("withdrawForm",{amt:totalamount})
+}
 
 const register = async (req, res) => {
 
@@ -232,5 +237,6 @@ module.exports = {
  update,
  updatePassword,
  verify,
- dash
+ dash,
+ withdrawform
 }

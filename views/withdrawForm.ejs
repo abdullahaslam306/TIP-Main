@@ -1,0 +1,60 @@
+<%- include("./header.ejs")  %> 
+
+<div class="main">
+    <!-- MAIN CONTENT -->
+    <div class="main-content ">
+        <div class="container-fluid">
+            <div class="panel panel-profile">
+                <div class="clearfix">
+                    <!-- LEFT COLUMN -->
+                    
+                        <div  style="width:70%;height:70%; margin:40px auto; box-shadow: 2px 8px 8px 8px #888888;" id='profile-form'>                    
+                        <div class="panel-heading">
+                        <h3 class="panel-title">Request Withdrawl</h3>
+                        </div>
+                        <div class="panel-body" style="height: 100%;">
+                        
+                        <form action="#" method="post"  onsubmit="return amountVerify()"> 
+                        <div class="form-group">
+                            <label for="mobileInput">Enter Amount:</label>
+                                <input type="number" min="0"class="form-control"  name="amount" id="withdrawalAmount"  required>
+                               <small>Amount should not be more than available balance</small>
+                        </div>
+                        <!-- <div class="form-group">
+                            <label for="mobileInput">Your Wallet Public Key:</label> -->
+                                <input type="hidden" class="form-control"  id="availableBalance" value='<%= amt%>'>
+                                      
+                        <!-- </div> -->
+                             
+                            
+
+                            <div class="text-center"><button type="submit"   class="btn btn-primary  btn-lg"><i class="fa fa-dollar"></i> Request</button></div>
+                        </form>
+                        <br>
+                    
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<%- include("./footer.ejs")  %> 
+<script>
+   var tempAmt= document.getElementById("availableBalance").value;
+   
+   function amountVerify()
+   { 
+    var  requested=document.getElementById("withdrawalAmount").value;
+    if(tempAmt){
+    if(requested<=tempAmt)
+    { 
+        return true
+    }
+    else{  
+        alert("Amount Entered Should be less than Availabale balance")
+        return false
+    }
+    return false
+   }return false}
+</script>
