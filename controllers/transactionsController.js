@@ -3,37 +3,8 @@ const Group = require("../models/groups");
 const USER  = require("../models/logins")
 const GROUP = require("../models/groups")
 const Transaction = require("../models/transactions");
+const {App} = require("./contractController");
 
-class user{
-    constructor(email,id) {
-        this.email = emmail;
-        this.id = id;
-        this.level = 1;
-        this.group = []; // Group will contains userids of the group
-        this.refercode = makeid; //randomly generated string for refercode. Valid for level 1 only.
-    }
-
-    addmember(memberid){
-        this.group.append(memberid);
-    }
-
-    updatelevel(){
-        if(this.level == 4){
-            this.level = 1;
-        }
-        else
-        {
-            this.level = this.level + 1;
-        }
-    }
-
-}
-
-class group{
-    constructor() {
-        this.id = 1;
-    }
-}
 
 const addTransaction = async (req, res) => {
     const tx = Transaction(
@@ -41,21 +12,88 @@ const addTransaction = async (req, res) => {
             txType: req.body.txType,
             userid: req.session.user,
             amount: req.body.amount,
-
         }
     );
+    var id = '';
+    tx.save()
+    .then( async (result) =>  {
+        id = result._id;
+        var task = null;
+        App.init();
+        if(txType === "PAY")
+        task = await App.savePayment(id,userid,result.createdAt,txType,amount);
+        else if(txType === "DIS")
+        task = await App.savePayment(id,userid,result.createdAt,txType,amount);
+        else if(txType === "SUB")
+        task = await App.saveSubscription(id,userid,result.createdAt,txType,amount);
+        else if(txType === "WIT")
+        task = await App.saveWithdraw(id,userid,result.createdAt,txType,amount);
+
+        if(!task)
+        {
+            Transaction.findByIdAndDelete(id)
+            .then(() =>{
+
+                res.redirect('/user/dash');
+                //Contract could not save the transaction
+
+            })
+            .catch((err) => {console.log(err);
+                
+                res.redirect('/user/dash');
+                //Connect Flash for erro
+            })
+            
+        }
+
+        else
+        {
+            res.redirect('/user/dash');
+            // Connect Flash SuccessFull
+        }
+
+
+    })
+    .catch((err) => {
+        console.log(err);
+        // Connect Flash Transaction Failed to Store
+    })
 }
 
-function checkrefercode(refercode) {
-    //search user by refercode
+const viewTransactionsAdmin = async (req,res) => {
 
-    //if not exist then return invalid refercode
+    Transaction.find().sort({ createdAt: -1 })
+    .then((transactions) => {
+        res.render('adminViewTransactions',{transactions});
+    })
+    .catch((err) => {
+        console.log(err);
+        res.render('admin-dash');
+    })
 
-    //search for his group and check if the group has space.
+
+}
+
+const viewTransactionsUser = async (req,res) => {
+
+    const userid = req.body.userid;
     
-    return 5;
+    if(userid !== undefined) {
+
+        Transaction.find().where({userid: userid}).sort({ createdAt: -1 })
+        .then((transactions) => {
+            res.render('adminViewTransactions',{transactions});
+        })
+        .catch((err) => {
+            console.log(err);
+            res.render('admin-dash');
+        })
+
+    }
 
 }
+
+
 
 function confirmPayment(transactionid, userkey){
     // This function will take 
@@ -65,15 +103,12 @@ function confirmPayment(transactionid, userkey){
 const addNewUser = async (req, res) =>
 {  
     //confirmPayment(transactionid, userid);
-
-    //Select Group from database.
-    refercode = req.body.refercode;
     amount = req.body.amount;
-    userid = req.session.user;
-    //Connect Flash to be inserted
+    userid = req.session.id;
     if(amount%100 != 0 )
     {
         console.log("Amount Error");
+        //Connect Flash
     }   
     else
     {
@@ -164,5 +199,9 @@ function sleep(ms) {
 
 module.exports = {
     addNewUser,
+<<<<<<< HEAD
    
+=======
+    
+>>>>>>> bf28b07be63cc6cd057e7a409178e19f575c1f5e
 }

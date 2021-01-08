@@ -87,7 +87,10 @@ res.render('user-profile',{
  router.get('/user/subscribe',redirectAdminLogin,(req, res) => {res.render('subscribe')});
   
 
+<<<<<<< HEAD
 //  router.get('/test',transactionController.grouptest)
+=======
+>>>>>>> bf28b07be63cc6cd057e7a409178e19f575c1f5e
 
   router.post('/user/update',redirectLogin, loginController.update)
   router.get('/verify/:id',loginController.verify)
