@@ -6,53 +6,47 @@ const Transaction = require("../models/transactions");
 const {App} = require("./contractController");
 
 
+
+
 const addTransaction = async (req, res) => {
     const tx = Transaction(
         {
             txType: req.body.txType,
-            userid: req.session.user,
+            userid: req.session.userid,
             amount: req.body.amount,
+            status: "PENDING",
         }
     );
     var id = '';
     tx.save()
-    .then( async (result) =>  {
+    .then(  (result) =>  {
+       
+        console.log(result);
         id = result._id;
         var task = null;
         App.init();
-        if(txType === "PAY")
-        task = await App.savePayment(id,userid,result.createdAt,txType,amount);
-        else if(txType === "DIS")
-        task = await App.savePayment(id,userid,result.createdAt,txType,amount);
-        else if(txType === "SUB")
-        task = await App.saveSubscription(id,userid,result.createdAt,txType,amount);
-        else if(txType === "WIT")
-        task = await App.saveWithdraw(id,userid,result.createdAt,txType,amount);
-
-        if(!task)
+        if(result.txType === "PAY")
         {
-            Transaction.findByIdAndDelete(id)
-            .then(() =>{
-
-                res.redirect('/user/dash');
-                //Contract could not save the transaction
-
-            })
-            .catch((err) => {console.log(err);
-                
-                res.redirect('/user/dash');
-                //Connect Flash for erro
-            })
+            App.savePayment(id,result.userid,result.createdAt,result.amount)
+           
+        }
+        else if(result.txType === "DIS")
+        {
+            App.saveDisbursement(id,result.userid,result.createdAt,result.amount)
             
+        
         }
-
-        else
+        else if(result.txType === "SUB"){
+            App.saveSubscription(id,result.userid,result.createdAt,result.amount)
+           
+        }
+        else if(result.txType === "WIT")
         {
-            res.redirect('/user/dash');
-            // Connect Flash SuccessFull
+            App.saveWithdrawal(id,result.userid,result.createdAt,result.amount)
+           
         }
-
-
+        
+        res.redirect('/user/dash');
     })
     .catch((err) => {
         console.log(err);
@@ -73,6 +67,7 @@ const viewTransactionsAdmin = async (req,res) => {
 
 
 }
+
 
 const viewTransactionsUser = async (req,res) => {
 
@@ -195,6 +190,7 @@ function sleep(ms) {
 module.exports = {
     addNewUser,
     viewTransactionsAdmin,
-    viewTransactionsUser
+    viewTransactionsUser,
+    addTransaction,
     
 }

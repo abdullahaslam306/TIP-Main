@@ -2,6 +2,8 @@ const Web3 = require('web3');
 const fs = require('fs');
 const path = require('path');
 const TruffleContract  = require("truffle-contract")
+const Transaction = require("../models/transactions");
+const User = require("../models/logins");
 App = {
   web3Provider: null,
   contracts: {},
@@ -19,7 +21,7 @@ App = {
       web3 = new Web3(web3.currentProvider);
     } else {
       // Specify default instance if no web3 instance provided
-      App.web3Provider = new Web3.providers.HttpProvider('http://localhost:7545');
+      App.web3Provider = new Web3.providers.HttpProvider('http://localhost:8545');
 
       web3 = new Web3(App.web3Provider);
     }
@@ -30,26 +32,40 @@ App = {
     var filename = path.join(__dirname, '../build/contracts/Exodus.json');
     console.log(filename);
       // var filename = (__dirname.replace("/controllers","")) + '/build/contracts/Exodus.json';
-      var exodus = fs.readFileSync(filename);
-      exodus = JSON.parse(exodus);
-      // Instantiate a new truffle contract from the artifact
-      App.contracts.Exodus = TruffleContract(exodus);
-      // Connect provider to interact with contract
-      App.contracts.Exodus.setProvider(App.web3Provider);
+    var exodus = fs.readFileSync(filename);
+    exodus = JSON.parse(exodus);
+    // Instantiate a new truffle contract from the artifact
+    App.contracts.Exodus = TruffleContract(exodus);
+    // Connect provider to interact with contract
+    App.contracts.Exodus.setProvider(App.web3Provider);
 
-      App.listenForEvents();
+    App.listenForEvents();
 
   },
 
   // Listen for events emitted from the contract
-  listenForEvents: function() {
+  listenForEvents: async function() {
     //Events in our smart contract
+    App.contracts.Exodus.deployed().then(async function(instance)
+    {
+      instance.transactionCompleted({fromBlock: 0
+      })
+      .on('data', async function(event){
+        console.log("Event"+event);
+      }
+      )
+      .on('changed',async function(event){
+        console.log("Event"+event);
+      })
+
+    })
+      
   },
 
 
   saveSubscription: async function(txid,userid,date,amount)  {
 
-    success = false;
+    
 
     await web3.eth.getCoinbase(function(err, account) {
       if (err === null) {
@@ -57,22 +73,33 @@ App = {
       }
       else{
         console.log(err);
-      }
+      }   
     });
 
-    await App.contracts.Exodus.deployed().then(function(instance){
+    await App.contracts.Exodus.deployed().then(async function(instance)
+    {
+      success = false;
       instance.subscribe(web3.utils.toHex(txid),web3.utils.toHex(userid),web3.utils.toHex(date),web3.utils.toHex("SUB"),amount,{from: App.account})
-      .then(function(){success = true
-      console.log("Successfully isSubscribed")
+      .then( async function(result){
+      success = true;
+      console.log("Transaction Mined");
+      console.log(web3.utils.hexToAscii(result.logs[0].args.txid));
+      await Transaction.findByIdAndUpdate(txid,{status:"COMPLETE"}).then(()=>{
+        console.log("Transaction is completed");
       })
-      .catch(function(err) {console.log(err); success = false}); 
+      .catch(function(err) {console.log(err);});
+      await User.findByIdAndUpdate(userid,{isSubscribed: true}).then(()=>{
+        console.log("User subsciption is mined successfully");
+      })
+      .catch(function(err) {console.log(err);});
+      return success;
+      })
+      .catch(function(err) {console.log(err);  return success;}); 
     })
-    .catch(function(err) {console.log(err); success = false});
-
-    return success;
+    .catch(function(err) {console.log(err);  return success;});
   },
 
-  
+    
 
   unsubscribe: async function(userid){
     await web3.eth.getCoinbase(function(err, account) {

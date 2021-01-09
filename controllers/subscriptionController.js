@@ -12,8 +12,8 @@ const unsubscribeUsers = async () => {
         userList.forEach((user) => {
             Transaction.find().where({userId : user.id,txType:"SUB"}).sort({ createdAt: -1}).limit(1)
             .then((transaction) => {
-                date = transaction.createdAt;
-                
+                date = transaction[0].createdAt;
+                console.log(date);
             })
         })
 

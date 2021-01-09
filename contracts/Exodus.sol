@@ -34,6 +34,9 @@ contract Exodus{
         _;
     }
 
+    event transactionCompleted(
+        bytes32 txid
+    );
     //Users data is accessible by their addresses
     mapping (bytes32 => User) users; 
     mapping (uint => Transaction ) transactions;
@@ -46,6 +49,7 @@ contract Exodus{
         transactionCounter++;
         transactions[transactionCounter] = Transaction( id,txtype, date, userid, amount);
         require(users[userid].subscription);
+        emit transactionCompleted(id);
     }
     
     function unsubscribe(bytes32 useraddress) public onlyOwner() 
@@ -60,6 +64,7 @@ contract Exodus{
         users[userid].subscription = true;
         transactionCounter++;
         transactions[transactionCounter] = Transaction( id,txtype, date, userid, amount);
+        emit transactionCompleted(id);
     }
     
     function saveWithdrawal(bytes32 id,bytes32 userid,bytes32 date,bytes32 txtype,uint amount) public onlyOwner()
@@ -71,6 +76,7 @@ contract Exodus{
         users[userid].balance -= amount;
         transactions[transactionCounter] = Transaction(id,txtype, date, userid, amount);
         require(users[userid].balance == (temp - amount));
+        emit transactionCompleted(id);
     }
     
     function saveDisbursement(bytes32 id,bytes32 userid,bytes32 date,bytes32 txtype,uint amount) public onlyOwner()
@@ -82,6 +88,7 @@ contract Exodus{
         users[userid].balance += amount;
         transactions[transactionCounter] = Transaction(id,txtype, date, userid, amount);
         require(users[userid].balance == (temp + amount));
+        emit transactionCompleted(id);
     }
    
     function getBalance(bytes32 userid) public  view returns(uint)

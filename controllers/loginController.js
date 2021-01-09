@@ -6,6 +6,7 @@ const env = require('../config/env');
 const nodemailer = require('nodemailer');
 const { findByIdAndUpdate } = require('../models/logins');
 const Group = require('../models/groups')
+const Transaction = require("../models/transactions");
 
 function makeid(length) {
     var result           = '';
@@ -34,16 +35,26 @@ const login = async (req, res) => {
 
             if(flag && result.isverified){
                
+
+
                 req.session.user = req.body.email;
                 req.session.fname = result.fname;
                 req.session.lname = result.lname;
                 req.session.phone = result.phone;
-                req.session.id=result.id;
+                req.session.userid=result._id;
+                req.session.id = result.id;
+                req.session.subscribe = result.isSubscribed;
                 console.log("Session Info")
-                console.log(req.session.id)
+                console.log(req.session.userid)
                 console.log(req.body.email)
+                if(!result.isSubscribed){
+                    Transaction.findOne().where({userid: result.id,txType:"SUB",status:"PENDING"}).limit(1)
+                    .then((result) => {
+                        res.redirect('/user/user_subscribe');
+                    })
+                }
+                else
                 res.json({msg:'',status:'success'})
-               
             }
             else if(result.isverified)
             {

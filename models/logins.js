@@ -9,7 +9,10 @@ const LoginSchema = new Schema({
     lname :{ type: String, required:true },
     phone :{ type: String, required:true },
     isverified: { type: Boolean, required:true,default:true },
-    balance :{ type: Number, required:true,default:0 }
+    balance :{ type: Number, required:true,default:0 },
+    isSubscribed: { type: Boolean, required:true,default:false},
+    
+
 },{timestamps : true  });
 
 const Login = mongoose.model('login', LoginSchema);

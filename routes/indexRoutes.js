@@ -10,10 +10,18 @@ const testController = require('../controllers/testController');
 const redirectLogin = (req, res, next) => {
     if(!req.session.user)
     {
-      res.redirect('/')
+      res.redirect('/');
     }
     else{
-      next()
+      if(req.session.subscribe)
+      next(); 
+      else
+      {
+       if(req.path === '/user/subscribe' || req.path === '/user/subscribe_pending')
+       next();
+       else
+        res.redirect('/user/subscribe');
+      }
     }
   }
   const redirectAdminLogin = (req, res, next) => {
@@ -84,10 +92,10 @@ res.render('user-profile',{
 //router.get('/test',transactionController.grouptest)
 // @route of surveys 
  router.get('/admin/surveys/list',redirectAdminLogin,adminController.loadSurvey)
- router.get('/user/subscribe',redirectAdminLogin,(req, res) => {res.render('subscribe')});
-  
+ router.get('/user/subscribe',redirectLogin,(req, res) => {res.render('subscribe')});
+ router.post('/user/subscribe',redirectLogin,transactionController.addTransaction) 
+ router.get('/user/subscribe_pending',redirectLogin,(req,res)=>{res.render('subscribe_pending')});
 
-  
 
   router.post('/user/update',redirectLogin, loginController.update)
   router.get('/verify/:id',loginController.verify)
