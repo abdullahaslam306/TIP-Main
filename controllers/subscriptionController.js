@@ -10,9 +10,10 @@ const unsubscribeUsers = async () => {
     .then((userList) => {
         
         userList.forEach((user) => {
-            Transaction.find().where({userId : user.id,txType:"SUB"}).sort({ createdAt: -1}).limit(1)
+            Transaction.find().where({userId : user.id,txType:"SUB",status:"COMPLETE"}).sort({ updatedAt: -1}).limit(1)
             .then((transaction) => {
-                date = transaction[0].createdAt;
+                date = transaction[0].updatedAt;
+                
                 console.log(date);
             })
         })
