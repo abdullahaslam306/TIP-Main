@@ -4,6 +4,7 @@ const path = require('path');
 const TruffleContract  = require("truffle-contract")
 const Transaction = require("../models/transactions");
 const User = require("../models/logins");
+const TransactionController = require("./transactionsController");
 App = {
   web3Provider: null,
   contracts: {},
@@ -65,149 +66,245 @@ App = {
 
   saveSubscription: async function(txid,userid,date,amount)  {
 
-    
-
     await web3.eth.getCoinbase(function(err, account) {
+
       if (err === null) {
+
         App.account = account;
+
       }
+
       else{
+
         console.log(err);
+
       }   
+
     });
 
     await App.contracts.Exodus.deployed().then(async function(instance)
     {
       success = false;
+
       instance.subscribe(web3.utils.toHex(txid),web3.utils.toHex(userid),web3.utils.toHex(date),web3.utils.toHex("SUB"),amount,{from: App.account})
+
       .then( async function(result){
-      success = true;
+
+        success = true;
+
       console.log("Transaction Mined");
+
       console.log(web3.utils.hexToAscii(result.logs[0].args.txid));
+
       await Transaction.findByIdAndUpdate(txid,{status:"COMPLETE"}).then(()=>{
+
         console.log("Transaction is completed");
+
       })
+
       .catch(function(err) {console.log(err);});
+
       await User.findByIdAndUpdate(userid,{isSubscribed: true}).then(()=>{
+
         console.log("User subsciption is mined successfully");
+
       })
+
       .catch(function(err) {console.log(err);});
+
       return success;
-      })
-      .catch(function(err) {console.log(err);  return success;}); 
+
     })
+
+      .catch(function(err) {console.log(err);  return success;}); 
+
+    })
+
     .catch(function(err) {console.log(err);  return success;});
+
   },
 
     
 
 unsubscribe: async function(userid){
-    await web3.eth.getCoinbase(function(err, account) {
+
+  await web3.eth.getCoinbase(function(err, account) {
+
       if (err === null) {
+
         App.account = account;
+
       }
+
     });
 
-    //app.subscribe(web3.utils.toHex("111"),web3.utils.toHex("user1"),web3.utils.toHex("date2"),web3.utils.toHex("SUB"),25,{from: acc})
-
     App.contracts.Exodus.deployed().then(function(instance){
+
       instance.unsubscribe(web3.utils.toHex(userid),{from: App.account})
+
       .then(async function(result){
+
         await User.findByIdAndUpdate(userid,{isSubscribed: false}).then(()=>{
+
           console.log("Unsubscribed Successfully: "+userid);
+
         })
+
         .catch(function(err) {console.log(err);});
+
       })
     
     })
-    .catch(function(err) {console.log(err);});
 
+    .catch(function(err) {console.log(err);});
 
   }
 ,
 getUserBalance : async function(userid){
+
   success = false;
 
     await web3.eth.getCoinbase(function(err, account) {
+
       if (err === null) {
+
         App.account = account;
+
       }
+
       else{
+
         console.log(err);
+
       }
+
     });
 
     await App.contracts.Exodus.deployed().then(function(instance){
-    instance.getBalance(web3.utils.toHex(userid),{from: App.account})
+
+      instance.getBalance(web3.utils.toHex(userid),{from: App.account})
+
     .then(function(result){
+
       success = true
+
       console.log("Current Balanace ",result)
-      })
-      .catch(function(err) {console.log(err); success = false}); 
+
     })
+
+      .catch(function(err) {console.log(err); success = false}); 
+
+    })
+
     .catch(function(err) {console.log(err); success = false});
-    return success;
-    
+
+    return success;    
 
 },
+
 savePayment:async function(txid,userid,date,amount)  {
 
   success = false;
 
   await web3.eth.getCoinbase(function(err, account) {
+
     if (err === null) {
+
       App.account = account;
+
     }
+
     else{
+
       console.log(err);
+
     }
+
   });
 
   await App.contracts.Exodus.deployed().then(function(instance){
+
     instance.savePayment(web3.utils.toHex(txid),web3.utils.toHex(userid),web3.utils.toHex(date),web3.utils.toHex("PAY"),amount,{from: App.account})
+
     .then(async function(result){success = true;
-    await Transaction.findByIdAndUpdate(txid,{status:"COMPLETE"}).then(()=>{
-        console.log("Transaction is completed");
-    })
+
+      await Transaction.findByIdAndUpdate(txid,{status:"COMPLETE"}).then(()=>{
+
+      console.log("Transaction is completed");
+
+      })
+
     .catch(function(err) {console.log(err);});
+
     console.log("Payment Successful")
-    })
-    .catch(function(err) {console.log(err); success = false}); 
+
+    await TransactionController.addNewUser(userid,amount);
+
   })
+
+    .catch(function(err) {console.log(err); success = false});
+   
+
+  })
+
   .catch(function(err) {console.log(err); success = false});
 
+
   return success;
+
 },
 saveDisbursement:async function(txid,userid,date,amount)  {
 
   success = false;
 
   await web3.eth.getCoinbase(function(err, account) {
+
     if (err === null) {
+
       App.account = account;
+
     }
+
     else{
+
       console.log(err);
+
     }
+
   });
 
   await App.contracts.Exodus.deployed().then(function(instance){
+
     instance.saveDisbursement(web3.utils.toHex(txid),web3.utils.toHex(userid),web3.utils.toHex(date),web3.utils.toHex("DIS"),amount,{from: App.account})
+
     .then(async function(result){success = true;
-    await Transaction.findByIdAndUpdate(txid,{status:"COMPLETE"}).then(()=>{
+
+      await Transaction.findByIdAndUpdate(txid,{status:"COMPLETE"}).then(()=>{
+
       console.log("Transaction is completed");
+
     })
+
     .catch(function(err) {console.log(err);});
+
     await User.findByIdAndUpdate(userid,{$inc:{balance:amount}}).then(()=>{
+
       console.log("User balance is updated successfully");
+
     })
+
     console.log("Disbursement Successful");
-    })
-    .catch(function(err) {console.log(err); success = false}); 
+
   })
+
+    .catch(function(err) {console.log(err); success = false}); 
+
+  })
+
   .catch(function(err) {console.log(err); success = false});
 
   return success;
+
 },
 
 saveWithdrawal: async function(txid,userid,date,amount)  {
@@ -215,34 +312,87 @@ saveWithdrawal: async function(txid,userid,date,amount)  {
   success = false;
 
   await web3.eth.getCoinbase(function(err, account) {
+  
     if (err === null) {
+  
       App.account = account;
+  
     }
+  
     else{
+  
       console.log(err);
+  
     }
-  });
+  
+    });
 
   await App.contracts.Exodus.deployed().then(function(instance){
+    
     instance.saveWithdrawal(web3.utils.toHex(txid),web3.utils.toHex(userid),web3.utils.toHex(date),web3.utils.toHex("WIT"),amount,{from: App.account})
+
     .then(async function(){success = true;
 
         await Transaction.findByIdAndUpdate(txid,{status:"COMPLETE"}).then(()=>{
+  
           console.log("Transaction is completed");
+  
         })
+  
         .catch(function(err) {console.log(err);});
+  
         amount = amount*-1;
+  
         await User.findByIdAndUpdate(userid,{$inc: amount}).then(()=>{
+  
           console.log("User subsciption is mined successfully");
+  
         })
+  
         console.log("Withdraw Successful");
     
     })
+  
     .catch(function(err) {console.log(err); success = false}); 
+  
   })
+  
   .catch(function(err) {console.log(err); success = false});
 
   return success;
+},
+
+getTransaction: async function(id){
+  await web3.eth.getCoinbase(function(err, account) {
+  
+    if (err === null) {
+  
+      App.account = account;
+  
+    }
+  
+    else{
+  
+      console.log(err);
+  
+    }
+  
+    });
+
+  return await App.contracts.Exodus.deployed().then(async function(instance){
+
+    return await instance.getTransaction(web3.utils.toHex(id),{from: App.account}).then( function(result)
+    {
+    
+      return result;
+    
+    })
+  
+    
+  
+  })
+
+  
 }
 
 };

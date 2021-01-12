@@ -20,7 +20,7 @@ const addTransaction = async (txType, userid,amount) => {
     );
     var id = '';
     tx.save()
-    .then(  (result) =>  {
+    .then( async  (result) =>  {
        
         console.log(result);
         id = result._id;
@@ -28,22 +28,22 @@ const addTransaction = async (txType, userid,amount) => {
         App.init();
         if(result.txType === "PAY")
         {
-            App.savePayment(id,result.userid,result.createdAt,result.amount)
-           
+            await App.savePayment(id,result.userid,result.createdAt,result.amount);
+            
         }
         else if(result.txType === "DIS")
         {
-            App.saveDisbursement(id,result.userid,result.createdAt,result.amount)
+           await App.saveDisbursement(id,result.userid,result.createdAt,result.amount)
             
         
         }
         else if(result.txType === "SUB"){
-            App.saveSubscription(id,result.userid,result.createdAt,result.amount)
+          await  App.saveSubscription(id,result.userid,result.createdAt,result.amount)
            
         }
         else if(result.txType === "WIT")
         {
-            App.saveWithdrawal(id,result.userid,result.createdAt,result.amount)
+           await App.saveWithdrawal(id,result.userid,result.createdAt,result.amount)
            
         }
         
@@ -90,16 +90,13 @@ const viewTransactionsUser = async (req,res) => {
 }
 
 
-const addNewUser = async (req, res) =>
+const addNewUser = async (userid,amount) =>
 {  
-    //confirmPayment(transactionid, userid);
-    amount = req.body.amount;
-
-    userid = req.session.id;
+    
+  
     if(amount%100 != 0 )
     {
         console.log("Amount Error");
-        //Connect Flash
     }   
     else
     {
@@ -163,7 +160,6 @@ const addNewUser = async (req, res) =>
             }
         }
     }
-    res.redirect('/user/dash');
 }
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -188,10 +184,16 @@ function sleep(ms) {
 //     }
 // }
 
+const getTransaction = async (req, res) => {
+    App.init();
+    console.log(App.getTransaction(req.params.id));
+    res.redirect('/user/dash');
+}
+
 module.exports = {
     addNewUser,
     viewTransactionsAdmin,
     viewTransactionsUser,
     addTransaction,
-    
+    getTransaction
 }
