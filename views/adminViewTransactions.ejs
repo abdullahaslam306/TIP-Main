@@ -57,19 +57,19 @@
 										</thead>
 										<tbody>
 
-                                            <% count = 0; %> 
+                                            <% count = 0; stat='warning'%> 
 											<% results.forEach(result => {
                                                 count += 1;		 %>
-											 
-											
+												<% if (result.status=='COMPLETE') { stat='success'} %>
+												<% if (result.status=='PENDING') { stat='warning'} %>
 											<tr>
 												
 												<td><%= result._id %> </td>
 												<td><%= result.userid %></td>
 												<td><%= result.txType %></td>
-                                                <td><%= user.amount %></td>
-                                                <td><%= user.createdAt %></td>
-												
+                                                <td><%= result.amount %></td>
+                                                <td><%= result.createdAt %></td>
+												<td><span class="label label-<%= stat %>"><%= result.status %></span></td>
 											</tr>
                                             <% }) %>
                                             <% if (count==0) { %>

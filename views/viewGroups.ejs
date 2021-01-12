@@ -59,43 +59,30 @@
 										</thead>
 										<tbody>
 											
-                                            
+                                            <% count = 0; stat='red'%> 
+											<% groups.forEach(group => {
+											count += 1;	 %>
                                         <tr>
-                                            <td>1</td>
-                                            <td>5fc1136e1391b2e66c5b8c10</td>
-                                            <td>5</td>
-                                            <td style="color:red">InComplete</td>
+                                            <td><%=count %></td>
+                                            <td><%= group._id %></td>
+											<td><%= group.members.length %></td>
+											<% if (group.status=='COMPLETE') { stat='blue'} %>
+											<% if (group.status=='INCOMPLETE') { stat='red'} %>
+											<% if (group.status=='PAID') { stat='green'} %>
+                                            <td style="color:<%= stat %>"><%= group.status %></td>
                                             <!-- Group ID to Be Added !-->
                                             <td>
-                                            <a href="/admin/edit/ "><i class="fa fa-eye" aria-hidden="true"></i></a></td>
+                                            <a href="/admin/groups/details/<%=group._id %> "><i class="fa fa-eye" aria-hidden="true"></i></a></td>
 
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>5fc1136e1391b2e66c5b8c10</td>
-                                            <td>7</td>
-                                            <td style="color:blue">Completed</td>
-                                            <!-- Group ID to Be Added !-->
-                                            <td>
-                                            <a href="/admin/edit/ "><i class="fa fa-eye" aria-hidden="true"></i></a></td>
-
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>5fc1136e1391b2e66c5b8c10</td>
-                                            <td>7</td>
-                                            <td style="color:green">Paid</td>
-                                            <!-- Group ID to Be Added !-->
-                                            <td>
-                                            <a href="/admin/edit/ "><i class="fa fa-eye" aria-hidden="true"></i></a></td>
-
-                                        </tr>
+										</tr>
+										<% }) %>
+                                        
 											
 										</tbody>
 									</table>
 								</div>
 								<div class="panel-footer">
-									Total 5 groups..
+									Total <%= count %> groups..
 								</div>
 							</div>
 							<!-- END RECENT PURCHASES -->

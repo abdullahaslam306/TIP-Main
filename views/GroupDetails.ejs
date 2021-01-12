@@ -43,17 +43,17 @@
 									<div class="container">
 										<div class="row">
                                             <div class="col-md-12">
-                                            <label>Group ID: </label>5fc1136e1391b2e66c5b8c10
+                                            <label>Group ID: </label><%=groups._id %>
                                             </div>
                                         </div>
                                             <div class="row">
                                             <div class="col-md-12">
-                                                <label>No of Members: </label>1
+                                                <label>No of Members: </label><%=groups.members.length %>
                                             </div>
                                         </div>
                                         <div class="row"> 
                                             <div class="col-md-12">
-                                            <label>Creation Date: </label>Fri Nov 13 2020 16:00:22 GMT+0500 (Pakistan Standard Time)
+                                            <label>Creation Date: </label><%=groups.createdAt %>
                                             </div>
                                         </div>
 
@@ -65,7 +65,7 @@
 										<thead>
 											<tr>
 												<th>Member ID</th>
-												<th>Name</th>
+												<th>Email</th>
 												<th>Amount</th>
                                                 <th>Action</th><!-- status can be  InComplete, Complete, Paid -->
                                                 
@@ -74,22 +74,24 @@
 											</tr>
 										</thead>
 										<tbody>
-											
+											<% groups.members.forEach(member => {
+													 %>
                                             
                                         <tr>
-                                            <td>5fc1136e1391b2e66c5b8c10</td>
-                                            <td>Abdullah Aslam</td>
-                                            <td><form><input type="number" name="mem1" required></td>
+                                            <td><%= member._id %></td>
+                                            <td><%= member.email %></td>
+											<td><form method="post" action=""><input type="number" name="amount" required></td>
+												<input type="hidden" name="receiver" value='<%= member._id %>' required>
                                             <td ><input type="submit" class="btn btn-success" value="Pay Now"></td>
                                             <!-- Group ID to Be Added !-->
                                          
                                         </tr>
-                                        				
+										<% }) %>			
 										</tbody>
 									</table>
 								</div>
 								<div class="panel-footer">
-									Total 1 Members..
+									Total <%=groups.members.length %> Members..
 								</div>
 							</div>
 							<!-- END RECENT PURCHASES -->

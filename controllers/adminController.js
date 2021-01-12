@@ -2,7 +2,8 @@
 const Admin = require('../models/admins');
 const Login = require('../models/logins');
 const bcrypt = require('bcrypt');
-const env = require('../config/env')
+const Group=require('../models/groups');
+const env = require('../config/env');
 
 
 const login = async (req, res) => {
@@ -156,7 +157,22 @@ const getAdmin = async (req, res) => {
     .catch((err)=>{console.log(err);})
 }
 
+const viewGroups= async (req, res) => {
+   Group.find().sort({ createdAt: -1 })
+   .then((group) => {
+       res.render('viewGroups',{groups:group})
+   })
+   .catch((err) => {console.log(err)})
+}
+const viewGroupsDetails= async (req, res) => {
 
+     Group.findById(req.params.id)
+    .then((group) => {
+       
+        res.render('GroupDetails',{groups:group})
+    })
+    .catch((err) => {console.log(err)})
+ }
 
 const register = async (req, res) => {
 
@@ -284,5 +300,7 @@ module.exports = {
  updateAdmin,
  lock,
  locklogin,
- loadSurvey
+ loadSurvey,
+ viewGroups,
+ viewGroupsDetails
 }

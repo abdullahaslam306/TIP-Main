@@ -123,10 +123,8 @@ router.post('/admin/contact/reply',redirectAdminLogin,ContactController.sendRepl
 module.exports = router;
 
 // @Groups Link 
-router.get('/admin/groups/list',redirectAdminLogin,(req, res) => {res.render('viewGroups')});
- // To be Deleted
- 
-router.get('/admin/groups/details',redirectAdminLogin,(req, res) => {res.render('GroupDetails')});
+router.get('/admin/groups/list',redirectAdminLogin,adminController.viewGroups);
+router.get('/admin/groups/details/:id',redirectAdminLogin,adminController.viewGroupsDetails);
 router.get('/user/viewTransactions/',redirectLogin,transactionController.viewTransactionsUser);
 router.get('/admin/viewTransactions',redirectAdminLogin,transactionController.viewTransactionsAdmin);
 router.get('/user/request/',redirectLogin,loginController.withdrawform);
