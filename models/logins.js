@@ -11,8 +11,6 @@ const LoginSchema = new Schema({
     isverified: { type: Boolean, required:true,default:true },
     balance :{ type: Number, required:true,default:0 },
     isSubscribed: { type: Boolean, required:true,default:false},
-    
-
 },{timestamps : true  });
 
 const Login = mongoose.model('login', LoginSchema);

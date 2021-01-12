@@ -165,7 +165,7 @@ savePayment:async function(txid,userid,date,amount)  {
 
   await App.contracts.Exodus.deployed().then(function(instance){
     instance.savePayment(web3.utils.toHex(txid),web3.utils.toHex(userid),web3.utils.toHex(date),web3.utils.toHex("PAY"),amount,{from: App.account})
-    .then(function(result){success = true;
+    .then(async function(result){success = true;
     await Transaction.findByIdAndUpdate(txid,{status:"COMPLETE"}).then(()=>{
         console.log("Transaction is completed");
     })
@@ -193,7 +193,7 @@ saveDisbursement:async function(txid,userid,date,amount)  {
 
   await App.contracts.Exodus.deployed().then(function(instance){
     instance.saveDisbursement(web3.utils.toHex(txid),web3.utils.toHex(userid),web3.utils.toHex(date),web3.utils.toHex("DIS"),amount,{from: App.account})
-    .then(function(result){success = true;
+    .then(async function(result){success = true;
     await Transaction.findByIdAndUpdate(txid,{status:"COMPLETE"}).then(()=>{
       console.log("Transaction is completed");
     })
@@ -225,7 +225,7 @@ saveWithdrawal: async function(txid,userid,date,amount)  {
 
   await App.contracts.Exodus.deployed().then(function(instance){
     instance.saveWithdrawal(web3.utils.toHex(txid),web3.utils.toHex(userid),web3.utils.toHex(date),web3.utils.toHex("WIT"),amount,{from: App.account})
-    .then(function(){success = true;
+    .then(async function(){success = true;
 
         await Transaction.findByIdAndUpdate(txid,{status:"COMPLETE"}).then(()=>{
           console.log("Transaction is completed");
