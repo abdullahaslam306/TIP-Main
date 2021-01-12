@@ -4,7 +4,7 @@ const Login = require('../models/logins');
 const bcrypt = require('bcrypt');
 const Group=require('../models/groups');
 const env = require('../config/env');
-
+const WithRequest=require("../models/withdrawRequest")
 
 const login = async (req, res) => {
    
@@ -198,7 +198,14 @@ const register = async (req, res) => {
     }
     
 }
-
+const viewWithdrawRequest =async (req, res) => {
+    WithRequest.find().sort({createdAt: 1 })
+    .then((result)=>{console.log(result);
+    res.render('requestlist',{requests:result,success:"",failure:""})
+    
+    })
+    .catch((err)=>{console.log(err);})
+}
 const updatePassword = async (req, res) => {
     
     const salt = await bcrypt.genSalt(10);
@@ -302,5 +309,6 @@ module.exports = {
  locklogin,
  loadSurvey,
  viewGroups,
- viewGroupsDetails
+ viewGroupsDetails,
+ viewWithdrawRequest
 }

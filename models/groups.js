@@ -6,6 +6,7 @@ const GroupSchema = new Schema({
     members: [
             {
             email:{ type: String},
+            payStatus:{type:Boolean,required:true,default:false}
             }
         ]
     ,

@@ -128,4 +128,6 @@ router.get('/admin/groups/details/:id',redirectAdminLogin,adminController.viewGr
 router.get('/user/viewTransactions/',redirectLogin,transactionController.viewTransactionsUser);
 router.get('/admin/viewTransactions',redirectAdminLogin,transactionController.viewTransactionsAdmin);
 router.get('/user/request/',redirectLogin,loginController.withdrawform);
- 
+router.get('/admin/withdraw/request/',redirectAdminLogin,adminController.viewWithdrawRequest);
+router.post('/user/request/',redirectLogin,loginController.withdrawRequest);
+// router.post('/admin/pay/user',redirectAdminLogin,transactionController.withdrawRequest);

@@ -8,12 +8,13 @@ const {App} = require("./contractController");
 
 
 
-const addTransaction = async (req, res) => {
+const addTransaction = async (txType, userid,amount) => {
+
     const tx = Transaction(
         {
-            txType: req.body.txType,
-            userid: req.session.userid,
-            amount: req.body.amount,
+            txType: txType,
+            userid: userid,
+            amount: amount,
             status: "PENDING",
         }
     );

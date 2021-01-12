@@ -7,6 +7,7 @@ const nodemailer = require('nodemailer');
 const { findByIdAndUpdate } = require('../models/logins');
 const Group = require('../models/groups')
 const Transaction = require("../models/transactions");
+const WithRequest=require("../models/withdrawRequest")
 
 function makeid(length) {
     var result           = '';
@@ -43,6 +44,7 @@ const login = async (req, res) => {
                 req.session.phone = result.phone;
                 req.session.userid=result._id;
                 req.session.id = result.id;
+                req.session.balance=result.balance;
                 req.session.subscribe = result.isSubscribed;
                 console.log("Session Info")
                 console.log(req.session.userid)
@@ -133,10 +135,31 @@ const updatePassword = async (req, res) => {
 const withdrawform= async (req, res) => {
     //  get user amount from Database
     
-    var totalamount=200
-    res.render("withdrawForm",{amt:totalamount})
+    var totalamount=req.session.balance
+    res.render("withdrawForm",{amt:totalamount,success:"",failure:""})
 }
+const withdrawRequest=async (req, res) => {
+ if(req.body.amount<=req.session.balance && req.body.amount>0)
+ {
+    const request= new WithRequest({
+        userid: req.session.id,
+        amount:req.body.amount,
+        status:"PENDING"
 
+    })
+    request.save()
+    .then((result) =>{
+        res.render("withdrawForm",{amt:req.session.balance,success:"Request Sent Successfully",failure:""})
+
+    })
+    .catch((err) =>{console.log(err);
+        res.render("withdrawForm",{amt:req.session.balance,success:"",failure:"Something went wrong.Try Again Later"})
+    })
+ }
+ else{
+    res.render("withdrawForm",{amt:req.session.balance,success:"",failure:"Amount should be less than available balances"})
+ }
+}
 const register = async (req, res) => {
 
     try{
@@ -249,5 +272,6 @@ module.exports = {
  updatePassword,
  verify,
  dash,
- withdrawform
+ withdrawform,
+ withdrawRequest
 }
