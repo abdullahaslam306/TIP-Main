@@ -120,7 +120,7 @@ router.post('/admin/contact/reply',redirectAdminLogin,ContactController.sendRepl
    // @ admin notifications
    router.get('/admin/notification',redirectAdminLogin,(req, res)=>{res.render('send-Notification',{ sucess:"",failure:""})})
    router.post('/admin/notification/send',redirectAdminLogin,NotificationController.sendNotification) 
-module.exports = router;
+
 
 // @Groups Link 
 router.get('/admin/groups/list',redirectAdminLogin,(req, res) => {res.render('viewGroups')});
@@ -130,4 +130,8 @@ router.get('/admin/groups/details',redirectAdminLogin,(req, res) => {res.render(
 router.get('/user/viewTransactions/',redirectLogin,transactionController.viewTransactionsUser);
 router.get('/admin/viewTransactions',redirectAdminLogin,transactionController.viewTransactionsAdmin);
 router.get('/user/request/',redirectLogin,loginController.withdrawform);
- 
+
+router.get('/test:id',redirectLogin,transactionController.getTransaction);
+
+
+module.exports = router;
