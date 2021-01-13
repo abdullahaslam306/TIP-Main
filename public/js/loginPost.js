@@ -10,13 +10,25 @@ $('#myForm').on('submit', function (event) {
       data: data,
       method: 'POST'
     }).then(function (response) {
+        
+
         if(response.status=='success')
         {
-          window.location.href='/user/dash';
-        }else{
-        element= document.getElementById('msg');
-        element.innerHTML=response.msg;
-      element.style.display='block';
+          window.location.href ='/user/dash';
+        }
+        else if(response.status=='pending')
+        {
+          window.location.href='/user/subscribe_pending';
+        }
+        else if(response.status=='subscribe')
+        {
+          window.location.href='/user/subscribe';
+        }
+        else
+        {
+          element= document.getElementById('msg');
+          element.innerHTML=response.msg;
+          element.style.display='block';
         }
       $('body').append(response);
     }).catch(function (err) {

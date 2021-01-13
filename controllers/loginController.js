@@ -24,7 +24,7 @@ const login = async (req, res) => {
     console.log('loginController');
     console.log(req.body);
     Login.findOne({email : req.body.email})
-    .then(result => {
+    .then(async result => {
         console.log(result);
         if(result==null){
             res.json({msg:'Incorrect Email/Password',status:'failure'})
@@ -50,13 +50,20 @@ const login = async (req, res) => {
                 console.log(req.session.userid)
                 console.log(req.body.email)
                 if(!result.isSubscribed){
-                    Transaction.findOne().where({userid: result.id,txType:"SUB",status:"PENDING"}).limit(1)
+                    await Transaction.findOne().where({userid: result._id,txType:"SUB",status:"PENDING"}).limit(1)
                     .then((result) => {
-                        res.redirect('/user/subscribe');
+                        console.log(result);
+                        if(result !== null)
+                        res.json({msg:'Subscription Request Pending',status:'pending'});
+                        else
+                        res.json({msg:'Not Subscribed',status:'subscribe'});
                     })
+                    
                 }
                 else
+                {
                 res.json({msg:'',status:'success'})
+                }
             }
             else if(result.isverified)
             {

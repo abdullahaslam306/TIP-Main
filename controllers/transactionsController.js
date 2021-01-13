@@ -57,6 +57,22 @@ const addTransaction = async (txType, userid,amount) => {
     })
 }
 
+const userSubscribe  = async (req, res) => {
+    amount = req.body.amount;
+    userid = req.session.userid;
+    txType = 'SUB';
+    await addTransaction(txType,userid,amount);
+    res.redirect('/user/dash');
+}
+
+const userPayment = async (req, res, next) => {
+    txType = "PAY";
+    amount = req.body.amount;
+    userid = req.session.userid;
+    await addTransaction(txType, userid,amount);
+    addNewUser(userid, amount);
+    res.redirect('/user/dash');
+}
 
 const payUser= async (req, res) => {
     email=req.body.receiver;
@@ -133,16 +149,14 @@ const viewTransactionsUser = async (req,res) => {
 }
 
 
-const addNewUser = async (req, res) =>
+const addNewUser = async (userid, amount) =>
 {  
-    userid=req.session.userid;
-    amount=req.body.amount
+    
 
   
     if(amount%100 != 0 )
     {
         console.log("Amount Error");
-        res.render('user-pay',{fname:req.session.fname,success:"",failure:"Amount Error! Amount should be in multiple of 100"})
     }   
     else
     {
@@ -205,7 +219,6 @@ const addNewUser = async (req, res) =>
                 }
             }
         }
-        res.render('user-pay',{fname:req.session.fname,success:"Payment Initiated Successfully",failure:""})
   
     }
 }
@@ -287,5 +300,7 @@ module.exports = {
     getTransaction,
     payUser,
     approveRequest,
-    rejectRequest
+    rejectRequest,
+    userPayment,
+    userSubscribe
 }

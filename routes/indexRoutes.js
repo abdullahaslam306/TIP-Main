@@ -77,12 +77,9 @@ newsletterController.upload.single('image'),
 newsletterController.updateNews)
 router.get('/admin/newsletter/delete/:id',redirectAdminLogin,newsletterController.deleteNews)
 router.get('/admin/newsletter/new',redirectAdminLogin,(req,res)=>{res.render('addNewsletter')})
-router.post('/user/pay',redirectLogin,redirectSubscribe,transactionController.addNewUser)
-router.get('/user/pay',redirectLogin,redirectSubscribe,(req, res)=>{res.render('user-pay',{fname:req.session.fname})})
+router.post('/user/pay',redirectLogin,redirectSubscribe,transactionController.userPayment)
 router.get('/user/dash',redirectLogin,redirectSubscribe,loginController.dash)
-router.post('/user/pay',redirectLogin,transactionController.addNewUser)
-router.get('/user/pay',redirectLogin,(req, res)=>{res.render('user-pay',{fname:req.session.fname,success:"",failure:""})})
-router.get('/user/dash',redirectLogin,loginController.dash)
+router.get('/user/pay',redirectLogin,redirectSubscribe,(req, res)=>{res.render('user-pay',{fname:req.session.fname,success:"",failure:""})})
 router.get('/user/profile',redirectLogin,(req, res)=>{
 console.log(res.locals)
 console.log(req.session)
@@ -101,7 +98,7 @@ res.render('user-profile',{
 // @route of surveys 
 router.get('/admin/surveys/list',redirectAdminLogin,adminController.loadSurvey)
 router.get('/user/subscribe',redirectLogin,(req, res) => {res.render('subscribe')});
-router.post('/user/subscribe',redirectLogin,transactionController.addTransaction) 
+router.post('/user/subscribe',redirectLogin,transactionController.userSubscribe) 
 router.get('/user/subscribe_pending',redirectLogin,(req,res)=>{res.render('subscribe_pending')});
 
 
@@ -139,8 +136,6 @@ router.get('/user/request/',redirectLogin,loginController.withdrawform);
 router.get('/admin/withdraw/request/',redirectAdminLogin,adminController.viewWithdrawRequest);
 router.post('/user/request/',redirectLogin,redirectSubscribe,loginController.withdrawRequest);
 router.post('/admin/pay/user',redirectAdminLogin,transactionController.payUser);
-
-
 router.get('/test:id',redirectLogin,transactionController.getTransaction);
 router.get('/admin/approve/request/:id',redirectAdminLogin,transactionController.approveRequest);
 router.get('/admin/reject/request/:id',redirectAdminLogin,transactionController.approveRequest);

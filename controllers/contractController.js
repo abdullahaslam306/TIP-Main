@@ -4,7 +4,7 @@ const path = require('path');
 const TruffleContract  = require("truffle-contract")
 const Transaction = require("../models/transactions");
 const User = require("../models/logins");
-const TransactionController = require("./transactionsController");
+const transactionController = require('./transactionsController');
 App = {
  
   web3Provider: null,
@@ -249,10 +249,8 @@ savePayment:async function(txid,userid,date,amount)  {
       })
 
     .catch(function(err) {console.log(err);});
-
     console.log("Payment Successful")
-
-    await TransactionController.addNewUser(userid,amount);
+   
 
   })
 
