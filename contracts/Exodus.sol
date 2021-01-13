@@ -80,7 +80,6 @@ contract Exodus{
     
     function saveDisbursement(bytes32 id,bytes32 userid,bytes32 date,bytes8 txtype,uint amount) public onlyOwner()
     {
-        require(users[userid].subscription == true);
         users[userid].subscription = true;
         transactionCounter++;
         uint temp = users[userid].balance;

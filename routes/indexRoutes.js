@@ -24,7 +24,7 @@ const redirectLogin = (req, res, next) => {
       }
     }
   }
-  const redirectAdminLogin = (req, res, next) => {
+const redirectAdminLogin = (req, res, next) => {
     if(!req.session.user)
     {
       res.redirect('/admin/login')
@@ -36,32 +36,32 @@ const redirectLogin = (req, res, next) => {
 router.get('/', (req, res) => {
     res.render('index',{error:""});
   });
-  router.get('/admin/dash',redirectAdminLogin, (req, res) => {
-    res.render('admin-dash');
-  });
-  router.get('/admin/lock',redirectAdminLogin,adminController.lock)
-  router.post('/admin/login/lock',adminController.locklogin);
-  // router.get('/admin/logout',redirectAdminLogin,adminController.logout)
-  router.get('/admin/user/view',redirectAdminLogin,adminController.viewUsers);
-  router.get('/admin/login', (req, res) => {res.render('logins',{msg:"No"});});
-  router.post('/admin/login',adminController.login);
-  router.get('/admin/view',redirectAdminLogin,adminController.viewAdmin);
-  router.get('/admin/edit/:id',redirectAdminLogin,adminController.getAdmin)
-  router.post('/admin/update',redirectAdminLogin,adminController.updateAdmin);
-  router.get('/admin/delete/:id',redirectAdminLogin,adminController.removeAdmin);
-  router.get('/admin/register',redirectAdminLogin,(req, res) => {res.render('register',{msg:""});});
-  
-  router.post('/admin/newAdmin',redirectAdminLogin,adminController.register);
-  router.post('/login',loginController.login);
-  router.get('/login/add', async (req, res) => {res.render('register');})
-  router.post('/login/add', loginController.register);
-  
-  router.get('/about',redirectLogin, (req, res) => {res.render('about', { title: 'About' });});
+router.get('/admin/dash',redirectAdminLogin, (req, res) => {
+  res.render('admin-dash');
+});
+router.get('/admin/lock',redirectAdminLogin,adminController.lock)
+router.post('/admin/login/lock',adminController.locklogin);
+// router.get('/admin/logout',redirectAdminLogin,adminController.logout)
+router.get('/admin/user/view',redirectAdminLogin,adminController.viewUsers);
+router.get('/admin/login', (req, res) => {res.render('logins',{msg:"No"});});
+router.post('/admin/login',adminController.login);
+router.get('/admin/view',redirectAdminLogin,adminController.viewAdmin);
+router.get('/admin/edit/:id',redirectAdminLogin,adminController.getAdmin)
+router.post('/admin/update',redirectAdminLogin,adminController.updateAdmin);
+router.get('/admin/delete/:id',redirectAdminLogin,adminController.removeAdmin);
+router.get('/admin/register',redirectAdminLogin,(req, res) => {res.render('register',{msg:""});});
 
-  router.get('/logout',redirectLogin,loginController.logout)
+router.post('/admin/newAdmin',redirectAdminLogin,adminController.register);
+router.post('/login',loginController.login);
+router.get('/login/add', async (req, res) => {res.render('register');})
+router.post('/login/add', loginController.register);
 
-  router.get('/register', async (req, res) => {res.render('regform',{msg:"NO",failure:'NO'})})
-  router.post('/register',loginController.register)
+router.get('/about',redirectLogin, (req, res) => {res.render('about', { title: 'About' });});
+
+router.get('/logout',redirectLogin,loginController.logout)
+
+router.get('/register', async (req, res) => {res.render('regform',{msg:"NO",failure:'NO'})})
+router.post('/register',loginController.register)
 
 // @newsletter routes
 router.get('/admin/newsletter',redirectAdminLogin,newsletterController.viewNews);
@@ -86,30 +86,33 @@ res.render('user-profile',{
       lname:req.session.lname,
       email:req.session.user,
       phone: req.session.phone
-    });})
+    });
+  })
  
 //For testing purpose
 //router.get('/test',transactionController.grouptest)
+
+
 // @route of surveys 
- router.get('/admin/surveys/list',redirectAdminLogin,adminController.loadSurvey)
- router.get('/user/subscribe',redirectLogin,(req, res) => {res.render('subscribe')});
- router.post('/user/subscribe',redirectLogin,transactionController.addTransaction) 
- router.get('/user/subscribe_pending',redirectLogin,(req,res)=>{res.render('subscribe_pending')});
+router.get('/admin/surveys/list',redirectAdminLogin,adminController.loadSurvey)
+router.get('/user/subscribe',redirectLogin,(req, res) => {res.render('subscribe')});
+router.post('/user/subscribe',redirectLogin,transactionController.addTransaction) 
+router.get('/user/subscribe_pending',redirectLogin,(req,res)=>{res.render('subscribe_pending')});
 
 
-  router.post('/user/update',redirectLogin, loginController.update)
-  router.get('/verify/:id',loginController.verify)
-  router.get('/admin/user/edit/:id',redirectAdminLogin,adminController.getUser)
-  router.post('/admin/user/update',redirectAdminLogin,adminController.updateUser)
-  router.get('/admin/user/delete/:id',redirectAdminLogin,adminController.removeUser)
-  router.get('/admin/logout',redirectAdminLogin,adminController.logout)
-  router.get('/admin/update/pass',redirectAdminLogin,(req, res) => {res.render('admin-chngePass',{success:"",failure:""})});
-  router.post('/admin/update/pass',redirectAdminLogin,adminController.updatePassword);
-  router.get('/user/update/pass',redirectLogin,(req, res) => {res.render('user-changePass',{success:"",failure:""})});
-  router.post('/user/update/pass',redirectLogin,loginController.updatePassword);
+router.post('/user/update',redirectLogin, loginController.update)
+router.get('/verify/:id',loginController.verify)
+router.get('/admin/user/edit/:id',redirectAdminLogin,adminController.getUser)
+router.post('/admin/user/update',redirectAdminLogin,adminController.updateUser)
+router.get('/admin/user/delete/:id',redirectAdminLogin,adminController.removeUser)
+router.get('/admin/logout',redirectAdminLogin,adminController.logout)
+router.get('/admin/update/pass',redirectAdminLogin,(req, res) => {res.render('admin-chngePass',{success:"",failure:""})});
+router.post('/admin/update/pass',redirectAdminLogin,adminController.updatePassword);
+router.get('/user/update/pass',redirectLogin,(req, res) => {res.render('user-changePass',{success:"",failure:""})});
+router.post('/user/update/pass',redirectLogin,loginController.updatePassword);
 
-  //@ contact-Support Routes
-  router.get('/user/contact',redirectLogin,(req, res)=>{res.render('user-contact-support',{email:req.session.user,success:""})})
+//@ contact-Support Routes
+router.get('/user/contact',redirectLogin,(req, res)=>{res.render('user-contact-support',{email:req.session.user,success:""})})
 router.post('/user/contact/send',redirectLogin,ContactController.sendMessage)
 router.get('/admin/contacts',redirectAdminLogin,ContactController.showMessages)
 router.get('/admin/contact/reply/:id',redirectAdminLogin,ContactController.getMessage)
@@ -131,6 +134,7 @@ router.get('/user/request/',redirectLogin,loginController.withdrawform);
 router.get('/admin/withdraw/request/',redirectAdminLogin,adminController.viewWithdrawRequest);
 router.post('/user/request/',redirectLogin,loginController.withdrawRequest);
 router.post('/admin/pay/user',redirectAdminLogin,transactionController.payUser);
+
 
 router.get('/test:id',redirectLogin,transactionController.getTransaction);
 router.get('/admin/approve/request/:id',redirectAdminLogin,transactionController.approveRequest);

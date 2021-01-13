@@ -62,6 +62,7 @@ const payUser= async (req, res) => {
     console.log(userid);
     amount=req.body.amount;
     groupId=req.body.groupID;
+
     await addTransaction("DIS",userid,amount);
    
     const payGroup= await GROUP.find().where({_id:groupId})
