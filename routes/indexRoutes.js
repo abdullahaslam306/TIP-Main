@@ -80,6 +80,9 @@ router.get('/admin/newsletter/new',redirectAdminLogin,(req,res)=>{res.render('ad
 router.post('/user/pay',redirectLogin,redirectSubscribe,transactionController.addNewUser)
 router.get('/user/pay',redirectLogin,redirectSubscribe,(req, res)=>{res.render('user-pay',{fname:req.session.fname})})
 router.get('/user/dash',redirectLogin,redirectSubscribe,loginController.dash)
+router.post('/user/pay',redirectLogin,transactionController.addNewUser)
+router.get('/user/pay',redirectLogin,(req, res)=>{res.render('user-pay',{fname:req.session.fname,success:"",failure:""})})
+router.get('/user/dash',redirectLogin,loginController.dash)
 router.get('/user/profile',redirectLogin,(req, res)=>{
 console.log(res.locals)
 console.log(req.session)
