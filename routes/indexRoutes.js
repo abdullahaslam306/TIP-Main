@@ -12,25 +12,27 @@ const redirectLogin = (req, res, next) => {
     {
       res.redirect('/');
     }
-    else{
-      if(req.session.subscribe)
-      next(); 
-      else
-      {
-       if(req.path === '/user/subscribe' || req.path === '/user/subscribe_pending')
-       next();
-       else
-        res.redirect('/user/subscribe');
-      }
-    }
+    else
+    next();
+      
   }
+
+const redirectSubscribe = (req, res, next) => {
+  if(req.session.isSubscribed == true)
+  next();
+  else
+  {
+    res.redirect('/user/subscribe');
+  }
+}
+
 const redirectAdminLogin = (req, res, next) => {
     if(!req.session.user)
     {
       res.redirect('/admin/login')
     }
     else{
-      next()
+      next();
     }
   }
 router.get('/', (req, res) => {
@@ -75,9 +77,9 @@ newsletterController.upload.single('image'),
 newsletterController.updateNews)
 router.get('/admin/newsletter/delete/:id',redirectAdminLogin,newsletterController.deleteNews)
 router.get('/admin/newsletter/new',redirectAdminLogin,(req,res)=>{res.render('addNewsletter')})
-router.post('/user/pay',redirectLogin,transactionController.addNewUser)
-router.get('/user/pay',redirectLogin,(req, res)=>{res.render('user-pay',{fname:req.session.fname})})
-router.get('/user/dash',redirectLogin,loginController.dash)
+router.post('/user/pay',redirectLogin,redirectSubscribe,transactionController.addNewUser)
+router.get('/user/pay',redirectLogin,redirectSubscribe,(req, res)=>{res.render('user-pay',{fname:req.session.fname})})
+router.get('/user/dash',redirectLogin,redirectSubscribe,loginController.dash)
 router.get('/user/profile',redirectLogin,(req, res)=>{
 console.log(res.locals)
 console.log(req.session)
@@ -132,7 +134,7 @@ router.get('/user/viewTransactions/',redirectLogin,transactionController.viewTra
 router.get('/admin/viewTransactions',redirectAdminLogin,transactionController.viewTransactionsAdmin);
 router.get('/user/request/',redirectLogin,loginController.withdrawform);
 router.get('/admin/withdraw/request/',redirectAdminLogin,adminController.viewWithdrawRequest);
-router.post('/user/request/',redirectLogin,loginController.withdrawRequest);
+router.post('/user/request/',redirectLogin,redirectSubscribe,loginController.withdrawRequest);
 router.post('/admin/pay/user',redirectAdminLogin,transactionController.payUser);
 
 

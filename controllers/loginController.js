@@ -142,7 +142,7 @@ const withdrawRequest=async (req, res) => {
  if(req.body.amount<=req.session.balance && req.body.amount>0)
  {
     const request= new WithRequest({
-        userid: req.session.id,
+        userid: req.session.userid,
         amount:req.body.amount,
         status:"PENDING"
 

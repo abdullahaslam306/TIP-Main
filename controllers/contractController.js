@@ -6,47 +6,61 @@ const Transaction = require("../models/transactions");
 const User = require("../models/logins");
 const TransactionController = require("./transactionsController");
 App = {
+ 
   web3Provider: null,
+ 
   contracts: {},
+ 
   account: '0x0',
 
   init: function() {
+ 
     return App.initWeb3();
+ 
   },
 
   initWeb3: function() {
-    // TODO: refactor conditional
+    
     if (typeof web3 !== 'undefined') {
-      // If a web3 instance is already provided by Meta Mask.
+      
       App.web3Provider = web3.currentProvider;
+      
       web3 = new Web3(web3.currentProvider);
-    } else {
-      // Specify default instance if no web3 instance provided
+    } 
+    
+    else {
+     
       App.web3Provider = new Web3.providers.HttpProvider('http://localhost:7545');
 
       web3 = new Web3(App.web3Provider);
+    
     }
+    
     return App.initContract();
+  
   },
 
   initContract: function() {
+  
     var filename = path.join(__dirname, '../build/contracts/Exodus.json');
+  
     console.log(filename);
-      // var filename = (__dirname.replace("/controllers","")) + '/build/contracts/Exodus.json';
+     
     var exodus = fs.readFileSync(filename);
+  
     exodus = JSON.parse(exodus);
-    // Instantiate a new truffle contract from the artifact
+    
     App.contracts.Exodus = TruffleContract(exodus);
-    // Connect provider to interact with contract
+    
     App.contracts.Exodus.setProvider(App.web3Provider);
 
     App.listenForEvents();
 
   },
 
-  // Listen for events emitted from the contract
+  
   listenForEvents: async function() {
-    //Events in our smart contract
+   
     App.contracts.Exodus.deployed().then(async function(instance)
     {
       instance.transactionCompleted({fromBlock: 0
@@ -287,7 +301,9 @@ saveDisbursement:async function(txid,userid,date,amount)  {
 
     .catch(function(err) {console.log(err);});
 
-    await User.findByIdAndUpdate(userid,{$inc:{balance:amount}}).then(()=>{
+    await User.findByIdAndUpdate(userid,{$inc:{balance:amount}}).then((result)=>{
+      
+      console.log(result);
 
       console.log("User balance is updated successfully");
 
@@ -333,24 +349,27 @@ saveWithdrawal: async function(txid,userid,date,amount)  {
 
     .then(async function(){success = true;
 
-        await Transaction.findByIdAndUpdate(txid,{status:"COMPLETE"}).then(()=>{
+        await Transaction.findByIdAndUpdate(txid,{status:"COMPLETE"}).then(async ()=>{
   
           console.log("Transaction is completed");
-  
-        })
-  
-        .catch(function(err) {console.log(err);});
-  
-        amount = amount*-1;
-  
-        await User.findByIdAndUpdate(userid,{$inc: amount}).then(()=>{
-  
-          console.log("User subsciption is mined successfully");
-  
-        })
-  
-        console.log("Withdraw Successful");
+          
+          console.log("Amount before neg:"+amount);
+          
+          amount = amount*(-1);
+          
+          console.log("Amount after neg:"+amount);
+          
+          result = await User.findByIdAndUpdate(userid,{$inc: {balance : amount}})
+          
+          console.log(result);
+          
+          console.log("Withdraw Successful");
     
+  
+        })
+        .catch(function(err) {console.log(err);});
+        
+        
     })
   
     .catch(function(err) {console.log(err); success = false}); 
@@ -387,9 +406,7 @@ getTransaction: async function(id){
       return result;
     
     })
-  
-    
-  
+
   })
 
   

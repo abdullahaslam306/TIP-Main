@@ -5,7 +5,8 @@ const GROUP = require("../models/groups")
 const Group = require("../models/groups")
 const Transaction = require("../models/transactions");
 const {App} = require("./contractController");
-
+const WithRequest=require("../models/withdrawRequest");
+const { add } = require("lodash");
 
 
 
@@ -59,24 +60,31 @@ const addTransaction = async (txType, userid,amount) => {
 
 const payUser= async (req, res) => {
     email=req.body.receiver;
-    console.log(userid);
     amount=req.body.amount;
     groupId=req.body.groupID;
+
+    user = await USER.findOne({email:email});
+
+    console.log(user);
+
+    userid = user._id;
 
     await addTransaction("DIS",userid,amount);
    
     const payGroup= await GROUP.find().where({_id:groupId})
    
     memberss = payGroup[0].members;
-   var k=0
-                    for(k = 0; k < memberss.length;k++)
-                    {
-                        if(memberss[k].email == email)
-                        { console.log("present")
-                           memberss[k].payStatus=true
-                            break;
-                        }
-                    }
+
+    var k=0;
+
+    for(k = 0; k < memberss.length;k++)
+    {
+        if(memberss[k].email == email)
+        { console.log("present")
+          memberss[k].payStatus=true
+          break;
+        }
+    }
  
     GROUP.findByIdAndUpdate(groupId,{members:memberss})
     .then((result) =>{
@@ -219,23 +227,34 @@ function sleep(ms) {
 // }
 
 const getTransaction = async (req, res) => {
+  
     App.init();
     console.log(App.getTransaction(req.params.id));
     res.redirect('/user/dash');
+
 }
+
 const approveRequest=async(req, res)=>{
-    WithRequest.findByIdAndUpdate(req.params.id,{status:"APPROVED"})
+
+    request = await WithRequest.findById(req.params.id);
+    
+    console.log(request);
+
+    await addTransaction("WIT",request.userid,request.amount);
+
+    await WithRequest.findByIdAndUpdate(req.params.id,{status:"APPROVED"})
     .then((response)=>{console.log(response)})
-    .catch((err)=>{console.log(err)})
+    .catch((err)=>{console.log(err)});
 
 
-    WithRequest.find().sort({createdAt: 1 })
+    await WithRequest.find().sort({createdAt: 1 })
     .then((result)=>{
     res.render('requestlist',{requests:result,success:"Request Approved",failure:""})
     
     })
     .catch((err)=>{console.log(err);})
 
+    
 
 }
 
