@@ -58,7 +58,7 @@ const addTransaction = async (txType, userid,amount) => {
 
 
 const payUser= async (req, res) => {
-    userid=req.body.receiver;
+    email=req.body.receiver;
     console.log(userid);
     amount=req.body.amount;
     groupId=req.body.groupID;
@@ -71,7 +71,7 @@ const payUser= async (req, res) => {
    var k=0
                     for(k = 0; k < memberss.length;k++)
                     {
-                        if(memberss[k]._id == userid)
+                        if(memberss[k].email == email)
                         { console.log("present")
                            memberss[k].payStatus=true
                             break;

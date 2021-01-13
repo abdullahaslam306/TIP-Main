@@ -82,7 +82,7 @@
                                             <td><%= member.email %></td>
 											<td>
 												<form method="post" action="/admin/pay/user"><input type="number" name="amount" required></td>
-												<input type="hidden" name="receiver" value='<%= member._id %>' required>
+												<input type="hidden" name="receiver" value='<%= member.email %>' required>
 												<input type="hidden" name="groupID" value='<%= groups._id %>' required>
 												<% if (member.payStatus) { %>
 													<td ><button  class="btn btn-success">PAID</button></td>
