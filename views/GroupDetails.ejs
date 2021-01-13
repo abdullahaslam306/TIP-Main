@@ -80,13 +80,17 @@
                                         <tr>
                                             <td><%= member._id %></td>
                                             <td><%= member.email %></td>
-											<td><form method="post" action="/admin/pay/user"><input type="number" name="amount" required></td>
+											<td>
+												<form method="post" action="/admin/pay/user"><input type="number" name="amount" required></td>
 												<input type="hidden" name="receiver" value='<%= member._id %>' required>
 												<input type="hidden" name="groupID" value='<%= groups._id %>' required>
-												<input type="hidden" name="txType" value='DIS' required>
-											<td ><input type="submit" class="btn btn-success" value="Pay Now">
+												<% if (member.payStatus) { %>
+													<td ><button  class="btn btn-success">PAID</button></td>
+												<% } else {%>
+													<td ><input type="submit" class="btn btn-success" value="Pay Now" ></td>
+													<% } %>
 											</form>
-											</td>
+											
                                             <!-- Group ID to Be Added !-->
                                          
                                         </tr>

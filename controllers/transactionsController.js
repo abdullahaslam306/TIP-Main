@@ -1,7 +1,8 @@
-const Group = require("../models/groups");
+
 
 const USER  = require("../models/logins")
 const GROUP = require("../models/groups")
+const Group = require("../models/groups")
 const Transaction = require("../models/transactions");
 const {App} = require("./contractController");
 
@@ -47,12 +48,44 @@ const addTransaction = async (txType, userid,amount) => {
            
         }
         
-        res.redirect('/user/dash');
+        
     })
     .catch((err) => {
         console.log(err);
         // Connect Flash Transaction Failed to Store
     })
+}
+
+
+const payUser= async (req, res) => {
+    userid=req.body.receiver;
+    console.log(userid);
+    amount=req.body.amount;
+    groupId=req.body.groupID;
+    await addTransaction("DIS",userid,amount);
+   
+    const payGroup= await GROUP.find().where({_id:groupId})
+   
+    memberss = payGroup[0].members;
+   var k=0
+                    for(k = 0; k < memberss.length;k++)
+                    {
+                        if(memberss[k]._id == userid)
+                        { console.log("present")
+                           memberss[k].payStatus=true
+                            break;
+                        }
+                    }
+ 
+    GROUP.findByIdAndUpdate(groupId,{members:memberss})
+    .then((result) =>{
+       
+        res.redirect('/admin/groups/details/'+groupId)
+    })
+    .catch((error) =>{
+        res.redirect('/admin/groups/details/'+groupId)
+    })
+   
 }
 
 const viewTransactionsAdmin = async (req,res) => {
@@ -189,11 +222,44 @@ const getTransaction = async (req, res) => {
     console.log(App.getTransaction(req.params.id));
     res.redirect('/user/dash');
 }
+const approveRequest=async(req, res)=>{
+    WithRequest.findByIdAndUpdate(req.params.id,{status:"APPROVED"})
+    .then((response)=>{console.log(response)})
+    .catch((err)=>{console.log(err)})
 
+
+    WithRequest.find().sort({createdAt: 1 })
+    .then((result)=>{
+    res.render('requestlist',{requests:result,success:"Request Approved",failure:""})
+    
+    })
+    .catch((err)=>{console.log(err);})
+
+
+}
+
+const rejectRequest=async(req, res)=>{
+    WithRequest.findByIdAndUpdate(req.params.id,{status:"FAILED"})
+    .then((response)=>{console.log(response)})
+    .catch((err)=>{console.log(err)})
+
+
+    WithRequest.find().sort({createdAt: 1 })
+    .then((result)=>{
+    res.render('requestlist',{requests:result,success:"Request Rejected",failure:""})
+    
+    })
+    .catch((err)=>{console.log(err);})
+
+
+}
 module.exports = {
     addNewUser,
     viewTransactionsAdmin,
     viewTransactionsUser,
     addTransaction,
-    getTransaction
+    getTransaction,
+    payUser,
+    approveRequest,
+    rejectRequest
 }

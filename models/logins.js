@@ -7,6 +7,7 @@ const LoginSchema = new Schema({
     password: { type: String, required:true },
     fname :{ type: String, required:true},
     lname :{ type: String, required:true },
+    refercode :{ type: String},
     phone :{ type: String, required:true },
     isverified: { type: Boolean, required:true,default:true },
     balance :{ type: Number, required:true,default:0 },

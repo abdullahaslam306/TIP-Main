@@ -198,6 +198,8 @@ const register = async (req, res) => {
     }
     
 }
+
+
 const viewWithdrawRequest =async (req, res) => {
     WithRequest.find().sort({createdAt: 1 })
     .then((result)=>{console.log(result);
@@ -310,5 +312,6 @@ module.exports = {
  loadSurvey,
  viewGroups,
  viewGroupsDetails,
- viewWithdrawRequest
+ viewWithdrawRequest,
+ 
 }

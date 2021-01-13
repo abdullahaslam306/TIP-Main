@@ -66,12 +66,31 @@
                                             <td><%=count %></td>
                                             <td><%= request.userid %></td>
 											<td><%= request.amount %></td>
-											
-                                            <td style="color:red"><%= request.status %></td>
+											<% if (request.status=='PENDING') { stat='blue'} %>
+											<% if (request.status=='APPROVED') { stat='green'} %>
+											<% if (request.status=='FAILED') { stat='red'} %>
+                                           
+                                            <td style="color:<%= stat%>"><%= request.status %></td>
                                             <!-- Group ID to Be Added !-->
-                                            <td>
-                                            <a href="/admin/groups/details/<%= request.userid %> ">
-                                            <button type="button" class="btn btn-primary ">Approve</button></a></td>
+                                            <td  colspan="2">
+												<% if (request.status=='APPROVED') {  %>
+                                           
+											<button type="button" class="btn btn-success ">Approved</button>
+											
+											<% } %>
+											<% if (request.status=='FAILED') {  %>
+												
+												<button type="button" class="btn btn-danger ">Rejected</button>
+												<% } %>
+												<% if (request.status=='PENDING') {  %>
+													<a href="/admin/approve/request/<%= request._id %> ">
+													<button type="button" class="btn btn-primary ">Approve</button></a>
+													<a href="/admin/reject/request/<%= request._id %> ">
+														<button type="button" class="btn btn-warning ">Reject</button></a>
+												
+														<% } %>
+												</td>
+										
 										</tr>
 										<% }) %>
                                         

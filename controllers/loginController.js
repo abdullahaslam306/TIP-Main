@@ -168,19 +168,19 @@ const register = async (req, res) => {
         const hasedpassword = await bcrypt.hash(req.body.password, salt);
         console.log(hasedpassword,salt);
         console.log(req.body);
-        var refer  = makeid(5);
-        console.log("The REFER CODE is " + refer);
+        
         const login = new Login({
             email : req.body.email,
             password:hasedpassword,
             fname: req.body.fname,
             lname: req.body.lname,
             phone: req.body.phone,
-            refercode: refer
+            refercode: req.body.refercode
             
 
         });
-        const obj=new Surveys({option1:req.body.option1,
+        const obj=new Surveys({
+            option1:req.body.option1,
             option2:req.body.option2,
             option3:req.body.option3,
             option4:req.body.option4

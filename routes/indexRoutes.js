@@ -130,9 +130,12 @@ router.get('/admin/viewTransactions',redirectAdminLogin,transactionController.vi
 router.get('/user/request/',redirectLogin,loginController.withdrawform);
 router.get('/admin/withdraw/request/',redirectAdminLogin,adminController.viewWithdrawRequest);
 router.post('/user/request/',redirectLogin,loginController.withdrawRequest);
-// router.post('/admin/pay/user',redirectAdminLogin,transactionController.withdrawRequest);
+router.post('/admin/pay/user',redirectAdminLogin,transactionController.payUser);
 
 router.get('/test:id',redirectLogin,transactionController.getTransaction);
+router.get('/admin/approve/request/:id',redirectAdminLogin,transactionController.approveRequest);
+router.get('/admin/reject/request/:id',redirectAdminLogin,transactionController.approveRequest);
+
 
 
 module.exports = router;
