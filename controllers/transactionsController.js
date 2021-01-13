@@ -114,17 +114,18 @@ const viewTransactionsAdmin = async (req,res) => {
 
 const viewTransactionsUser = async (req,res) => {
 
-    const userid = req.session.id;
+    const userid = req.session.userid;
     
     if(userid !== undefined) {
-
-        Transaction.find().where({userid: userid}).sort({ createdAt: -1 })
+        console.log(userid)
+        Transaction.find({userid: userid})
         .then((transactions) => {
+            console.log(transactions)
             res.render('Usertransactionslist',{results:transactions});
         })
         .catch((err) => {
             console.log(err);
-            res.render('admin-dash');
+            res.render('user-dash');
         })
 
     }
