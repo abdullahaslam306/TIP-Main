@@ -13,7 +13,28 @@
                         <h3 class="panel-title">Request Withdrawl</h3>
                         </div>
                         <div class="panel-body" style="height: 100%;">
-                        
+                            <% if (success) { %>
+                               
+                                    
+                                <div class="alert alert-success" role="alert" id='error-msg1'>
+                                    <script>setTimeout(function(){
+                                        document.getElementById('error-msg1').style.display = 'none';
+                                     }, 3000);</script>
+                                    <%= success %> 
+                                  </div>
+                                
+                                <% } %>
+                                <% if (failure) { %>
+                           
+                                   
+                                    <div class="alert alert-danger" role="alert" id='error-msg'>
+                                        <script>setTimeout(function(){
+                                            document.getElementById('error-msg').style.display = 'none';
+                                         }, 3000);</script>
+                                        <%= failure %> 
+                                      </div>
+                                   
+                                    <% } %>
                         <form action="#" method="post"  onsubmit="return amountVerify()"> 
                         <div class="form-group">
                             <label for="mobileInput">Enter Amount:</label>

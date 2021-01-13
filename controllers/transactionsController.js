@@ -123,13 +123,16 @@ const viewTransactionsUser = async (req,res) => {
 }
 
 
-const addNewUser = async (userid,amount) =>
+const addNewUser = async (req, res) =>
 {  
-    
+    userid=req.session.userid;
+    amount=req.body.amount
+
   
     if(amount%100 != 0 )
     {
         console.log("Amount Error");
+        res.render('user-pay',{fname:req.session.fname,success:"",failure:"Amount Error! Amount should be in multiple of 100"})
     }   
     else
     {
@@ -192,6 +195,8 @@ const addNewUser = async (userid,amount) =>
                 }
             }
         }
+        res.render('user-pay',{fname:req.session.fname,success:"Payment Initiated Successfully",failure:""})
+  
     }
 }
 function sleep(ms) {

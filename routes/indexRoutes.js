@@ -76,7 +76,7 @@ newsletterController.updateNews)
 router.get('/admin/newsletter/delete/:id',redirectAdminLogin,newsletterController.deleteNews)
 router.get('/admin/newsletter/new',redirectAdminLogin,(req,res)=>{res.render('addNewsletter')})
 router.post('/user/pay',redirectLogin,transactionController.addNewUser)
-router.get('/user/pay',redirectLogin,(req, res)=>{res.render('user-pay',{fname:req.session.fname})})
+router.get('/user/pay',redirectLogin,(req, res)=>{res.render('user-pay',{fname:req.session.fname,success:"",failure:""})})
 router.get('/user/dash',redirectLogin,loginController.dash)
 router.get('/user/profile',redirectLogin,(req, res)=>{
 console.log(res.locals)
