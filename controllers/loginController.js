@@ -52,7 +52,7 @@ const login = async (req, res) => {
                 if(!result.isSubscribed){
                     Transaction.findOne().where({userid: result.id,txType:"SUB",status:"PENDING"}).limit(1)
                     .then((result) => {
-                        res.redirect('/user/user_subscribe');
+                        res.redirect('/user/subscribe');
                     })
                 }
                 else

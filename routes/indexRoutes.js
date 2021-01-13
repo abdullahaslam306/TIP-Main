@@ -18,7 +18,7 @@ const redirectLogin = (req, res, next) => {
   }
 
 const redirectSubscribe = (req, res, next) => {
-  if(req.session.isSubscribed == true)
+  if(req.session.subscribe == true)
   next();
   else
   {
