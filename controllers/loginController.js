@@ -88,26 +88,16 @@ const login = async (req, res) => {
 
 const dash  = async (req, res) => {
     console.log("Email"+req.session.user)
-    Group.find({owneremail: req.session.user,iscompleted:false}).sort({createdAt:-1}).limit(1)
-    .then(result => {
-        console.log(result);
-        if(result.length!==0)
-        {
-        groupmembers = result[0].members.length+1;
-        level = result[0].level;
-         
-        }
-        else
-        {
-            groupmembers = 0;
-            level = 0;
-        }
+    var bal=0;
+    const userdata= await Login.find({_id:req.session.userid})
+    
+
+
         res.render('user-dash',{
             fname:req.session.fname,
-            level,
-            groupmembers
+            balance:userdata[0].balance
         })
-    })
+    
    // res.render('user-dash',{
     //   fname:req.session.fname
     //})
@@ -150,6 +140,7 @@ const withdrawRequest=async (req, res) => {
  {
     const request= new WithRequest({
         userid: req.session.userid,
+        email: req.session.user,
         amount:req.body.amount,
         status:"PENDING"
 

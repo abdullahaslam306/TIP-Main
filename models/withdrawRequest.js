@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 const withdrawRequestSchema = new Schema({
    
     userid: {type: String, required:true},
+    email: {type: String, required:true},
     amount:{ type: Number, required:true},
     status: {type:String,enum:["APPROVED","PENDING","FAILED"], required:true}
 

@@ -49,6 +49,7 @@
 											<tr>
 												<th>Sr. No.</th>
 												<th>User ID</th>
+												<th>Email</th>
 												<th>Amount</th>
                                                 <th>Status</th><!-- status can be  InComplete, Complete, Paid -->
                                                 
@@ -65,6 +66,8 @@
                                         <tr>
                                             <td><%=count %></td>
                                             <td><%= request.userid %></td>
+											
+											<td><%= request.email %></td>
 											<td><%= request.amount %></td>
 											<% if (request.status=='PENDING') { stat='blue'} %>
 											<% if (request.status=='APPROVED') { stat='green'} %>

@@ -61,17 +61,21 @@ const userSubscribe  = async (req, res) => {
     amount = req.body.amount;
     userid = req.session.userid;
     txType = 'SUB';
+    console.log('here')
     await addTransaction(txType,userid,amount);
     res.redirect('/user/dash');
 }
 
 const userPayment = async (req, res, next) => {
+    
     txType = "PAY";
     amount = req.body.amount;
     userid = req.session.userid;
     await addTransaction(txType, userid,amount);
-    addNewUser(userid, amount);
-    res.redirect('/user/dash');
+    addNewUser(req.session.user, amount);
+    
+    res.render('user-pay',{success:"Payment Initiated Successfully",failure:""});
+    
 }
 
 const payUser= async (req, res) => {

@@ -138,7 +138,8 @@ router.post('/user/request/',redirectLogin,redirectSubscribe,loginController.wit
 router.post('/admin/pay/user',redirectAdminLogin,transactionController.payUser);
 router.get('/test:id',redirectLogin,transactionController.getTransaction);
 router.get('/admin/approve/request/:id',redirectAdminLogin,transactionController.approveRequest);
-router.get('/admin/reject/request/:id',redirectAdminLogin,transactionController.approveRequest);
+router.get('/admin/reject/request/:id',redirectAdminLogin,transactionController.rejectRequest
+);
 
 
 
