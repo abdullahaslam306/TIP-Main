@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const Group=require('../models/groups');
 const env = require('../config/env');
 const WithRequest=require("../models/withdrawRequest")
+const notification_table=require("../models/notification_table")
 
 const login = async (req, res) => {
    
@@ -15,6 +16,7 @@ const login = async (req, res) => {
             const flag =  bcrypt.compareSync(req.body.password,result.password) 
             if(flag){
                 req.session.user = req.body.email;
+                
                 req.session.fname = result.fname;
                 req.session.lname = result.lname;
                 req.session.phone = result.phone;
@@ -293,8 +295,49 @@ const removeAdmin= async (req, res) => {
     .then((result) => {res.redirect('/admin/view?abc=Sucessfully Deleted')})
     .catch((err) => {res.redirect('/admin/view')})
 }
+
+const dash  = async (req, res) => {
+    
+   var abc=0;
+    notification_table.find({status: false, to:'admin'})
+    .then((result) => {
+        abc=result.length;
+        res.render('admin-dash',{not_count:abc});
+    })
+
+        
+    
+   
+}
+const NotificationCount=async (req,res)=>{
+    var abc=0;
+    notification_table.find({status: false, to:'admin'})
+    .then((result) => {
+        console.log(result)
+        res.json({notifications:result,status:'success'})
+       
+    })
+    .catch((err)=>{console.log(err)})
+   
+
+}
+const removeCount=async (req,res)=>{
+  notification_table.updateMany({to:'admin',status:false},{status:true})
+  .then((result) => {
+    console.log(result)
+    res.json({readstatus:'success',status:'success'})
+    })
+    .catch((err)=>{
+
+        console.log(err)
+        
+    })
+
+}
+
 module.exports = {
  login,
+ dash,
  logout,
  register,
  update,
@@ -313,5 +356,7 @@ module.exports = {
  viewGroups,
  viewGroupsDetails,
  viewWithdrawRequest,
+ NotificationCount,
+ removeCount
  
 }

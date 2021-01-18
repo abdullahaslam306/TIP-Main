@@ -38,9 +38,10 @@ const redirectAdminLogin = (req, res, next) => {
 router.get('/', (req, res) => {
     res.render('index',{error:""});
   });
-router.get('/admin/dash',redirectAdminLogin, (req, res) => {
-  res.render('admin-dash');
-});
+
+  router.get('/admin/removeCount',redirectAdminLogin,adminController.removeCount)
+  router.get('/admin/notificationCount',redirectAdminLogin,adminController.NotificationCount)
+router.get('/admin/dash',redirectAdminLogin,adminController.dash);
 router.get('/admin/lock',redirectAdminLogin,adminController.lock)
 router.post('/admin/login/lock',adminController.locklogin);
 // router.get('/admin/logout',redirectAdminLogin,adminController.logout)

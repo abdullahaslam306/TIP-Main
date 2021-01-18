@@ -18,3 +18,6 @@ const addNotification= async (_descriptionn,_too,_fromm) => {
        console.log(error)
    })
 }
+module.exports = {
+    addNotification,
+}
