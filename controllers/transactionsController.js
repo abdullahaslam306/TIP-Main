@@ -7,7 +7,7 @@ const Transaction = require("../models/transactions");
 const {App} = require("./contractController");
 const WithRequest=require("../models/withdrawRequest");
 const { add } = require("lodash");
-
+const notification_table=require('./notification_tableController');
 
 
 const addTransaction = async (txType, userid,amount) => {
@@ -30,7 +30,9 @@ const addTransaction = async (txType, userid,amount) => {
         App.init();
         if(result.txType === "PAY")
         {
+           
             await App.savePayment(id,result.userid,result.createdAt,result.amount);
+            notification_table.addNotification('Paid','admin',req.session.id)
             
         }
         else if(result.txType === "DIS")
@@ -62,7 +64,10 @@ const userSubscribe  = async (req, res) => {
     userid = req.session.userid;
     txType = 'SUB';
     console.log('here')
+    notification_table.addNotification('subscribe','admin',req.session.id)
     await addTransaction(txType,userid,amount);
+   
+    
     res.redirect('/user/dash');
 }
 

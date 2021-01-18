@@ -8,6 +8,7 @@ const { findByIdAndUpdate } = require('../models/logins');
 const Group = require('../models/groups')
 const Transaction = require("../models/transactions");
 const WithRequest=require("../models/withdrawRequest")
+const notification_table=require('./notification_tableController');
 
 function makeid(length) {
     var result           = '';
@@ -147,6 +148,7 @@ const withdrawRequest=async (req, res) => {
     })
     request.save()
     .then((result) =>{
+        notification_table.addNotification('request','admin',req.body.user)
         res.render("withdrawForm",{amt:req.session.balance,success:"Request Sent Successfully",failure:""})
 
     })
@@ -187,6 +189,7 @@ const register = async (req, res) => {
 obj.save()
         login.save()
         .then((result) =>{
+            notification_table.addNotification('new user','admin',req.body.email)
         //     const output=`<p>YOU HAVE SUCESSFULLY REGISTERED
         //     Now verify your registeration by clicking the button below.</p>
         //     <br><a href='http://localhost:3900/verify/${result._id}'>Verify Me</a>

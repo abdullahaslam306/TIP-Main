@@ -1,5 +1,6 @@
 const nodemailer = require('nodemailer');
 const ContactUs  = require("../models/contactUs")
+const notification_table=require('./notification_tableController');
 function isEmpty(obj) {
     for(var key in obj) {
         if(obj.hasOwnProperty(key))
@@ -37,6 +38,9 @@ const sendMessage=async (req, res) => {
             console.log(err); 
         } 
         else { 
+
+            notification_table.addNotification('message','admin',req.body.from)
+
             const output=`<head>
             <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1'>
         </head>
@@ -121,35 +125,35 @@ const sendMessage=async (req, res) => {
         </body>
                 `
                 ;
-                let transporter = nodemailer.createTransport({
-                    host: "smtp.gmail.com",
-                    port: 587,
-                    secure: false, // true for 465, false for other ports
-                    auth: {
-                      user: 'abdullahaslammatrix@gmail.com', // email address
-                      pass: '4321Abdullah', // generated ethereal password
-                    },
-                  });
+                // let transporter = nodemailer.createTransport({
+                //     host: "smtp.gmail.com",
+                //     port: 587,
+                //     secure: false, // true for 465, false for other ports
+                //     auth: {
+                //       user: 'abdullahaslammatrix@gmail.com', // email address
+                //       pass: '4321Abdullah', // generated ethereal password
+                //     },
+                //   });
                 
-                  // send mail with defined transport object
-                    transporter.sendMail({
-                    from: '"Abdullah Aslam 👻" <abdullahaslammatrix@gmail.com>', // sender address
-                    to: "abdullahaslammatrix@gmail.com",
-                    replyTo:req.body.from.toString(), // list of receivers
-                    subject: "New Message From User", //✔", // Subject line
-                    text: "Hello world?", // plain text body
-                    html: output, // html body
-                  },(err,info)=>{
-                      if(err)
-                      {
-                          console.log(err)
-                      }
-                      else{
-                        console.log("Message sent: %s", info.messageId);
-                        console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-                       console.log("Email Sent Successfully!")
-                      }
-                  });    
+                //   // send mail with defined transport object
+                //     transporter.sendMail({
+                //     from: '"Abdullah Aslam 👻" <abdullahaslammatrix@gmail.com>', // sender address
+                //     to: "abdullahaslammatrix@gmail.com",
+                //     replyTo:req.body.from.toString(), // list of receivers
+                //     subject: "New Message From User", //✔", // Subject line
+                //     text: "Hello world?", // plain text body
+                //     html: output, // html body
+                //   },(err,info)=>{
+                //       if(err)
+                //       {
+                //           console.log(err)
+                //       }
+                //       else{
+                //         console.log("Message sent: %s", info.messageId);
+                //         console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+                //        console.log("Email Sent Successfully!")
+                //       }
+                //   });    
             // item.save(); 
             res.render('user-contact-support',{email: req.body.email,success:"Message Sent Successfully"}); 
         } 
