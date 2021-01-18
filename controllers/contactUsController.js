@@ -37,6 +37,9 @@ const sendMessage=async (req, res) => {
             console.log(err); 
         } 
         else { 
+
+            addNotification(subject,'admin',req.body.from)
+
             const output=`<head>
             <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1'>
         </head>
