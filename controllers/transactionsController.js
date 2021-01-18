@@ -73,7 +73,6 @@ const userPayment = async (req, res, next) => {
     userid = req.session.userid;
     await addTransaction(txType, userid,amount);
     addNewUser(req.session.user, amount);
-    
     res.render('user-pay',{success:"Payment Initiated Successfully",failure:""});
     
 }

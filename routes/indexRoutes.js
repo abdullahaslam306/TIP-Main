@@ -121,10 +121,10 @@ router.get('/admin/contact/reply/:id',redirectAdminLogin,ContactController.getMe
 router.get('/admin/contact/delete/:id',redirectAdminLogin,ContactController.deleteMessage)
 router.post('/admin/contact/reply',redirectAdminLogin,ContactController.sendReply)
   //@ user newsletter 
-   router.get('/user/news',redirectLogin,newsletterController.showNews)
-   // @ admin notifications
-   router.get('/admin/notification',redirectAdminLogin,(req, res)=>{res.render('send-Notification',{ sucess:"",failure:""})})
-   router.post('/admin/notification/send',redirectAdminLogin,NotificationController.sendNotification) 
+router.get('/user/news',redirectLogin,newsletterController.showNews)
+// @ admin notifications
+router.get('/admin/notification',redirectAdminLogin,(req, res)=>{res.render('send-Notification',{ sucess:"",failure:""})})
+router.post('/admin/notification/send',redirectAdminLogin,NotificationController.sendNotification) 
 
 
 // @Groups Link 
