@@ -4,14 +4,14 @@ const USER  = require("../models/logins")
 const GROUP = require("../models/groups")
 const Group = require("../models/groups")
 const Transaction = require("../models/transactions");
-const {App} = require("./contractController");
 const WithRequest=require("../models/withdrawRequest");
 const { add } = require("lodash");
 const notification_table=require('./notification_tableController');
-
+const {App} = require("./contractController");
 
 const addTransaction = async (txType, userid,amount) => {
 
+    
     const tx = Transaction(
         {
             txType: txType,
@@ -27,28 +27,90 @@ const addTransaction = async (txType, userid,amount) => {
         console.log(result);
         id = result._id;
         var task = null;
+        console.log(App);
         App.init();
         if(result.txType === "PAY")
         {
            
-            await App.savePayment(id,result.userid,result.createdAt,result.amount);
-            notification_table.addNotification('Paid','admin',req.session.id)
+            notification_table.addNotification('Paid','admin',req.session.id);
+            await Transaction.findByIdAndUpdate(id,{status:"COMPLETE"}).then(()=>{
+
+            console.log("Transaction is completed");
+          
+            })
+          
+              .catch(function(err) {console.log(err);});
             
         }
         else if(result.txType === "DIS")
         {
-           await App.saveDisbursement(id,result.userid,result.createdAt,result.amount)
+           await App.saveDisbursement(id,result.userid,result.createdAt,result.amount);
+
+           await Transaction.findByIdAndUpdate(id,{status:"COMPLETE"}).then(()=>{
+
+            console.log("Transaction is completed");
+      
+          })
+      
+          .catch(function(err) {console.log(err);});
+      
+          await USER.findByIdAndUpdate(userid,{$inc:{balance:amount}}).then((result)=>{
             
+            console.log(result);
+      
+            console.log("User balance is updated successfully");
+      
+          })
+      
+          console.log("Disbursement Successful");
         
         }
         else if(result.txType === "SUB"){
-          await  App.saveSubscription(id,result.userid,result.createdAt,result.amount)
+
+          await  App.saveSubscription(result.userid);
+
+          await Transaction.findByIdAndUpdate(id,{status:"COMPLETE"}).then(()=>{
+
+            console.log("Transaction is completed");
+    
+          })
+    
+          .catch(function(err) {console.log(err);});
+    
+          await USER.findByIdAndUpdate(userid,{isSubscribed: true}).then(()=>{
+    
+            console.log("USER subsciption is mined successfully");
+    
+          })
+    
+          .catch(function(err) {console.log(err);});
+    
+    
            
         }
         else if(result.txType === "WIT")
         {
            await App.saveWithdrawal(id,result.userid,result.createdAt,result.amount)
-           
+           await Transaction.findByIdAndUpdate(id,{status:"COMPLETE"}).then(async ()=>{
+  
+            console.log("Transaction is completed");
+            
+            console.log("Amount before neg:"+amount);
+            
+            amount = amount*(-1);
+            
+            console.log("Amount after neg:"+amount);
+            
+            result = await USER.findByIdAndUpdate(userid,{$inc: {balance : amount}})
+            
+            console.log(result);
+            
+            console.log("Withdraw Successful");
+      
+    
+          })
+          .catch(function(err) {console.log(err);});
+          
         }
         
         
@@ -135,6 +197,12 @@ const viewTransactionsAdmin = async (req,res) => {
 
 }
 
+const getBalance = async (req, res) => {
+        console.log(App);
+       await App.init();
+       await App.getBalance(req.session.userid);
+       res.redirect('/user/dash');
+    }
 
 const viewTransactionsUser = async (req,res) => {
 
@@ -159,9 +227,6 @@ const viewTransactionsUser = async (req,res) => {
 
 const addNewUser = async (userid, amount) =>
 {  
-    
-
-  
     if(amount%100 != 0 )
     {
         console.log("Amount Error");
@@ -289,15 +354,12 @@ const rejectRequest=async(req, res)=>{
     WithRequest.findByIdAndUpdate(req.params.id,{status:"FAILED"})
     .then((response)=>{console.log(response)})
     .catch((err)=>{console.log(err)})
-
-
     WithRequest.find().sort({createdAt: 1 })
     .then((result)=>{
     res.render('requestlist',{requests:result,success:"Request Rejected",failure:""})
     
     })
     .catch((err)=>{console.log(err);})
-
 
 }
 module.exports = {
@@ -310,5 +372,6 @@ module.exports = {
     approveRequest,
     rejectRequest,
     userPayment,
-    userSubscribe
+    userSubscribe,
+    getBalance,
 }

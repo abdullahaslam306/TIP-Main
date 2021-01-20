@@ -9,7 +9,6 @@ const Group = require('../models/groups')
 const Transaction = require("../models/transactions");
 const WithRequest=require("../models/withdrawRequest")
 const notification_table=require('./notification_tableController');
-
 function makeid(length) {
     var result           = '';
     var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -19,6 +18,8 @@ function makeid(length) {
     }
     return result;
  }
+
+
 
 
 const login = async (req, res) => {
@@ -274,5 +275,5 @@ module.exports = {
  verify,
  dash,
  withdrawform,
- withdrawRequest
+ withdrawRequest,
 }

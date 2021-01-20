@@ -19,39 +19,40 @@ contract Exodus{
         _;
     }
     //Check the subscription of the user.
-    modifier isSubscribed(bytes16 useraddress) {
+    modifier isSubscribed(bytes32 useraddress) {
         require(users[useraddress].subscribe);
         _;
     }
     //Users data is accessible by their addresses
-    mapping (bytes16 => User) users; 
+    mapping (bytes32 => User) users; 
 
     //Users subscription is proesssed by the owners only
-    function subscribe(bytes16 userid) public
+    function subscribe(bytes32 userid) public
     {
         require(users[userid].subscribe == false);
-        users[userid].subscribe = true;
-        require(users[userid].subscribe == false);
+        User storage u  = users[userid];
+        u.subscribe = true;
+        require(users[userid].subscribe == true);
     }
     
-    function unsubscribe(bytes16 userid) public onlyOwner() isSubscribed(userid)
+    function unsubscribe(bytes32 userid) public onlyOwner() isSubscribed(userid)
     {
         users[userid].subscribe = true;
         require(users[userid].subscribe == false);
     }
 
-    function increment_balance(bytes16 userid, uint32 amount) public onlyOwner() 
+    function increment_balance(bytes32 userid, uint32 amount) public onlyOwner() 
     {
         users[userid].balance += amount;
     }
 
-    function decrement_balance(bytes16 userid,uint32 amount) public onlyOwner() isSubscribed(userid)
+    function decrement_balance(bytes32 userid,uint32 amount) public onlyOwner() isSubscribed(userid)
     {
         require(users[userid].balance >= amount);
         users[userid].balance -= amount;
     }
 
-    function getBalance(bytes16 userid) public  view returns(uint)
+    function getBalance(bytes32 userid) public  view returns(uint)
     {
         return(users[userid].balance);
     }

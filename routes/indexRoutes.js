@@ -142,6 +142,8 @@ router.get('/admin/approve/request/:id',redirectAdminLogin,transactionController
 router.get('/admin/reject/request/:id',redirectAdminLogin,transactionController.rejectRequest
 );
 
+router.get('/user/balance',redirectLogin,transactionController.getBalance);
+
 
 
 module.exports = router;

@@ -12,7 +12,7 @@ const addNotification= async (_descriptionn,_too,_fromm) => {
    });
    notif.save()
    .then((result) => {
-       console.log("add A new Notification"+result)
+       console.log("add A new Notification")
    })
    .catch((error) => {
        console.log(error)

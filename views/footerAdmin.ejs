@@ -16,72 +16,72 @@
 
 	<script>
 
-setInterval(function(){  
+// setInterval(function(){  
 
-	$.get('/admin/notificationCount', function(data) {
+// 	$.get('/admin/notificationCount', function(data) {
 		
-		// $("#Type option").remove();
+// 		// $("#Type option").remove();
 	
 		
-		document.getElementById('not-count').innerHTML = data.notifications.length;
-		// document.getElementById('not-disc').innerHTML = `<li><a href="#" class="notification-item"><span class="dot bg-warning"></span>System space is almost full</a></li>
-		// 						<li><a href="#" class="more">See all notifications</a></li>`;
-		$("#not-disc li").remove();
+// 		document.getElementById('not-count').innerHTML = data.notifications.length;
+// 		// document.getElementById('not-disc').innerHTML = `<li><a href="#" class="notification-item"><span class="dot bg-warning"></span>System space is almost full</a></li>
+// 		// 						<li><a href="#" class="more">See all notifications</a></li>`;
+// 		$("#not-disc li").remove();
 
 		
-		for(i=0;i<data.notifications.length;i++)
-	   {	
-		if(data.notifications[i].description=="message")
-		{ 	notification_desc='<li><a href="/admin/contact" class="notification-item"><span class="dot bg-warning"></span> You received a message from '+data.notifications[i].from+'</a></li>'
-		;
-		}
-		else if(data.notifications[i].description=='new user'){
+// 		for(i=0;i<data.notifications.length;i++)
+// 	   {	
+// 		if(data.notifications[i].description=="message")
+// 		{ 	notification_desc='<li><a href="/admin/contact" class="notification-item"><span class="dot bg-warning"></span> You received a message from '+data.notifications[i].from+'</a></li>'
+// 		;
+// 		}
+// 		else if(data.notifications[i].description=='new user'){
 			
-			notification_desc='<li><a href="/admin/user/view" class="notification-item"><span class="dot bg-warning"></span> Congratulation!New User'+data.notifications[i].from+'</a></li>'
-		;	
-		}
-		else if(data.notifications[i].description=="subscribe"){
+// 			notification_desc='<li><a href="/admin/user/view" class="notification-item"><span class="dot bg-warning"></span> Congratulation!New User'+data.notifications[i].from+'</a></li>'
+// 		;	
+// 		}
+// 		else if(data.notifications[i].description=="subscribe"){
 			
-			notification_desc='<li><a href="/admin/viewTransactions" class="notification-item"><span class="dot bg-warning"></span>1 new subscription'+data.notifications[i].from+'</a></li>'
-		;	
-		}
-		else if(data.notifications[i].description=='paid')
-		{ 
+// 			notification_desc='<li><a href="/admin/viewTransactions" class="notification-item"><span class="dot bg-warning"></span>1 new subscription'+data.notifications[i].from+'</a></li>'
+// 		;	
+// 		}
+// 		else if(data.notifications[i].description=='paid')
+// 		{ 
 			
-			notification_desc='<li><a href="/admin/viewTransactions" class="notification-item"><span class="dot bg-warning"></span>'+data.notifications[i].from+' made a new payment</a></li>'
-		;	
-		}
-		else if(data.notifications[i].description=='request')
-		{ 
-			notification_desc='<li><a href="/admin/viewTransactions" class="notification-item"><span class="dot bg-warning"></span>New withdrawl request from user.</a></li>'
-		;		
-		}
-		else{
-			notification_desc='fazool'
-		}
-		$("#not-disc").append(notification_desc)
-	}
-		});
+// 			notification_desc='<li><a href="/admin/viewTransactions" class="notification-item"><span class="dot bg-warning"></span>'+data.notifications[i].from+' made a new payment</a></li>'
+// 		;	
+// 		}
+// 		else if(data.notifications[i].description=='request')
+// 		{ 
+// 			notification_desc='<li><a href="/admin/viewTransactions" class="notification-item"><span class="dot bg-warning"></span>New withdrawl request from user.</a></li>'
+// 		;		
+// 		}
+// 		else{
+// 			notification_desc='fazool'
+// 		}
+// 		$("#not-disc").append(notification_desc)
+// 	}
+// 		});
 		
 		
 
-}, 1000);
+// }, 1000);
 	
-	$( document ).ready(function() {
+// 	$( document ).ready(function() {
 		
-	$( "#readNotifications" ).click(function() {
+// 	$( "#readNotifications" ).click(function() {
 
 
-  $.get('/admin/removeCount', function(data) {
-	  console.log( data)
-	  if(data.readstatus=='success')
-	  { 
-		document.getElementById('not-count').innerHTML = 0;
-	  }
+//   $.get('/admin/removeCount', function(data) {
+// 	  console.log( data)
+// 	  if(data.readstatus=='success')
+// 	  { 
+// 		document.getElementById('not-count').innerHTML = 0;
+// 	  }
 
-});
-})
-	});
+// });
+// })
+// 	});
 		
 
 		</script>
