@@ -265,6 +265,31 @@ const verify = async (req, res) => {
         res.render('/user/profile');
     })
 }
+const NotificationCount=async (req,res)=>{
+    var abc=0;
+    notification_table.find({status: false, to:req.session.user})
+    .then((result) => {
+        console.log(result)
+        res.json({notifications:result,status:'success'})
+       
+    })
+    .catch((err)=>{console.log(err)})
+   
+
+}
+const removeCount=async (req,res)=>{
+    notification_table.updateMany({to:req.session.user,status:false},{status:true})
+    .then((result) => {
+      console.log(result)
+      res.json({readstatus:'success',status:'success'})
+      })
+      .catch((err)=>{
+  
+          console.log(err)
+          
+      })
+  
+  }
 module.exports = {
  login,
  register,
@@ -274,5 +299,9 @@ module.exports = {
  verify,
  dash,
  withdrawform,
- withdrawRequest
+ withdrawRequest,
+ removeCount,
+ NotificationCount
+ 
+
 }

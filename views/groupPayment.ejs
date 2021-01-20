@@ -13,7 +13,7 @@
 							<!-- RECENT PURCHASES -->
 							<div class="panel">
 								<div class="panel-heading">
-									<h3 class="panel-title">Group Details</h3>
+									<h3 class="panel-title">Pay Groups</h3>
 									
 									<div class="row">
 										<div class="col-md-4">
@@ -41,60 +41,54 @@
 									
 									<br>
 									<div class="container">
-										<div class="row">
-                                            <div class="col-md-12">
-                                            <label>Group ID: </label><%=groups._id %>
-                                            </div>
-                                        </div>
-                                            <div class="row">
-                                            <div class="col-md-12">
-                                                <label>No of Members: </label><%=groups.members.length %>
-                                            </div>
-                                        </div>
-                                        <div class="row"> 
-                                            <div class="col-md-12">
-                                            <label>Creation Date: </label><%=groups.createdAt %>
-                                            </div>
-                                        </div>
-
-                                            
-                                       
+										
 									</div>
 									
 									<table class="table table-striped " style="margin-top:2%" id="myTable">
 										<thead>
 											<tr>
-												<th>Sr. No</th>
-												<th>Member ID</th>
-												<th>Email</th>
-												
-												<!-- status can be  InComplete, Complete, Paid -->
+                                                <td></td>
+												<th>Sr. No.</th>
+												<th>Group ID</th>
+												<th>Amount</th>
                                                 
-											
+                                                
+												<th>Action</th>
+												
 
 											</tr>
 										</thead>
 										<tbody>
-											<% count = 0; %> 
-											<% groups.members.forEach(member => {
-												count += 1;	 %>
-                                            
+											
+                                            <% count = 0; stat='red'%> 
+											<% groups.forEach(group => {
+											count += 1;	 %>
                                         <tr>
-											<td><a href="#"><%=count %></a></td>
-                                            <td><%= member._id %></td>
-                                            <td><%= member.email %></td>
-				
-							
+                                            <td>
+                                                <input type="checkbox">
+                                               
+                                            </td>
+                                            <td><%=count %></td>
+                                            <td><%= group._id %></td>
+                                           <form method="post" action="/admin/pay/group">
+                                             <td>
+                                                 <input type="number" name="amount" required>
+                                                </td>
+                                                <input type="hidden" name="groupId" value="<%= group._id %>">
+                                                <td ><input type="submit" class="btn btn-primary"value="Pay"></td>
+                                            </form>
 											
                                             <!-- Group ID to Be Added !-->
-                                         
-                                        </tr>
-										<% }) %>			
+                                           
+										</tr>
+										<% }) %>
+                                        
+											
 										</tbody>
 									</table>
 								</div>
 								<div class="panel-footer">
-									Total <%=groups.members.length %> Members..
+									Total <%= count %> groups..
 								</div>
 							</div>
 							<!-- END RECENT PURCHASES -->

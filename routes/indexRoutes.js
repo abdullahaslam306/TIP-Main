@@ -40,6 +40,7 @@ router.get('/', (req, res) => {
   });
 
   router.get('/admin/removeCount',redirectAdminLogin,adminController.removeCount)
+  router.get('/user/removeCount',redirectLogin,loginController.removeCount)
   router.get('/admin/notificationCount',redirectAdminLogin,adminController.NotificationCount)
 router.get('/admin/dash',redirectAdminLogin,adminController.dash);
 router.get('/admin/lock',redirectAdminLogin,adminController.lock)
@@ -101,7 +102,7 @@ router.get('/admin/surveys/list',redirectAdminLogin,adminController.loadSurvey)
 router.get('/user/subscribe',redirectLogin,(req, res) => {res.render('subscribe')});
 router.post('/user/subscribe',redirectLogin,transactionController.userSubscribe) 
 router.get('/user/subscribe_pending',redirectLogin,(req,res)=>{res.render('subscribe_pending')});
-
+router.get('/user/notificationCount',redirectLogin,loginController.NotificationCount)
 
 router.post('/user/update',redirectLogin, loginController.update)
 router.get('/verify/:id',loginController.verify)
@@ -141,7 +142,8 @@ router.get('/test:id',redirectLogin,transactionController.getTransaction);
 router.get('/admin/approve/request/:id',redirectAdminLogin,transactionController.approveRequest);
 router.get('/admin/reject/request/:id',redirectAdminLogin,transactionController.rejectRequest
 );
-
+router.get('/admin/pay/group',redirectAdminLogin,transactionController.viewGroups)
+router.post('/admin/pay/group',redirectAdminLogin,transactionController.payGroup)
 
 
 module.exports = router;

@@ -270,7 +270,11 @@ const approveRequest=async(req, res)=>{
     await addTransaction("WIT",request.userid,request.amount);
 
     await WithRequest.findByIdAndUpdate(req.params.id,{status:"APPROVED"})
-    .then((response)=>{console.log(response)})
+    .then((response)=>{console.log(response)
+       
+        notification_table.addNotification('Request Approved',response.email,'admin');
+    
+    })
     .catch((err)=>{console.log(err)});
 
 
@@ -287,7 +291,9 @@ const approveRequest=async(req, res)=>{
 
 const rejectRequest=async(req, res)=>{
     WithRequest.findByIdAndUpdate(req.params.id,{status:"FAILED"})
-    .then((response)=>{console.log(response)})
+    .then((response)=>{console.log(response)
+        notification_table.addNotification('Request Rejected',response.email,'admin')
+    })
     .catch((err)=>{console.log(err)})
 
 
@@ -300,8 +306,38 @@ const rejectRequest=async(req, res)=>{
 
 
 }
+const payGroup=async (req, res) => {
+    groupId=req.body.groupId;
+    amount=req.body.amount;
+    groupObj= await Group.findById({_id:groupId})
+    console.log(groupObj)
+    for(i=0;i<groupObj.members.length;i++)
+    {
+
+    Mememail=groupObj.members[i].email;
+    user = await USER.findOne({email:Mememail});
+
+    console.log(user);
+
+    userid = user._id;
+
+    await addTransaction("DIS",userid,amount);
+   
+    
+    }
+ viewGroups(req,res)
+   
+}
+const viewGroups= async (req, res) => {
+    Group.find().sort({ createdAt: -1 })
+    .then((group) => {
+        res.render('groupPayment',{groups:group})
+    })
+    .catch((err) => {console.log(err)})
+}
 module.exports = {
     addNewUser,
+    payGroup,
     viewTransactionsAdmin,
     viewTransactionsUser,
     addTransaction,
@@ -310,5 +346,6 @@ module.exports = {
     approveRequest,
     rejectRequest,
     userPayment,
-    userSubscribe
+    userSubscribe,
+    viewGroups
 }
