@@ -381,7 +381,7 @@ saveWithdrawal: async function(txid,userid,date,amount)  {
 
 getTransaction: async function(id){
   await web3.eth.getCoinbase(function(err, account) {
-  
+
     if (err === null) {
   
       App.account = account;
