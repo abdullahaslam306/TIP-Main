@@ -301,4 +301,8 @@ module.exports = {
  dash,
  withdrawform,
  withdrawRequest,
+ removeCount,
+ NotificationCount
+ 
+
 }
