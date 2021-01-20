@@ -142,8 +142,9 @@ router.get('/test:id',redirectLogin,transactionController.getTransaction);
 router.get('/admin/approve/request/:id',redirectAdminLogin,transactionController.approveRequest);
 router.get('/admin/reject/request/:id',redirectAdminLogin,transactionController.rejectRequest
 );
-router.get('/admin/pay/group',redirectAdminLogin,transactionController.viewGroups)
-router.post('/admin/pay/group',redirectAdminLogin,transactionController.payGroup)
+
+router.get('/user/balance',redirectLogin,transactionController.getBalance);
+
 
 
 module.exports = router;
