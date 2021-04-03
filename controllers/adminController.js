@@ -15,8 +15,8 @@ const login = async (req, res) => {
         try{
             const flag =  bcrypt.compareSync(req.body.password,result.password) 
             if(flag){
-                req.session.user = req.body.email;
                 
+                req.session.user = req.body.email;
                 req.session.fname = result.fname;
                 req.session.lname = result.lname;
                 req.session.phone = result.phone;

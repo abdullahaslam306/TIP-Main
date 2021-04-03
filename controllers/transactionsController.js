@@ -102,18 +102,12 @@ const addTransaction = async (txType, userid,amount) => {
             console.log("Amount after neg:"+amount);
             
             result = await USER.findByIdAndUpdate(userid,{$inc: {balance : amount}})
-            
             console.log(result);
-            
             console.log("Withdraw Successful");
-      
-    
           })
           .catch(function(err) {console.log(err);});
           
         }
-        
-        
     })
     .catch((err) => {
         console.log(err);
@@ -128,8 +122,6 @@ const userSubscribe  = async (req, res) => {
     console.log('here')
     notification_table.addNotification('subscribe','admin',req.session.id)
     await addTransaction(txType,userid,amount);
-   
-    
     res.redirect('/user/dash');
 }
 
@@ -145,22 +137,16 @@ const userPayment = async (req, res, next) => {
 }
 
 const payUser= async (req, res) => {
+
     email=req.body.receiver;
     amount=req.body.amount;
     groupId=req.body.groupID;
-
     user = await USER.findOne({email:email});
-
     console.log(user);
-
     userid = user._id;
-
     await addTransaction("DIS",userid,amount);
-   
     const payGroup= await GROUP.find().where({_id:groupId})
-   
     memberss = payGroup[0].members;
-
     var k=0;
 
     for(k = 0; k < memberss.length;k++)
@@ -329,20 +315,13 @@ const getTransaction = async (req, res) => {
 const approveRequest=async(req, res)=>{
 
     request = await WithRequest.findById(req.params.id);
-    
     console.log(request);
-
     await addTransaction("WIT",request.userid,request.amount);
-
     await WithRequest.findByIdAndUpdate(req.params.id,{status:"APPROVED"})
-    .then((response)=>{console.log(response)
-       
+    .then((response)=>{console.log(response)   
         notification_table.addNotification('Request Approved',response.email,'admin');
-    
     })
     .catch((err)=>{console.log(err)});
-
-
     await WithRequest.find().sort({createdAt: 1 })
     .then((result)=>{
     res.render('requestlist',{requests:result,success:"Request Approved",failure:""})
@@ -355,6 +334,7 @@ const approveRequest=async(req, res)=>{
 }
 
 const rejectRequest=async(req, res)=>{
+
     WithRequest.findByIdAndUpdate(req.params.id,{status:"FAILED"})
     .then((response)=>{console.log(response)
         notification_table.addNotification('Request Rejected',response.email,'admin')
@@ -369,23 +349,19 @@ const rejectRequest=async(req, res)=>{
 
 }
 const payGroup=async (req, res) => {
+
     groupId=req.body.groupId;
     amount=req.body.amount;
     groupObj= await Group.findById({_id:groupId})
     console.log(groupObj)
     for(i=0;i<groupObj.members.length;i++)
     {
-
     Mememail=groupObj.members[i].email;
     user = await USER.findOne({email:Mememail});
-
     console.log(user);
-
     userid = user._id;
+    await addTransaction("DIS",userid,amount);   
 
-    await addTransaction("DIS",userid,amount);
-   
-    
     }
  viewGroups(req,res)
    
